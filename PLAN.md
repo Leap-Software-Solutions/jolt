@@ -439,18 +439,23 @@ Snippet names are consistent across components:
 | `selected` | Render the selected value in a trigger |
 | `empty` | Render the empty state |
 | `header` / `footer` | Render content sections |
-| `content` | Render the main panel/body when it is not `children` |
+| `children` | Render the default body or panel content |
+| `content` | Render a tab or accordion item body |
 
 Examples:
 
 ```svelte
 <Tooltip text="Delete asset">
 	{#snippet trigger(props)}
-		<IconButton {...props} icon={Trash} label="Delete" />
+		<Button {...props} size="icon" variant="ghost" aria-label="Delete"><Trash /></Button>
 	{/snippet}
 </Tooltip>
 
-<IconButton icon={Trash} label="Delete" tooltip="Delete asset" />
+<Tooltip text="Delete asset">
+	{#snippet trigger(props)}
+		<Button {...props} size="icon" variant="ghost" aria-label="Delete"><Trash /></Button>
+	{/snippet}
+</Tooltip>
 ```
 
 ```svelte
@@ -485,7 +490,7 @@ Examples:
 	]}
 >
 	{#snippet trigger(props)}
-		<IconButton {...props} icon={MoreHorizontal} label="More actions" />
+		<Button {...props} size="icon" variant="ghost" aria-label="More actions"><MoreHorizontal /></Button>
 	{/snippet}
 </DropdownMenu>
 ```
@@ -516,14 +521,14 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 
 | Wave | Components | Notes |
 | --- | --- | --- |
-| 1. Vertical slice | Button, IconButton, Tooltip, Dialog, Input, Label, Badge, Separator | Proves combined API, theme, Storybook, packaging |
+| 1. Vertical slice | Button, Tooltip, Dialog, Input, Label, Badge, Separator | Proves combined API, theme, Storybook, packaging |
 | 2. Pattern setters | Select, Combobox, DropdownMenu, Tabs, Card, Alert, Avatar, Checkbox, Switch, Skeleton | Establishes list/item/snippet conventions |
 | 3. Forms and navigation | Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, TextField/SelectField/CheckboxField | Field wrappers reduce form boilerplate |
 | 4. Data and advanced | Sheet, DatePicker, DateRangePicker, Toast, Command palette, DataTable, ScrollArea | TanStack table, `svelte-sonner` or custom toast |
 | 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Composed patterns and application layout |
 | 6. Later | Charts, blocks/templates | Only when a consumer needs them |
 
-Combined by default: Button, IconButton, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
+Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
 
 Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), Chart containers.
 
@@ -542,7 +547,7 @@ Storybook navigation is purpose-based, not atomic:
 
 ```text
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
-Actions/       Button, IconButton, Toggle, ToggleGroup
+Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
 Data Display/  Card, DataTable, Table, Badge, Avatar
 Feedback/      Alert, Progress, Skeleton, Toast
@@ -740,7 +745,7 @@ Pre-1.0, breaking changes may ship as minor bumps; document them in the changelo
 - pnpm package, TypeScript, ESLint/Prettier, changesets, LICENSE, README, third-party notices.
 - Theme CSS complete: scales, semantic tokens, dark mode, Manrope, radius, base layer.
 - Storybook running with manager theme, theme toggle, docs/a11y/vitest/themes addons.
-- Button, IconButton, Tooltip, Dialog, Input, Label, Badge, Separator.
+- Button, Tooltip, Dialog, Input, Label, Badge, Separator.
 - Consumer fixture proves the packed tarball and CSS entrypoint work.
 
 Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm package` pass, and the consumer fixture builds with styles applied.

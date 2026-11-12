@@ -2,9 +2,10 @@
 	import type { DateValue } from '@internationalized/date';
 	import { getLocalTimeZone, isSameDay, today } from '@internationalized/date';
 	import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@lucide/svelte';
-	import { Calendar as BitsCalendar } from 'bits-ui';
+	import { Calendar as BitsCalendar, RangeCalendar as BitsRangeCalendar } from 'bits-ui';
 	import { cls } from '../../utils/index.js';
-	import type { Props } from './types.js';
+	import { Button } from '../button/index.js';
+	import type { CalendarRange, CalendarValue, Props } from './types.js';
 
 	let {
 		type = 'single',
@@ -12,31 +13,51 @@
 		onValueChange,
 		minValue,
 		maxValue,
+		minDays,
+		maxDays,
 		disabled,
 		readonly,
 		numberOfMonths = 1,
 		pagedNavigation,
 		fixedWeeks,
+		disableDaysOutsideMonth = false,
 		weekStartsOn,
 		weekdayFormat,
 		locale,
 		calendarLabel = 'Calendar',
 		initialFocus,
+		showToday = true,
+		todayLabel = 'Today',
 		class: className,
 	}: Props = $props();
 
 	const isMultiple = $derived(type === 'multiple');
+	const isRange = $derived(type === 'range');
 	const resolvedFixedWeeks = $derived(fixedWeeks ?? numberOfMonths > 1);
-	const singleValue = $derived(Array.isArray(value) ? undefined : value);
+	const singleValue = $derived(
+		!Array.isArray(value) && !isCalendarRange(value) ? value : undefined,
+	);
 	const multipleValue = $derived(Array.isArray(value) ? value : []);
-	const initialDate = Array.isArray(value) ? value[0] : value;
-	let placeholder = $state<DateValue>(initialDate ?? today(getLocalTimeZone()));
+	const rangeValue = $derived(
+		isCalendarRange(value) ? value : { start: undefined, end: undefined },
+	);
+	let initialDate: DateValue | undefined;
+	if (Array.isArray(value)) {
+		initialDate = value[0];
+	} else if (isCalendarRange(value)) {
+		initialDate = value.start;
+	} else {
+		initialDate = value;
+	}
+
+	const todayDate = today(getLocalTimeZone());
+
+	let placeholder = $state<DateValue>(initialDate ?? todayDate);
 	let pickerOpen = $state(false);
 	let pickerView = $state<'months' | 'years'>('months');
-	let pickerYear = $state(initialDate?.year ?? today(getLocalTimeZone()).year);
+	let pickerYear = $state(initialDate?.year ?? todayDate.year);
 	let pickerElement: HTMLDivElement | undefined = $state();
 	let headingButton: HTMLButtonElement | undefined = $state();
-	const todayDate = today(getLocalTimeZone());
 
 	const monthShortFormatter = $derived(new Intl.DateTimeFormat(locale ?? 'en', { month: 'short' }));
 	const monthLongFormatter = $derived(new Intl.DateTimeFormat(locale ?? 'en', { month: 'long' }));
@@ -51,12 +72,32 @@
 		const last = placeholder.add({ months: Math.max(numberOfMonths - 1, 0) });
 		const lastMonth = monthLongFormatter.format(new Date(2000, last.month - 1, 1));
 		if (numberOfMonths <= 1) return `${firstMonth} ${placeholder.year}`;
-		if (lastMonth === firstMonth) return `${firstMonth} ${placeholder.year}`;
+		if (lastMonth === firstMonth && last.year === placeholder.year) {
+			return `${firstMonth} ${placeholder.year}`;
+		}
+		if (last.year !== placeholder.year) {
+			return `${firstMonth} ${placeholder.year} – ${lastMonth} ${last.year}`;
+		}
 		return `${firstMonth} – ${lastMonth} ${last.year}`;
 	});
 	const yearPageStart = $derived(pickerYear - 6);
 	const yearPageLabel = $derived(`${yearPageStart} – ${yearPageStart + 11}`);
 	const yearOptions = $derived(Array.from({ length: 12 }, (_, index) => yearPageStart + index));
+
+	function isCalendarRange(next: CalendarValue | undefined): next is CalendarRange {
+		return Boolean(next && !Array.isArray(next) && 'start' in next);
+	}
+
+	function isDateVisible(date: DateValue): boolean {
+		const monthOffset = (date.year - placeholder.year) * 12 + (date.month - placeholder.month);
+		return monthOffset >= 0 && monthOffset < numberOfMonths;
+	}
+
+	function isDateInBounds(date: DateValue): boolean {
+		if (minValue && date.compare(minValue) < 0) return false;
+		if (maxValue && date.compare(maxValue) > 0) return false;
+		return true;
+	}
 
 	function isToday(date: DateValue): boolean {
 		return isSameDay(date, todayDate);
@@ -90,8 +131,7 @@
 
 	function setMonth(month: number): void {
 		placeholder = placeholder.set({ year: pickerYear, month });
-		pickerOpen = false;
-		pickerView = 'months';
+		closePicker();
 	}
 
 	function stepPickerYear(delta: number): void {
@@ -108,14 +148,46 @@
 		return pickerYear === placeholder.year && month === placeholder.month;
 	}
 
+	function movePlaceholderToDate(date: DateValue): void {
+		if (!isDateVisible(date)) placeholder = date;
+	}
+
 	function handleSingleValueChange(next: DateValue | undefined): void {
 		value = next;
 		onValueChange?.(next);
+		if (next) movePlaceholderToDate(next);
 	}
 
 	function handleMultipleValueChange(next: DateValue[]): void {
+		const added = next.find((date) => !multipleValue.some((current) => isSameDay(current, date)));
 		value = next;
 		onValueChange?.(next);
+		if (added) movePlaceholderToDate(added);
+	}
+
+	function handleRangeValueChange(next: CalendarRange): void {
+		const startChanged =
+			next.start && (!rangeValue.start || !isSameDay(next.start, rangeValue.start));
+		const endChanged = next.end && (!rangeValue.end || !isSameDay(next.end, rangeValue.end));
+		let changed: DateValue | undefined;
+		if (startChanged) {
+			changed = next.start;
+		} else if (endChanged) {
+			changed = next.end;
+		}
+
+		value = next;
+		onValueChange?.(next);
+		if (changed) movePlaceholderToDate(changed);
+	}
+
+	function goToToday(): void {
+		if (disabled) return;
+
+		placeholder = todayDate;
+		if (type === 'single' && !readonly && isDateInBounds(todayDate)) {
+			handleSingleValueChange(todayDate);
+		}
 	}
 
 	type CalendarMonth = {
@@ -279,7 +351,7 @@
 									>
 										<BitsCalendar.Day
 											aria-current={isToday(day) ? 'date' : undefined}
-											class="flex size-8 cursor-default items-center justify-center rounded-md text-sm transition-colors select-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[outside-month]:text-muted-foreground data-[outside-month]:opacity-50 data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[today]:font-semibold data-[today]:ring-1 data-[today]:ring-brand data-[today]:ring-inset data-[unavailable]:text-destructive data-[unavailable]:line-through"
+											class="relative z-10 flex size-8 cursor-default items-center justify-center rounded-md text-sm transition-colors select-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[outside-month]:text-muted-foreground data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[today]:font-semibold data-[today]:after:absolute data-[today]:after:bottom-0.5 data-[today]:after:left-1/2 data-[today]:after:size-1 data-[today]:after:-translate-x-1/2 data-[today]:after:rounded-full data-[today]:after:bg-brand data-[today]:after:content-[''] data-[unavailable]:text-destructive data-[unavailable]:line-through"
 										/>
 									</BitsCalendar.Cell>
 								{/each}
@@ -292,9 +364,96 @@
 	</div>
 {/snippet}
 
+{#snippet renderRangeCalendar(months: CalendarMonth[], weekdays: string[])}
+	<div class="flex flex-col gap-4 sm:flex-row">
+		{#each months as month (month.value.toString())}
+			<div class="grid">
+				<BitsRangeCalendar.Grid
+					class="w-full border-separate border-spacing-1 cursor-default select-none"
+				>
+					<BitsRangeCalendar.GridHead>
+						<BitsRangeCalendar.GridRow>
+							{#each weekdays as weekday, index (index)}
+								<BitsRangeCalendar.HeadCell
+									class="w-8 text-center text-xs font-normal text-muted-foreground select-none"
+								>
+									{weekday}
+								</BitsRangeCalendar.HeadCell>
+							{/each}
+						</BitsRangeCalendar.GridRow>
+					</BitsRangeCalendar.GridHead>
+					<BitsRangeCalendar.GridBody>
+						{#each month.weeks as week, weekIndex (weekIndex)}
+							<BitsRangeCalendar.GridRow>
+								{#each week as day (day.toString())}
+									<BitsRangeCalendar.Cell
+										date={day}
+										month={month.value}
+										class="relative p-0 text-center text-sm select-none data-[range-end]:before:absolute data-[range-end]:before:inset-y-0 data-[range-end]:before:-left-0.5 data-[range-end]:before:w-0.5 data-[range-end]:before:bg-foreground/15 data-[range-end]:before:content-[''] data-[range-middle]:before:absolute data-[range-middle]:before:-inset-x-0.5 data-[range-middle]:before:inset-y-0 data-[range-middle]:before:bg-foreground/15 data-[range-middle]:before:content-[''] data-[range-start]:before:absolute data-[range-start]:before:inset-y-0 data-[range-start]:before:-right-0.5 data-[range-start]:before:w-0.5 data-[range-start]:before:bg-foreground/15 data-[range-start]:before:content-[''] data-[range-start]:data-[range-end]:before:hidden"
+									>
+										<BitsRangeCalendar.Day
+											aria-current={isToday(day) ? 'date' : undefined}
+											class="relative z-10 flex size-8 cursor-default items-center justify-center rounded-md text-sm transition-colors select-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[outside-month]:text-muted-foreground data-[range-end]:rounded-s-none data-[range-end]:rounded-e-md data-[range-end]:bg-primary data-[range-end]:text-primary-foreground data-[range-middle]:rounded-none data-[range-middle]:bg-transparent data-[range-middle]:text-foreground data-[range-start]:rounded-s-md data-[range-start]:rounded-e-none data-[range-start]:bg-primary data-[range-start]:text-primary-foreground data-[range-start]:data-[range-end]:rounded-md data-[today]:font-semibold data-[today]:after:absolute data-[today]:after:bottom-0.5 data-[today]:after:left-1/2 data-[today]:after:size-1 data-[today]:after:-translate-x-1/2 data-[today]:after:rounded-full data-[today]:after:bg-brand data-[today]:after:content-[''] data-[unavailable]:text-destructive data-[unavailable]:line-through"
+										/>
+									</BitsRangeCalendar.Cell>
+								{/each}
+							</BitsRangeCalendar.GridRow>
+						{/each}
+					</BitsRangeCalendar.GridBody>
+				</BitsRangeCalendar.Grid>
+			</div>
+		{/each}
+	</div>
+{/snippet}
+
+{#snippet renderFooter()}
+	{#if showToday}
+		<div class="mt-2 flex justify-center border-t pt-2">
+			<Button
+				variant="link"
+				size="sm"
+				type="button"
+				{disabled}
+				onclick={goToToday}
+				class="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+			>
+				{todayLabel}
+			</Button>
+		</div>
+	{/if}
+{/snippet}
+
 <svelte:window onclick={handleWindowClick} />
 
-{#if isMultiple}
+{#if isRange}
+	<BitsRangeCalendar.Root
+		value={rangeValue}
+		onValueChange={handleRangeValueChange}
+		{minValue}
+		{maxValue}
+		{minDays}
+		{maxDays}
+		{disabled}
+		{readonly}
+		{numberOfMonths}
+		{pagedNavigation}
+		fixedWeeks={resolvedFixedWeeks}
+		{disableDaysOutsideMonth}
+		{weekStartsOn}
+		{weekdayFormat}
+		{locale}
+		{calendarLabel}
+		bind:placeholder
+		data-slot="calendar"
+		class={cls('relative rounded-md', className)}
+	>
+		{#snippet children({ months, weekdays })}
+			{@render renderHeader()}
+			{@render renderRangeCalendar(months, weekdays)}
+			{@render renderFooter()}
+		{/snippet}
+	</BitsRangeCalendar.Root>
+{:else if isMultiple}
 	<BitsCalendar.Root
 		type="multiple"
 		value={multipleValue}
@@ -306,6 +465,7 @@
 		{numberOfMonths}
 		{pagedNavigation}
 		fixedWeeks={resolvedFixedWeeks}
+		{disableDaysOutsideMonth}
 		{weekStartsOn}
 		{weekdayFormat}
 		{locale}
@@ -318,6 +478,7 @@
 		{#snippet children({ months, weekdays })}
 			{@render renderHeader()}
 			{@render renderCalendar(months, weekdays)}
+			{@render renderFooter()}
 		{/snippet}
 	</BitsCalendar.Root>
 {:else}
@@ -332,6 +493,7 @@
 		{numberOfMonths}
 		{pagedNavigation}
 		fixedWeeks={resolvedFixedWeeks}
+		{disableDaysOutsideMonth}
 		{weekStartsOn}
 		{weekdayFormat}
 		{locale}
@@ -344,6 +506,7 @@
 		{#snippet children({ months, weekdays })}
 			{@render renderHeader()}
 			{@render renderCalendar(months, weekdays)}
+			{@render renderFooter()}
 		{/snippet}
 	</BitsCalendar.Root>
 {/if}

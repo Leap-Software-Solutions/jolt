@@ -36,14 +36,15 @@ State is controlled with `bind:` props such as `bind:open`, `bind:value`, and `b
 
 ## Snippets
 
-Content is customised with named snippets instead of exported parts. The names are consistent across components:
+Content is customised with snippets instead of exported parts. Default body content uses `children`; named snippets are reserved for chrome and repeated items:
 
 - `trigger` — render a trigger element with the props supplied by the primitive.
 - `item` — render one item in a list, menu, or combobox.
 - `selected` — render the selected value inside a trigger.
 - `empty` — render the empty state for a list or search result.
 - `header` / `footer` — render a content section.
-- `content` — render the main panel or body.
+- `children` — render the main body or panel content.
+- `content` — render a tab or accordion item body.
 
 ```svelte
 <Combobox
@@ -63,6 +64,34 @@ Content is customised with named snippets instead of exported parts. The names a
 	{/snippet}
 </Combobox>
 ```
+
+## Content model
+
+Use a prop when the component owns a fixed piece of copy, `children` when the caller needs arbitrary composition, and typed arrays for repeatable data. Named snippets are for trigger, header, footer, empty state, and item renderers.
+
+```svelte
+<Badge label="Active" />
+
+<Alert title="Could not save" description="Check your connection and try again." />
+
+<Dialog title="Delete asset" description="This cannot be undone.">
+	<p>Any content can go here.</p>
+</Dialog>
+
+<Tabs items={tabs} bind:value>
+	{#snippet content(item)}
+		<p>{item.label} panel</p>
+	{/snippet}
+</Tabs>
+```
+
+The current components follow this split:
+
+- Fixed copy: `Badge`, `Alert`, `Card` header, `Dialog`, `Sheet`, `ConfirmDialog`, `PageHeader`, `EmptyState`, fields, `Checkbox`, `Switch`, and progress/slider labels.
+- Arbitrary composition: `Button`, `Toggle`, `Label`, `ScrollArea`, `Card` body, dialog/sheet bodies, `HoverCard`, `Popover`, and `AppShell` content.
+- Typed data: the list components below, plus `Select`, `Combobox`, `MultiSelect`, `Table`, and `DataTable`.
+
+`Popover` uses `children` for its content, matching Dialog, Sheet, and HoverCard. Tooltip keeps its `text` prop for the common case and an optional custom `content` snippet.
 
 ## Lists and item arrays
 
@@ -116,11 +145,11 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 ## Structural exceptions
 
-`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
+`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-only: it takes a `label` and an optional icon rather than arbitrary children.
 
 ## Tables and dates
 
-`Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `Calendar` renders the date grid inline with a floating month and year picker, current-day indicator, and consistent rows across multiple months; `DatePicker`, `DateRangePicker`, and `TimePicker` compose date and time selection for form surfaces. `TimePicker` keeps the segmented field and adds a popover stepper for quick desktop entry.
+`Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
 
 ## Application chrome
 

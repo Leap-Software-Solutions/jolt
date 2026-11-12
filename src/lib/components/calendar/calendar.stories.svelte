@@ -22,6 +22,10 @@
 
 	let value = $state<DateValue>(today(getLocalTimeZone()));
 	let rangeValues = $state<DateValue[]>([today(getLocalTimeZone())]);
+	let range = $state({
+		start: today(getLocalTimeZone()),
+		end: today(getLocalTimeZone()).add({ days: 6 }),
+	});
 
 	const formatter = new DateFormatter('en', { dateStyle: 'medium' });
 </script>
@@ -39,8 +43,14 @@
 	<Calendar {...args} type="multiple" bind:value={rangeValues} />
 {/snippet}
 
+{#snippet rangeTemplate(args: Omit<CalendarProps, 'value' | 'type'>)}
+	<Calendar {...args} type="range" bind:value={range} numberOfMonths={2} />
+{/snippet}
+
 <Story name="Default" {template} />
 
 <Story name="Two months" args={{ numberOfMonths: 2 }} {template} />
 
 <Story name="Multiple" template={multipleTemplate} />
+
+<Story name="Range" template={rangeTemplate} />

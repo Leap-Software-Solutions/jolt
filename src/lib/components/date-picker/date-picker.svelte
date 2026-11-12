@@ -30,6 +30,7 @@
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
 	import { Calendar } from '../calendar/index.js';
+	import type { CalendarValue } from '../calendar/types.js';
 	import { Popover } from '../popover/index.js';
 
 	let {
@@ -56,11 +57,11 @@
 		value ? formatter.format(value.toDate(getLocalTimeZone())) : placeholder,
 	);
 
-	function handleValueChange(next: DateValue | DateValue[] | undefined): void {
-		if (Array.isArray(next)) return;
+	function handleValueChange(next: CalendarValue | undefined): void {
+		if (!next || Array.isArray(next) || 'start' in next) return;
 		value = next;
 		onValueChange?.(next);
-		if (next) open = false;
+		open = false;
 	}
 </script>
 
@@ -78,19 +79,17 @@
 		</Button>
 	{/snippet}
 
-	{#snippet content()}
-		<Calendar
-			{value}
-			onValueChange={handleValueChange}
-			{minValue}
-			{maxValue}
-			{disabled}
-			{readonly}
-			{locale}
-			{weekStartsOn}
-			{calendarLabel}
-			initialFocus
-			class={className}
-		/>
-	{/snippet}
+	<Calendar
+		{value}
+		onValueChange={handleValueChange}
+		{minValue}
+		{maxValue}
+		{disabled}
+		{readonly}
+		{locale}
+		{weekStartsOn}
+		{calendarLabel}
+		initialFocus
+		class={className}
+	/>
 </Popover>
