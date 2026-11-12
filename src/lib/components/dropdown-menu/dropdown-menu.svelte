@@ -1,68 +1,26 @@
 <script lang="ts" module>
-	import type { Component, Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
+	import type {
+		MenuCheckbox,
+		MenuEntry,
+		MenuGroup,
+		MenuIcon,
+		MenuItem,
+		MenuRadio,
+		MenuRadioItem,
+		MenuSeparator as SharedMenuSeparator,
+		MenuSubmenu,
+	} from '../../types/menu.js';
 
-	export type DropdownMenuIcon = Component<{ class?: string }>;
-
-	export type DropdownMenuItem = {
-		type?: 'item';
-		label: string;
-		icon?: DropdownMenuIcon;
-		shortcut?: string;
-		disabled?: boolean;
-		variant?: 'default' | 'destructive';
-		onSelect?: (event: Event) => void;
-		closeOnSelect?: boolean;
-	};
-
-	export type DropdownMenuSeparator = {
-		type: 'separator';
-	};
-
-	export type DropdownMenuGroup = {
-		type: 'group';
-		label?: string;
-		items: DropdownMenuEntry[];
-	};
-
-	export type DropdownMenuSubmenu = {
-		type: 'submenu';
-		label: string;
-		icon?: DropdownMenuIcon;
-		disabled?: boolean;
-		items: DropdownMenuEntry[];
-	};
-
-	export type DropdownMenuCheckbox = {
-		type: 'checkbox';
-		label: string;
-		checked?: boolean;
-		disabled?: boolean;
-		closeOnSelect?: boolean;
-		onCheckedChange?: (checked: boolean) => void;
-	};
-
-	export type DropdownMenuRadioItem = {
-		value: string;
-		label: string;
-		disabled?: boolean;
-		closeOnSelect?: boolean;
-	};
-
-	export type DropdownMenuRadio = {
-		type: 'radio';
-		label?: string;
-		value?: string;
-		onValueChange?: (value: string) => void;
-		items: DropdownMenuRadioItem[];
-	};
-
-	export type DropdownMenuEntry =
-		| DropdownMenuItem
-		| DropdownMenuSeparator
-		| DropdownMenuGroup
-		| DropdownMenuSubmenu
-		| DropdownMenuCheckbox
-		| DropdownMenuRadio;
+	export type DropdownMenuIcon = MenuIcon;
+	export type DropdownMenuItem = MenuItem;
+	export type DropdownMenuSeparator = SharedMenuSeparator;
+	export type DropdownMenuGroup = MenuGroup;
+	export type DropdownMenuSubmenu = MenuSubmenu;
+	export type DropdownMenuCheckbox = MenuCheckbox;
+	export type DropdownMenuRadioItem = MenuRadioItem;
+	export type DropdownMenuRadio = MenuRadio;
+	export type DropdownMenuEntry = MenuEntry;
 
 	export type DropdownMenuTriggerProps = Record<string, unknown>;
 

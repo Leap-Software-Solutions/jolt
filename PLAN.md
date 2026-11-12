@@ -520,9 +520,10 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 2. Pattern setters | Select, Combobox, DropdownMenu, Tabs, Card, Alert, Avatar, Checkbox, Switch, Skeleton | Establishes list/item/snippet conventions |
 | 3. Forms and navigation | Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, TextField/SelectField/CheckboxField | Field wrappers reduce form boilerplate |
 | 4. Data and advanced | Sheet, DatePicker, DateRangePicker, Toast, Command palette, DataTable, ScrollArea | TanStack table, `svelte-sonner` or custom toast |
-| 5. Later | Sidebar, AppShell, NavigationMenu, Menubar, charts, blocks/templates | Only when a consumer needs them |
+| 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Composed patterns and application layout |
+| 6. Later | Charts, blocks/templates | Only when a consumer needs them |
 
-Combined by default: Button, IconButton, Input, Textarea, Checkbox, Switch, Select, Combobox, Tooltip, Dialog, Sheet, Popover, DropdownMenu, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, DatePicker, Toast, Fields.
+Combined by default: Button, IconButton, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, DatePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
 
 Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), Chart containers.
 
@@ -542,13 +543,13 @@ Storybook navigation is purpose-based, not atomic:
 ```text
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, IconButton, ToggleGroup
-Forms/         Input, TextField, Select, Combobox, Checkbox, Switch, Slider, DatePicker, DateRangePicker
+Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, DatePicker, DateRangePicker
 Data Display/  Card, DataTable, Badge, Avatar
 Feedback/      Alert, Progress, Skeleton, Toast
-Navigation/    Tabs, Breadcrumb, Pagination
-Layout/        Accordion, Collapsible, ScrollArea, Separator
-Overlays/      Dialog, Sheet, Popover, Tooltip, DropdownMenu, CommandPalette
-Patterns/      Form tooling, future ConfirmDialog, PageHeader, EmptyState
+Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
+Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar
+Overlays/      Dialog, Sheet, Popover, Tooltip, DropdownMenu, CommandPalette, ContextMenu, HoverCard
+Patterns/      Form tooling, ConfirmDialog, EmptyState, PageHeader
 ```
 
 Stories are co-located `*.stories.svelte` files using `defineMeta` and `tags: ['autodocs']`. Each component gets:

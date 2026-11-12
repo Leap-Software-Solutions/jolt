@@ -66,10 +66,14 @@ Content is customised with named snippets instead of exported parts. The names a
 
 ## Lists and item arrays
 
-`Select`, `Combobox`, `DropdownMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
+`Select`, `Combobox`, `MultiSelect`, `NavigationMenu`, `Menubar`, `DropdownMenu`, `ContextMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
 
 - `Select` items are `{ value, label, disabled? }`. Pass `getKey` when values are objects.
 - `Combobox` takes your own data array plus `getKey` and `getLabel`.
+- `MultiSelect` uses the same item array plus a bindable `values` array and renders selected items as removable chips.
+- `ContextMenu` uses the same entry union as `DropdownMenu` and opens on the trigger's context-menu event.
+- `NavigationMenu` items either provide a `content` snippet for a panel or an `href` for a direct link; `value` controls the open panel.
+- `Menubar` takes typed menu entries in a horizontal bar; its menus support separators, groups, submenus, checkboxes, radio groups, shortcuts, and disabled items.
 - `DropdownMenu` uses a discriminated union over `item`, `separator`, `group`, `submenu`, `checkbox`, and `radio`. Items with no `type` are regular actions.
 - `Tabs` items are `{ value, label, icon?, disabled? }`; the `content` snippet receives the item.
 - `Accordion` items are `{ value, title, content?, icon?, disabled? }`; the `trigger` and `content` snippets receive the item.
@@ -112,7 +116,19 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 ## Structural exceptions
 
-`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as the future `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
+`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
+
+## Application chrome
+
+`Sidebar` takes typed groups of navigation items, supports a bindable `collapsed` state, and can render `header` and `footer` snippets. `AppShell` composes a sidebar, optional header, and scrollable content area for a full application frame.
+
+## Patterns
+
+`ConfirmDialog`, `EmptyState`, and `PageHeader` compose the smaller primitives for recurring page-level states.
+
+- `ConfirmDialog` wraps the alert-dialog behaviour and a destructive confirm action. Use `confirmLabel`, `variant`, and `onConfirm` for irreversible decisions; the dialog closes after confirming.
+- `EmptyState` handles no-data and zero-result states with an optional icon, description, and `action` snippet.
+- `PageHeader` renders the page title, optional description, and `breadcrumb` and `actions` snippets. It keeps the responsive action layout consistent across pages.
 
 ## Classes and accessibility
 
