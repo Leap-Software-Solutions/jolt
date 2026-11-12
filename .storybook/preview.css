@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '../src/lib/styles/theme.css';
 
+@source '../src/docs';
+
 body {
 	background-color: var(--background);
 	color: var(--foreground);

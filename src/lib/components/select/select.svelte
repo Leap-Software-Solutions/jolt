@@ -11,6 +11,9 @@
 		onValueChange,
 		placeholder = 'Select an option',
 		ariaLabel,
+		id,
+		describedBy,
+		invalid,
 		align = 'start',
 		side = 'bottom',
 		sideOffset = 4,
@@ -79,12 +82,16 @@
 	onValueChange={handleValueChange}
 >
 	<BitsSelect.Trigger
+		{id}
 		aria-label={ariaLabel}
+		aria-describedby={describedBy}
+		aria-invalid={invalid || undefined}
 		data-slot="select-trigger"
 		class={cls(
 			'flex h-9 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] duration-150 ease-out motion-reduce:transition-none',
 			'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden',
 			'disabled:cursor-not-allowed disabled:opacity-50',
+			'aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive',
 			triggerClass,
 			className,
 		)}

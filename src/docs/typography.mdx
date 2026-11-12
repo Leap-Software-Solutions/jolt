@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Jolt uses Manrope Variable for both body and headings. The font is bundled with the package through `@fontsource-variable/manrope`, so applications do not need a separate font install.
+
+## Hierarchy
+
+Use a restrained hierarchy and let spacing do most of the work. Headings are semibold with tight tracking; body copy uses the normal weight.
+
+<div class="grid gap-4 py-6">
+	<div class="text-4xl! font-semibold tracking-tight">Page title</div>
+	<div class="text-2xl! font-semibold tracking-tight">Section heading</div>
+	<div class="text-lg! font-semibold tracking-tight">Card heading</div>
+	<div class="text-sm! font-medium">Label or control heading</div>
+	<div class="max-w-prose text-sm! text-muted-foreground!">
+		Body copy stays readable at small sizes. Muted text is for supporting detail, not for primary
+		content.
+	</div>
+</div>
+
+## Tokens and utilities
+
+- `font-sans` — Manrope for body text and controls.
+- `font-heading` — Manrope for display and section headings.
+- `font-mono` — the system monospace stack for code and identifiers.
+- `text-muted-foreground` — secondary copy and hints.
+- `text-destructive` — validation and destructive status.
+
+Numbers that change in place, such as progress values and sliders, use `tabular-nums` so the layout does not jump.
+
+## Writing
+
+- Use sentence case for headings, labels, and buttons.
+- Keep labels short and specific.
+- Prefer a verb in actions: "Save changes", "Send invite", "Delete asset".
+- Put the consequence in the supporting text, not in the button label.
+- Avoid all caps and decorative letter spacing.

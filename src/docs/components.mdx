@@ -66,12 +66,17 @@ Content is customised with named snippets instead of exported parts. The names a
 
 ## Lists and item arrays
 
-`Select`, `Combobox`, `DropdownMenu`, and `Tabs` take typed item arrays. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
+`Select`, `Combobox`, `DropdownMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
 
 - `Select` items are `{ value, label, disabled? }`. Pass `getKey` when values are objects.
 - `Combobox` takes your own data array plus `getKey` and `getLabel`.
 - `DropdownMenu` uses a discriminated union over `item`, `separator`, `group`, `submenu`, `checkbox`, and `radio`. Items with no `type` are regular actions.
 - `Tabs` items are `{ value, label, icon?, disabled? }`; the `content` snippet receives the item.
+- `Accordion` items are `{ value, title, content?, icon?, disabled? }`; the `trigger` and `content` snippets receive the item.
+- `RadioGroup` items are `{ value, label, description?, icon?, disabled? }`.
+- `ToggleGroup` items are `{ value, label?, ariaLabel?, icon?, disabled? }`.
+- `Breadcrumb` items are `{ label, href?, icon?, current? }`; set `maxItems` to collapse the middle of long paths into an overflow menu.
+- `Pagination` takes `count`, `perPage`, `page`, and `siblingCount`; page changes use `bind:page`.
 
 Generic components are inferred at the call site:
 
@@ -85,6 +90,26 @@ Generic components are inferred at the call site:
 />
 ```
 
+## Fields
+
+The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
+
+```svelte
+<script lang="ts">
+	import { CheckboxField, SelectField, TextField } from '@leap/jolt';
+
+	let name = $state('');
+	let status = $state('active');
+	let accepted = $state(false);
+</script>
+
+<TextField label="Full name" bind:value={name} required />
+<SelectField label="Status" items={statuses} bind:value={status} />
+<CheckboxField label="Accept the terms" bind:checked={accepted} />
+```
+
+`TextField`, `TextareaField`, `SelectField`, and `CheckboxField` generate their own ids. The error text becomes `role="alert"` and is connected to the control with `aria-describedby`; the control gets `aria-invalid` while the error is present. Prefer these wrappers over rebuilding label and description markup by hand.
+
 ## Structural exceptions
 
 `Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as the future `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
@@ -95,4 +120,6 @@ Every component accepts `class` for the outer element and named class props such
 
 The prop surface is curated rather than inherited from the underlying HTML element. Presentational components such as Card, Alert, Avatar, and Skeleton expose only the props they actually use; use the class props for styling and keep arbitrary HTML attributes out of the component API.
 
-Combined components cannot guess the field label. Pass `ariaLabel` on `Select` and `Combobox`, use the visible `label` prop on `Checkbox` and `Switch`, and use `ariaLabel` on `Tabs`. Dialog requires a `title`. Stories run axe with `error` level, so accessibility regressions fail the test suite.
+Combined components cannot guess the field label. Use a field wrapper where one exists, pass `ariaLabel` on `Select` and `Combobox`, use the visible `label` prop on `Checkbox` and `Switch`, and use `ariaLabel` on `Tabs`. Dialog requires a `title`. Stories run axe with `error` level, so accessibility regressions fail the test suite.
+
+Motion is always optional: transitions respect `prefers-reduced-motion`, and disclosure content animates with the height variables supplied by bits-ui.

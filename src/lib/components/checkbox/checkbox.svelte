@@ -8,6 +8,8 @@
 		value?: string;
 		label?: string;
 		description?: string;
+		describedBy?: string;
+		invalid?: boolean;
 		class?: string;
 		labelClass?: string;
 		descriptionClass?: string;
@@ -23,10 +25,13 @@
 
 	const uid = $props.id();
 	const labelId = `${uid}-label`;
+	const descriptionId = `${uid}-description`;
 
 	let {
 		label,
 		description,
+		describedBy,
+		invalid,
 		class: className,
 		labelClass,
 		descriptionClass,
@@ -39,6 +44,10 @@
 		onCheckedChange,
 		onIndeterminateChange,
 	}: Props = $props();
+
+	const ariaDescribedBy = $derived(
+		[description ? descriptionId : undefined, describedBy].filter(Boolean).join(' ') || undefined,
+	);
 </script>
 
 <label data-slot="checkbox" class={cls('flex items-start gap-2.5', className)}>
@@ -52,11 +61,14 @@
 		{onCheckedChange}
 		{onIndeterminateChange}
 		aria-labelledby={label ? labelId : undefined}
+		aria-describedby={ariaDescribedBy}
+		aria-invalid={invalid || undefined}
 		data-slot="checkbox-control"
 		class={cls(
 			'peer mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-input bg-background text-primary-foreground shadow-xs transition-[color,box-shadow,background-color] duration-150 ease-out motion-reduce:transition-none',
 			'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden',
 			'disabled:cursor-not-allowed disabled:opacity-50',
+			'aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive',
 			'data-[state=checked]:border-primary data-[state=checked]:bg-primary',
 			'data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary',
 		)}
@@ -78,7 +90,7 @@
 				</span>
 			{/if}
 			{#if description}
-				<span class={cls('text-xs text-muted-foreground', descriptionClass)}>
+				<span id={descriptionId} class={cls('text-xs text-muted-foreground', descriptionClass)}>
 					{description}
 				</span>
 			{/if}

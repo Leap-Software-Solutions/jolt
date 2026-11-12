@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Accessibility" />
+
+# Accessibility
+
+Accessibility is part of the component contract, not a separate layer. Jolt gets behaviour from bits-ui and owns the labels, focus treatment, and visual states.
+
+## Labels and descriptions
+
+Every form control needs an accessible name. Prefer a visible label; use `ariaLabel` only when the design genuinely has no room for one.
+
+The field wrappers own label association, hint text, error text, `aria-invalid`, and `aria-describedby`:
+
+```svelte
+<TextField
+	label="Email"
+	type="email"
+	hint="We only use this for account updates."
+	bind:value
+	error={errors.email}
+/>
+```
+
+`RadioGroup` items use their typed `label` and optional `description`. `Tabs` needs an `ariaLabel`, and `Dialog` requires a `title` so the dialog has a name.
+
+## Keyboard behaviour
+
+Combined components keep the keyboard model of their primitive:
+
+- `Accordion` uses arrow keys to move between headers and Enter or Space to toggle.
+- `RadioGroup` uses arrow keys to move between options.
+- `Slider` responds to arrow keys, Home, and End.
+- `ToggleGroup` uses arrow keys when roving focus is enabled.
+- `Pagination` moves focus between page triggers with the arrow keys.
+- `Popover`, `DropdownMenu`, `Select`, and `Combobox` close with Escape.
+
+Do not add custom key handlers on top of a combined component unless the product interaction genuinely differs.
+
+## Focus
+
+Interactive elements use a visible focus ring. The ring is animated on inputs, tabs, checkboxes, and switches, and switches to `motion-reduce:transition-none` when the user prefers reduced motion. Never remove the ring without providing an equally visible replacement.
+
+## Contrast
+
+The theme is checked in light and dark mode. Muted text meets WCAG AA at the sizes where it is used. Gold is decorative at its light shade; use `brand-strong` for text and focus rings in light mode, and reserve gold fills for near-black text.
+
+Avoid communicating status with colour alone. Pair destructive or brand colour with text, an icon, or a label.
+
+## Testing
+
+Storybook runs axe at `error` level for every story. Add a story for each meaningful state — disabled, invalid, loading, empty, and long content — so the accessibility checks cover it. Interactive components also get browser tests for their bound state and keyboard path.

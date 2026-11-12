@@ -20,6 +20,9 @@ export type Props<T> = {
 	onValueChange?: (value: T | undefined) => void;
 	placeholder?: string;
 	ariaLabel?: string;
+	id?: string;
+	describedBy?: string;
+	invalid?: boolean;
 	open?: boolean;
 	onOpenChange?: (open: boolean) => void;
 	disabled?: boolean;

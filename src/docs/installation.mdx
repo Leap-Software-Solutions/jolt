@@ -1,0 +1,46 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Installation" />
+
+# Installation
+
+Jolt is an internal package. Install it alongside Svelte 5, bits-ui, and Tailwind CSS v4:
+
+```sh
+pnpm add @leap/jolt bits-ui
+```
+
+`@internationalized/date` is an optional peer for the date components.
+
+## Styles
+
+Import Tailwind first, then Jolt's stylesheet:
+
+```css
+@import 'tailwindcss';
+@import '@leap/jolt/styles.css';
+```
+
+Jolt's stylesheet contains the design tokens, the `dark` variant, and a Tailwind source declaration for the package's components. It does not import Tailwind itself, so the consuming application stays in control of its Tailwind setup.
+
+Set the page surface and text colour on the document body:
+
+```html
+<body class="bg-background text-foreground">
+	...
+</body>
+```
+
+Toggle the `dark` class on `<html>` for dark mode.
+
+## Imports
+
+Every public component is exported from the package root:
+
+```svelte
+<script lang="ts">
+	import { Button, TextField } from '@leap/jolt';
+</script>
+```
+
+Component styles are co-located with the component source. Do not import individual component files or copy the CSS into the application.

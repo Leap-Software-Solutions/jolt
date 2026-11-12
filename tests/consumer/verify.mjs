@@ -65,7 +65,14 @@ try {
 		.map((file) => readFileSync(path.join(assetDirectory, file), 'utf8'))
 		.join('\n');
 
-	for (const expected of ['bg-primary', 'bg-brand', 'bg-popover', 'bg-card', 'rounded-md']) {
+	for (const expected of [
+		'bg-primary',
+		'bg-brand',
+		'bg-popover',
+		'bg-card',
+		'bg-muted',
+		'rounded-md',
+	]) {
 		if (!css.includes(`.${expected}`)) {
 			throw new Error(`Expected .${expected} in the consumer CSS output`);
 		}
