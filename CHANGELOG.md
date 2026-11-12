@@ -1,5 +1,43 @@
 # @leap/jolt
 
+## 0.2.0
+
+### Minor Changes
+
+- 0079e7cda52925c6a31c591a8f5fb94d5001d4f4: Add Calendar for inline single or multiple date selection, Table as a lightweight
+  static table, Toggle as a standalone pressed button, and TimePicker with a
+  segmented field plus popover stepper. Calendar includes an inline month/year
+  picker with a year grid, a single header across multiple months, a current-day
+  indicator, and consistent multi-month rows. DatePicker reuses it.
+- 55532684163191c2e0b1f2b73e0ae72291f9c467: Polish component APIs and interaction details across the library. Remove
+  `IconButton` in favor of `Button` with `size="icon"`; make `Badge` take
+  `label` and an optional `icon`; use `children` for `Popover` content; align
+  `ToggleGroup` with the Toggle styling; make horizontal `RadioGroup` layouts
+  grid-based; reset the `MultiSelect` query after selection; and give `Alert`
+  brand titles the brand color.
+
+  Calendar now supports `type="range"`, a centered Today footer link, a dot
+  for the current date, and selecting dates outside the visible month. Range
+  selection uses a continuous grey band, with endpoints and hover states kept
+  as distinct rounded cells. `DateRangePicker` is rebuilt on the range calendar,
+  and the date range header includes both years when the range crosses a year.
+  The TimePicker popover follows the configured granularity, hiding minutes for
+  hour-only pickers and adding a seconds stepper when seconds are enabled.
+  Default ToggleGroup items now have a small gap. Storybook docs and stories
+  were tightened up alongside those changes.
+
+- 3603ad70232c22408f360db86c80213c4bd81c0e: Add Menubar with typed menu entries, horizontal menu navigation, submenus,
+  checkbox and radio items, shortcuts, and controlled active-menu state.
+- 3603ad70232c22408f360db86c80213c4bd81c0e: Add NavigationMenu with typed panel and direct-link items, controlled open state,
+  hover and keyboard support, and a combined viewport.
+- 3603ad70232c22408f360db86c80213c4bd81c0e: Add ContextMenu, HoverCard, MultiSelect, Sidebar, and AppShell. ContextMenu
+  reuses the typed menu entry model, HoverCard wraps the link-preview primitive,
+  MultiSelect provides chip-based multiple selection, and the layout shells cover
+  application chrome.
+- 3603ad70232c22408f360db86c80213c4bd81c0e: Add the first pattern components: ConfirmDialog for destructive confirmation flows,
+  EmptyState for consistent no-data states, and PageHeader for page-level titles,
+  breadcrumbs, and actions.
+
 ## 0.1.0
 
 ### Minor Changes
