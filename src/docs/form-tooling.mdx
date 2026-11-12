@@ -1,0 +1,64 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Patterns/Form tooling" />
+
+# Form tooling
+
+Jolt ships a small valibot-backed form helper for plain Svelte surfaces. SvelteKit applications should keep using Superforms on the server; `toFieldErrors` bridges its error shape into the field wrappers.
+
+## createForm
+
+```svelte
+<script lang="ts">
+	import { createForm, TextField } from '@leap/jolt';
+	import * as v from 'valibot';
+
+	const schema = v.object({
+		email: v.pipe(v.string(), v.nonEmpty('Enter your email.'), v.email('Enter a valid email.')),
+		name: v.pipe(v.string(), v.nonEmpty('Enter your name.')),
+	});
+
+	const form = createForm({
+		schema,
+		initialValues: { email: '', name: '' },
+		onSubmit: async (values) => {
+			await saveProfile(values);
+		},
+	});
+</script>
+
+<form onsubmit={form.handleSubmit} novalidate class="grid gap-4">
+	<TextField label="Email" type="email" bind:value={form.values.email} error={form.errors.email} />
+	<TextField label="Name" bind:value={form.values.name} error={form.errors.name} />
+
+	{#if form.errors.form}
+		<p role="alert" class="text-xs text-destructive">{form.errors.form}</p>
+	{/if}
+
+	<button type="submit" disabled={form.isSubmitting}>
+		{form.isSubmitting ? 'Saving…' : 'Save profile'}
+	</button>
+</form>
+```
+
+`createForm` returns reactive `values`, `errors`, and `isSubmitting`, plus `validate`, `handleSubmit`, and `reset`. It uses a synchronous valibot schema; async schemas should be validated by the surrounding application or Superforms.
+
+`validate()` populates one error per top-level field and puts root-level issues in `errors.form`. Object values remain mutable, so field wrappers can bind directly to `form.values`.
+
+## Superforms
+
+Superforms errors are `string | string[] | undefined` per field. Collapse them before passing them to Jolt:
+
+```svelte
+<script lang="ts">
+	import { toFieldErrors } from '@leap/jolt';
+	import { superForm } from 'sveltekit-superforms';
+
+	const { form, errors } = superForm(data.form);
+	const fieldErrors = $derived(toFieldErrors(errors));
+</script>
+
+<TextField label="Email" bind:value={form.email} error={fieldErrors.email} />
+```
+
+Keep server-side validation in the SvelteKit action. Jolt only renders the resulting errors.

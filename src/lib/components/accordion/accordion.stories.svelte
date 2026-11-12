@@ -33,7 +33,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Navigation/Accordion',
+		title: 'Layout/Accordion',
 		component: Accordion,
 		tags: ['autodocs'],
 		parameters: {

@@ -3,7 +3,7 @@
 	import Progress, { type Props as ProgressProps } from './progress.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Data Display/Progress',
+		title: 'Feedback/Progress',
 		component: Progress,
 		tags: ['autodocs'],
 		parameters: {

@@ -7,7 +7,7 @@
 	type TemplateArgs = Omit<AlertProps, 'children' | 'icon'>;
 
 	const { Story } = defineMeta({
-		title: 'Data Display/Alert',
+		title: 'Feedback/Alert',
 		component: Alert,
 		tags: ['autodocs'],
 		parameters: {

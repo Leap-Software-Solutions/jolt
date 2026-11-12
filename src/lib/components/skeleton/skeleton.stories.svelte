@@ -3,7 +3,7 @@
 	import Skeleton from './skeleton.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Data Display/Skeleton',
+		title: 'Feedback/Skeleton',
 		component: Skeleton,
 		tags: ['autodocs'],
 		parameters: {

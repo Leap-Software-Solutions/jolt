@@ -540,13 +540,15 @@ Structural exceptions: Card (content container with header/footer snippets), Sid
 Storybook navigation is purpose-based, not atomic:
 
 ```text
-Foundations/   Colors, Typography, Spacing, Icons
-Actions/       Button, IconButton
-Forms/         Input, TextField, Select, Combobox, Checkbox, Switch
-Overlays/      Dialog, Sheet, Popover, Tooltip, DropdownMenu
-Navigation/    Tabs, Accordion, Breadcrumb, Pagination
-Data Display/  Card, Table, Badge, Avatar, Alert
-Patterns/      ConfirmDialog, PageHeader, EmptyState, DataTable
+Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
+Actions/       Button, IconButton, ToggleGroup
+Forms/         Input, TextField, Select, Combobox, Checkbox, Switch, Slider, DatePicker, DateRangePicker
+Data Display/  Card, DataTable, Badge, Avatar
+Feedback/      Alert, Progress, Skeleton, Toast
+Navigation/    Tabs, Breadcrumb, Pagination
+Layout/        Accordion, Collapsible, ScrollArea, Separator
+Overlays/      Dialog, Sheet, Popover, Tooltip, DropdownMenu, CommandPalette
+Patterns/      Form tooling, future ConfirmDialog, PageHeader, EmptyState
 ```
 
 Stories are co-located `*.stories.svelte` files using `defineMeta` and `tags: ['autodocs']`. Each component gets:
@@ -557,7 +559,7 @@ Stories are co-located `*.stories.svelte` files using `defineMeta` and `tags: ['
 - light and dark checks;
 - `play` functions for keyboard and overlay behaviour.
 
-MDX docs pages cover Introduction, Installation, Theming, Typography, Accessibility, and Component guidelines. Component API tables come from autodocs.
+MDX docs pages cover Introduction, Installation, Theming, Typography, Accessibility, Component guidelines, and Form tooling. Component API tables come from autodocs.
 
 ## 10. Testing and package validation
 

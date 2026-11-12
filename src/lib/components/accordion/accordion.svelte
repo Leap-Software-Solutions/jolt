@@ -78,7 +78,7 @@
 			<BitsAccordion.Trigger
 				data-slot="accordion-trigger"
 				class={cls(
-					'group flex flex-1 items-center justify-between gap-3 py-4 text-left text-sm font-medium transition-colors outline-none hover:text-brand-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
+					'group flex flex-1 items-center justify-between gap-3 rounded-md px-3 py-3 text-left text-sm font-medium transition-colors outline-none hover:bg-accent/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
 					triggerClass,
 				)}
 			>
@@ -106,7 +106,7 @@
 				contentClass,
 			)}
 		>
-			<div class="pb-4 text-muted-foreground">
+			<div class="px-3 pb-4 text-muted-foreground">
 				{#if contentSnippet}
 					{@render contentSnippet(item)}
 				{:else}
