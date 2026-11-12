@@ -523,7 +523,7 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Composed patterns and application layout |
 | 6. Later | Charts, blocks/templates | Only when a consumer needs them |
 
-Combined by default: Button, IconButton, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, DatePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
+Combined by default: Button, IconButton, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
 
 Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), Chart containers.
 
@@ -542,9 +542,9 @@ Storybook navigation is purpose-based, not atomic:
 
 ```text
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
-Actions/       Button, IconButton, ToggleGroup
-Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, DatePicker, DateRangePicker
-Data Display/  Card, DataTable, Badge, Avatar
+Actions/       Button, IconButton, Toggle, ToggleGroup
+Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
+Data Display/  Card, DataTable, Table, Badge, Avatar
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar

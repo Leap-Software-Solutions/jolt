@@ -118,6 +118,10 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
 
+## Tables and dates
+
+`Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `Calendar` renders the date grid inline with a floating month and year picker, current-day indicator, and consistent rows across multiple months; `DatePicker`, `DateRangePicker`, and `TimePicker` compose date and time selection for form surfaces. `TimePicker` keeps the segmented field and adds a popover stepper for quick desktop entry.
+
 ## Application chrome
 
 `Sidebar` takes typed groups of navigation items, supports a bindable `collapsed` state, and can render `header` and `footer` snippets. `AppShell` composes a sidebar, optional header, and scrollable content area for a full application frame.

@@ -4,6 +4,7 @@
 		AppShell,
 		Badge,
 		Button,
+		Calendar,
 		Card,
 		CheckboxField,
 		Combobox,
@@ -23,10 +24,13 @@
 		ScrollArea,
 		SelectField,
 		Sheet,
+		Table,
 		Sidebar,
 		TextField,
 		TextareaField,
+		TimePicker,
 		Toast,
+		Toggle,
 		toast,
 	} from '@leap/jolt';
 
@@ -101,6 +105,7 @@
 	let brief = $state('');
 	let accepted = $state(false);
 	let selectedEngineers = $state<Engineer[]>([]);
+	let toggled = $state(false);
 	let page = $state(1);
 	let commandsOpen = $state(false);
 	let confirmOpen = $state(false);
@@ -137,6 +142,7 @@
 			<Button>Hello from Jolt</Button>
 			<Badge variant="brand" label="New" />
 			<Button variant="outline" onclick={() => toast.success('Saved')}>Toast</Button>
+			<Toggle bind:pressed={toggled}>Bold</Toggle>
 		</div>
 
 		<Card title="Filters" description="Select and combobox wired to typed values.">
@@ -161,6 +167,8 @@
 				<CheckboxField label="Accept the terms" bind:checked={accepted} />
 				<Progress value={40} label="Uploading assets" showValue />
 				<DatePicker ariaLabel="Start date" />
+				<Calendar />
+				<TimePicker label="Start time" />
 				<HoverCard>
 					{#snippet trigger(props)}
 						<a {...props} href="#ada" class="text-sm underline">Ada Lovelace</a>
@@ -175,6 +183,7 @@
 		<Card title="Advanced" description="Overlays, scroll areas, tables, and commands.">
 			<div class="grid gap-3">
 				<DataTable data={engineers} columns={tableColumns} caption="Engineers" />
+				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<ContextMenu items={contextItems}>
 					{#snippet trigger(props)}
 						<div {...props} class="rounded-md border border-dashed p-3 text-sm">
