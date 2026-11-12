@@ -1,0 +1,5 @@
+# Local scaffold: today's releases are blocked by the default age gate.
+minimumReleaseAge: 0
+
+allowBuilds:
+  esbuild: true

@@ -1,0 +1,26 @@
+import { create } from 'storybook/theming';
+
+export const joltTheme = create({
+	base: 'dark',
+	brandTitle: 'Jolt — Leap UI',
+	brandUrl: 'https://leap-online.com',
+	brandTarget: '_blank',
+	colorPrimary: '#bba53d',
+	colorSecondary: '#bba53d',
+	appBg: '#0a0a0b',
+	appContentBg: '#121214',
+	appPreviewBg: '#0a0a0b',
+	appBorderColor: '#26262a',
+	appBorderRadius: 6,
+	fontBase: '"Manrope Variable", ui-sans-serif, system-ui, sans-serif',
+	fontCode: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+	textColor: '#fafafa',
+	textInverseColor: '#0a0a0b',
+	barTextColor: '#a1a1aa',
+	barSelectedColor: '#bba53d',
+	barHoverColor: '#fafafa',
+	inputBg: '#1a1a1c',
+	inputBorder: '#33333a',
+	inputTextColor: '#fafafa',
+	inputBorderRadius: 6,
+});

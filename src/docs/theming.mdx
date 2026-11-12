@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Theming" />
+
+# Theming
+
+Jolt defines semantic tokens in `src/lib/styles/theme.css` and maps them to Tailwind utilities with `@theme inline`.
+
+## Core tokens
+
+- `background` / `foreground` — page surface and primary text.
+- `primary` / `primary-foreground` — default actions.
+- `secondary` / `muted` — quiet surfaces and hover states.
+- `accent` / `accent-foreground` — menu and list hover surfaces.
+- `border` / `input` — boundaries and form controls.
+- `ring` — focus rings.
+- `brand` / `brand-strong` / `brand-foreground` — Leap gold accent.
+- `destructive` — destructive actions and errors.
+
+## Gold rules
+
+`brand` is `#bba53d`. On white it has a 2.45:1 contrast ratio, so it is decorative only. Use `brand-strong` (`#8e7810`) for text and focus rings in light mode. Gold fills always use `brand-foreground` (near-black) for text.
+
+## Dark mode
+
+The theme toggles with a `dark` class on `<html>`:
+
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+Applications can use `mode-watcher` or any other class-based theme toggle.

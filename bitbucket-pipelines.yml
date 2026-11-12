@@ -1,0 +1,68 @@
+image: node:24
+
+definitions:
+  caches:
+    pnpm: ~/.local/share/pnpm/store
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Verify
+          caches:
+            - pnpm
+          script:
+            - npm install -g pnpm@12.16.1
+            - pnpm install --frozen-lockfile
+            - pnpm check
+            - pnpm lint
+            - pnpm build
+            - git fetch origin main:refs/remotes/origin/main
+            - pnpm exec changeset status --since=origin/main
+      - step:
+          name: Test and package
+          image: mcr.microsoft.com/playwright:v1.65.0-noble
+          caches:
+            - pnpm
+          script:
+            - npm install -g pnpm@12.16.1
+            - pnpm install --frozen-lockfile
+            - pnpm test
+            - pnpm package
+            - pnpm storybook:build
+
+  branches:
+    main:
+      - step:
+          name: Verify
+          caches:
+            - pnpm
+          script:
+            - npm install -g pnpm@12.16.1
+            - pnpm install --frozen-lockfile
+            - pnpm check
+            - pnpm lint
+            - pnpm build
+      - step:
+          name: Test, package, and consumer fixture
+          image: mcr.microsoft.com/playwright:v1.65.0-noble
+          caches:
+            - pnpm
+          script:
+            - npm install -g pnpm@12.16.1
+            - pnpm install --frozen-lockfile
+            - pnpm test
+            - pnpm package
+            - pnpm test:consumer
+            - pnpm storybook:build
+
+  # Publishing is deferred until a registry is chosen.
+  tags:
+    'v*':
+      - step:
+          name: Release
+          script:
+            - npm install -g pnpm@12.16.1
+            - pnpm install --frozen-lockfile
+            - pnpm build
+            - pnpm changeset publish

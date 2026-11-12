@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Introduction" />
+
+# Jolt
+
+Jolt is Leap's internal Svelte 5 component library. It is built on [bits-ui](https://bits-ui.com) for behaviour and [Tailwind CSS v4](https://tailwindcss.com) for styling.
+
+## Principles
+
+- Black-and-white foundations with a restrained gold accent.
+- Combined components that keep common interactions to one import.
+- Behaviour comes from bits-ui; Jolt owns the visual language.
+- Light and dark themes from day one.
+
+## Consuming the package
+
+```css
+@import 'tailwindcss';
+@import '@leap/jolt/styles.css';
+```
+
+```svelte
+<script lang="ts">
+	import { Button } from '@leap/jolt';
+</script>
+
+<Button>Continue</Button>
+```
+
+Set `bg-background text-foreground` on `<body>` and toggle `dark` on `<html>` for dark mode.

@@ -1,0 +1,8 @@
+dist
+storybook-static
+coverage
+node_modules
+pnpm-lock.yaml
+PLAN.md
+tests/consumer/app/node_modules
+tests/consumer/app/dist

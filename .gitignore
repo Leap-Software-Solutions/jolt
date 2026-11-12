@@ -1,0 +1,15 @@
+node_modules
+dist
+storybook-static
+coverage
+.svelte-kit
+*.tgz
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Consumer fixture install artifacts
+tests/consumer/app/node_modules
+tests/consumer/app/dist
+tests/consumer/app/pnpm-lock.yaml
