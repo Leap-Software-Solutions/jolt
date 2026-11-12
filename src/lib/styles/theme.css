@@ -35,6 +35,47 @@
 	--font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-heading: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+	--animate-collapsible-down: collapsible-down 0.2s ease-out;
+	--animate-collapsible-up: collapsible-up 0.2s ease-out;
+
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--bits-accordion-content-height);
+		}
+	}
+
+	@keyframes accordion-up {
+		from {
+			height: var(--bits-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
+	@keyframes collapsible-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--bits-collapsible-content-height);
+		}
+	}
+
+	@keyframes collapsible-up {
+		from {
+			height: var(--bits-collapsible-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
 }
 
 @theme inline {
@@ -95,7 +136,7 @@
 	--ring: oklch(57.66% 0.1141 95.56);
 	--brand: oklch(72.18% 0.1244 97.16);
 	--brand-foreground: oklch(18.7% 0.0361 290.1);
-	--brand-strong: oklch(57.66% 0.1141 95.56);
+	--brand-strong: oklch(48% 0.12 95.56);
 	--brand-subtle: oklch(96.5% 0.028 97.16);
 	--chart-1: var(--brand);
 	--chart-2: oklch(18.7% 0.0361 290.1);

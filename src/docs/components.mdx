@@ -1,0 +1,98 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Component guidelines" />
+
+# Component guidelines
+
+Jolt components wrap bits-ui primitives, so consumers get the behaviour without the parts-and-portals boilerplate. The common case should be one import and one element.
+
+## Combined by default
+
+Most components own their trigger, portal, content, and focus management:
+
+```svelte
+<script lang="ts">
+	import { Dialog, Select } from '@leap/jolt';
+
+	let status = $state('active');
+	let open = $state(false);
+</script>
+
+<Select
+	items={[
+		{ value: 'active', label: 'Active' },
+		{ value: 'draft', label: 'Draft' },
+	]}
+	bind:value={status}
+	ariaLabel="Status"
+/>
+
+<Dialog bind:open title="Delete asset" description="This cannot be undone.">
+	<p>...</p>
+</Dialog>
+```
+
+State is controlled with `bind:` props such as `bind:open`, `bind:value`, and `bind:checked`. Event callbacks (`onValueChange`, `onOpenChange`, `onCheckedChange`) remain available when you need to react to changes.
+
+## Snippets
+
+Content is customised with named snippets instead of exported parts. The names are consistent across components:
+
+- `trigger` — render a trigger element with the props supplied by the primitive.
+- `item` — render one item in a list, menu, or combobox.
+- `selected` — render the selected value inside a trigger.
+- `empty` — render the empty state for a list or search result.
+- `header` / `footer` — render a content section.
+- `content` — render the main panel or body.
+
+```svelte
+<Combobox
+	items={engineers}
+	bind:value
+	getKey={(engineer) => engineer.id}
+	getLabel={(engineer) => engineer.name}
+	placeholder="Assign engineer"
+	ariaLabel="Assign engineer"
+>
+	{#snippet item(engineer)}
+		<span>{engineer.name}</span>
+	{/snippet}
+
+	{#snippet empty()}
+		No engineers match that search.
+	{/snippet}
+</Combobox>
+```
+
+## Lists and item arrays
+
+`Select`, `Combobox`, `DropdownMenu`, and `Tabs` take typed item arrays. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
+
+- `Select` items are `{ value, label, disabled? }`. Pass `getKey` when values are objects.
+- `Combobox` takes your own data array plus `getKey` and `getLabel`.
+- `DropdownMenu` uses a discriminated union over `item`, `separator`, `group`, `submenu`, `checkbox`, and `radio`. Items with no `type` are regular actions.
+- `Tabs` items are `{ value, label, icon?, disabled? }`; the `content` snippet receives the item.
+
+Generic components are inferred at the call site:
+
+```svelte
+<Combobox
+	items={engineers}
+	bind:value
+	getKey={(engineer) => engineer.id}
+	getLabel={(engineer) => engineer.name}
+	ariaLabel="Assign engineer"
+/>
+```
+
+## Structural exceptions
+
+`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as the future `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout.
+
+## Classes and accessibility
+
+Every component accepts `class` for the outer element and named class props such as `contentClass`, `itemClass`, or `triggerClass` for internal parts. Prefer semantic tokens over hardcoded colours.
+
+The prop surface is curated rather than inherited from the underlying HTML element. Presentational components such as Card, Alert, Avatar, and Skeleton expose only the props they actually use; use the class props for styling and keep arbitrary HTML attributes out of the component API.
+
+Combined components cannot guess the field label. Pass `ariaLabel` on `Select` and `Combobox`, use the visible `label` prop on `Checkbox` and `Switch`, and use `ariaLabel` on `Tabs`. Dialog requires a `title`. Stories run axe with `error` level, so accessibility regressions fail the test suite.

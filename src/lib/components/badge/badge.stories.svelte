@@ -1,4 +1,5 @@
 <script lang="ts" module>
+	import { CheckIcon } from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Badge from './badge.svelte';
 
@@ -15,15 +16,20 @@
 				options: ['default', 'secondary', 'outline', 'brand', 'destructive'],
 			},
 		},
+		args: {
+			label: 'Active',
+		},
 	});
 </script>
 
-<Story name="Default">Active</Story>
+<Story name="Default" />
 
-<Story name="Secondary" args={{ variant: 'secondary' }}>Draft</Story>
+<Story name="Secondary" args={{ variant: 'secondary', label: 'Draft' }} />
 
-<Story name="Outline" args={{ variant: 'outline' }}>Archived</Story>
+<Story name="Outline" args={{ variant: 'outline', label: 'Archived' }} />
 
-<Story name="Brand" args={{ variant: 'brand' }}>New</Story>
+<Story name="Brand" args={{ variant: 'brand', label: 'New' }} />
 
-<Story name="Destructive" args={{ variant: 'destructive' }}>Overdue</Story>
+<Story name="Destructive" args={{ variant: 'destructive', label: 'Overdue' }} />
+
+<Story name="With icon" args={{ label: 'Verified', icon: CheckIcon }} />

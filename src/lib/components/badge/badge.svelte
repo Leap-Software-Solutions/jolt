@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import type { Snippet } from 'svelte';
+	import type { Component } from 'svelte';
 	import { tv, type VariantProps } from 'tailwind-variants';
 
 	export const badgeVariants = tv({
@@ -19,20 +19,27 @@
 	});
 
 	export type BadgeVariant = VariantProps<typeof badgeVariants>['variant'];
+	export type BadgeIcon = Component<{ class?: string }>;
 
 	export type Props = {
+		label: string;
+		icon?: BadgeIcon;
+		iconClass?: string;
 		variant?: BadgeVariant;
 		class?: string;
-		children?: Snippet;
 	};
 </script>
 
 <script lang="ts">
 	import { cls } from '../../utils/index.js';
 
-	let { class: className, variant = 'default', children }: Props = $props();
+	let { class: className, label, icon, iconClass, variant = 'default' }: Props = $props();
 </script>
 
 <span data-slot="badge" class={cls(badgeVariants({ variant }), className)}>
-	{@render children?.()}
+	{#if icon}
+		{@const Icon = icon}
+		<Icon class={cls('size-3', iconClass)} />
+	{/if}
+	{label}
 </span>
