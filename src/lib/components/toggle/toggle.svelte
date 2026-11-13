@@ -17,6 +17,8 @@
 		type?: 'button' | 'submit' | 'reset';
 		children?: Snippet;
 		class?: string;
+		/** Attributes supplied by a tooltip trigger and forwarded to the button. */
+		triggerProps?: Record<string, unknown>;
 	};
 </script>
 
@@ -35,12 +37,14 @@
 		type = 'button',
 		children,
 		class: className,
+		triggerProps,
 	}: Props = $props();
 
 	const classes = $derived(cls(toggleVariants({ variant, size }), className));
 </script>
 
 <BitsToggle.Root
+	{...triggerProps}
 	{pressed}
 	{onPressedChange}
 	{disabled}
