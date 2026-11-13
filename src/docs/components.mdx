@@ -89,13 +89,13 @@ The current components follow this split:
 
 - Fixed copy: `Badge`, `Alert`, `Card` header, `Dialog`, `Sheet`, `ConfirmDialog`, `PageHeader`, `EmptyState`, fields, `Checkbox`, `Switch`, and progress/slider labels.
 - Arbitrary composition: `Button`, `Toggle`, `Label`, `ScrollArea`, `Card` body, dialog/sheet bodies, `HoverCard`, `Popover`, and `AppShell` content.
-- Typed data: the list components below, plus `Select`, `Combobox`, `MultiSelect`, `Table`, `DataTable`, and `TreeView`.
+- Typed data: the list components below, plus `Select`, `Combobox`, `MultiSelect`, `SplitButton`, `Table`, `DataTable`, and `TreeView`.
 
 `Popover` uses `children` for its content, matching Dialog, Sheet, and HoverCard. Tooltip keeps its `text` prop for the common case and an optional custom `content` snippet.
 
 ## Lists and item arrays
 
-`Select`, `Combobox`, `MultiSelect`, `NavigationMenu`, `Menubar`, `DropdownMenu`, `ContextMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
+`Select`, `Combobox`, `MultiSelect`, `SplitButton`, `NavigationMenu`, `Menubar`, `DropdownMenu`, `ContextMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
 
 - `Select` items are `{ value, label, disabled? }`. Pass `getKey` when values are objects.
 - `Combobox` takes your own data array plus `getKey` and `getLabel`.
@@ -108,6 +108,7 @@ The current components follow this split:
 - `Accordion` items are `{ value, title, content?, icon?, disabled? }`; the `trigger` and `content` snippets receive the item.
 - `RadioGroup` items are `{ value, label, description?, icon?, disabled? }`.
 - `ToggleGroup` items are `{ value, label?, ariaLabel?, icon?, disabled? }`.
+- `SplitButton` takes a label, a primary action, and typed menu entries for the adjacent chevron menu.
 - `Breadcrumb` items are `{ label, href?, icon?, current? }`; set `maxItems` to collapse the middle of long paths into an overflow menu.
 - `Pagination` takes `count`, `perPage`, `page`, and `siblingCount`; page changes use `bind:page`.
 
@@ -194,7 +195,7 @@ For custom surfaces, compose the primitives directly:
 - `ChatComposer` provides the auto-growing input and send/stop controls. Use its `toolbar` snippet for model, effort, or attachment controls, and `onFiles` to accept files dropped onto the composer. `Chat` forwards both props to its composer.
 - `ChatMarkdown` sanitises assistant Markdown and highlights fenced code blocks.
 - `CodeBlock` renders standalone highlighted code with copying.
-- `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking.
+- `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking. `ChatToolCall` also supports `status="awaiting-approval"`: it renders a split Allow control, with a chevron menu for always-allow and optional custom allow options such as allowing for the current session. A separate ellipsis menu holds other actions, with Deny between it and the split control. All menus use the same entries as `DropdownMenu`. After a denial, set `status="denied"` to keep the decision visible on the tool call.
 - `ChatSources` and `ChatSuggestions` cover citations and starter prompts.
 - `ChatAttachments` renders file chips for messages and composer toolbars.
 
