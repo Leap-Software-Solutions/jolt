@@ -14,10 +14,11 @@
 </script>
 
 <script lang="ts">
-	import { CloudUploadIcon, FileIcon, XIcon } from '@lucide/svelte';
+	import { CloudUploadIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
-	import { Button } from '../button/index.js';
-	import { Lightbox, type LightboxImage } from '../lightbox/index.js';
+	import { AttachmentList } from '../attachment/index.js';
+	import { getTextFormat } from '../attachment/preview.js';
+	import type { AttachmentItem } from '../attachment/types.js';
 
 	let {
 		files = $bindable<File[]>([]),
@@ -35,66 +36,67 @@
 	let input = $state<HTMLInputElement | null>(null);
 	let isDragging = $state(false);
 	let sizeError = $state('');
-	const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+	let previewAttachments = $state<AttachmentItem[]>([]);
 
-	let lightboxOpen = $state(false);
-	let lightboxIndex = $state(0);
-	let objectUrls = $state<string[]>([]);
-
-	function isImageFile(file: File): boolean {
-		return file.type.startsWith('image/') || imageExtension.test(file.name);
+	function getFileId(file: File, index: number): string {
+		return `${index}-${file.name}-${file.lastModified}-${file.size}`;
 	}
 
 	$effect(() => {
 		if (!preview) {
-			objectUrls = [];
+			previewAttachments = files.map((file, index) => ({
+				id: getFileId(file, index),
+				name: file.name,
+				size: file.size,
+				type: file.type,
+			}));
 			return;
 		}
 
-		const urls = files.map((file) => {
-			if (!isImageFile(file)) return '';
-			return URL.createObjectURL(file);
-		});
+		let cancelled = false;
+		const urls = files.map((file) => URL.createObjectURL(file));
+		const attachments = files.map((file, index) => ({
+			id: getFileId(file, index),
+			name: file.name,
+			size: file.size,
+			type: file.type,
+			href: urls[index],
+			previewSrc: urls[index],
+			thumbnailSrc: urls[index],
+		}));
 
-		objectUrls = urls;
+		previewAttachments = attachments;
+
+		const textFiles = files
+			.map((file, index) => ({ attachment: attachments[index], file, index }))
+			.filter(({ attachment }) => getTextFormat(attachment) !== null);
+
+		if (textFiles.length > 0) {
+			void Promise.all(
+				textFiles.map(async ({ file, index }) => {
+					try {
+						return { index, content: await file.text() };
+					} catch {
+						return { index, content: undefined };
+					}
+				}),
+			).then((contents) => {
+				if (cancelled) return;
+
+				const next = [...previewAttachments];
+				for (const entry of contents) {
+					if (entry.content === undefined) continue;
+					next[entry.index] = { ...next[entry.index], content: entry.content };
+				}
+				previewAttachments = next;
+			});
+		}
 
 		return () => {
-			for (const url of urls) {
-				if (url) URL.revokeObjectURL(url);
-			}
+			cancelled = true;
+			for (const url of urls) URL.revokeObjectURL(url);
 		};
 	});
-
-	const previewImages = $derived.by(() => {
-		const images: LightboxImage[] = [];
-		if (!preview) return images;
-
-		files.forEach((file, index) => {
-			const src = objectUrls[index];
-			if (!src) return;
-			images.push({ kind: 'image', src, alt: file.name, caption: file.name });
-		});
-
-		return images;
-	});
-
-	$effect(() => {
-		if (lightboxOpen && lightboxIndex >= previewImages.length) lightboxOpen = false;
-	});
-
-	function openPreview(fileIndex: number): void {
-		const src = objectUrls[fileIndex];
-		const index = previewImages.findIndex((image) => image.src === src);
-		if (index < 0) return;
-		lightboxIndex = index;
-		lightboxOpen = true;
-	}
-
-	function formatSize(bytes: number): string {
-		if (bytes < 1024) return `${bytes} B`;
-		if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-		return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-	}
 
 	function updateFiles(next: File[]): void {
 		files = next;
@@ -125,7 +127,9 @@
 		if (!disabled && event.dataTransfer?.files) addFiles(event.dataTransfer.files);
 	}
 
-	function removeFile(index: number): void {
+	function removeAttachment(attachment: AttachmentItem): void {
+		const index = previewAttachments.findIndex((candidate) => candidate.id === attachment.id);
+		if (index < 0) return;
 		updateFiles(files.filter((_, fileIndex) => fileIndex !== index));
 	}
 
@@ -179,49 +183,20 @@
 	/>
 
 	{#if files.length > 0}
-		<ul class="grid gap-1.5" aria-label="Selected files">
-			{#each files as file, index (file.name + index)}
-				<li
-					data-slot="file-upload-item"
-					class="flex items-center gap-2 rounded-md border bg-background px-2.5 py-2 text-sm"
-				>
-					{#if preview && objectUrls[index]}
-						<button
-							type="button"
-							data-slot="file-upload-preview"
-							aria-label={`Preview ${file.name}`}
-							class="size-8 shrink-0 overflow-hidden rounded-md border focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden"
-							onclick={() => openPreview(index)}
-						>
-							<img src={objectUrls[index]} alt="" loading="lazy" class="size-full object-cover" />
-						</button>
-					{:else}
-						<FileIcon class="size-4 shrink-0 text-muted-foreground" />
-					{/if}
-					<span class="min-w-0 flex-1 truncate">{file.name}</span>
-					<span class="shrink-0 text-xs text-muted-foreground">{formatSize(file.size)}</span>
-					<Button
-						variant="ghost"
-						size="icon"
-						class="size-7 shrink-0"
-						aria-label={`Remove ${file.name}`}
-						onclick={() => removeFile(index)}
-					>
-						<XIcon />
-					</Button>
-				</li>
-			{/each}
-		</ul>
+		<AttachmentList
+			attachments={previewAttachments}
+			{preview}
+			removable
+			onRemove={removeAttachment}
+			removeLabel="Remove file"
+			size="default"
+			ariaLabel="Selected files"
+			previewLabel="File preview"
+			class="grid gap-1.5"
+		/>
 	{/if}
 
 	{#if sizeError}
 		<p class="text-xs text-destructive" role="alert">{sizeError}</p>
 	{/if}
 </div>
-
-<Lightbox
-	bind:open={lightboxOpen}
-	bind:index={lightboxIndex}
-	items={previewImages}
-	ariaLabel="File preview"
-/>

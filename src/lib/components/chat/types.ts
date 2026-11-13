@@ -1,3 +1,5 @@
+import type { AttachmentItem } from '../attachment/types.js';
+
 export type ChatRole = 'user' | 'assistant' | 'system' | 'tool';
 
 export type ChatMessageStatus = 'sending' | 'streaming' | 'complete' | 'error';
@@ -19,13 +21,4 @@ export type ChatSource = {
 	description?: string;
 };
 
-export type ChatAttachment = {
-	id: string;
-	name: string;
-	size?: number;
-	type?: string;
-	href?: string;
-	previewSrc?: string;
-	thumbnailSrc?: string;
-	alt?: string;
-};
+export type ChatAttachment = AttachmentItem;

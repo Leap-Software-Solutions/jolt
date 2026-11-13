@@ -16,6 +16,12 @@
 	const previewSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#131022"/><circle cx="200" cy="150" r="76" fill="#bba53d"/><rect x="144" y="94" width="112" height="112" rx="18" fill="#131022"/></svg>`;
 	const previewFile = new File([previewSvg], 'brand-board.svg', { type: 'image/svg+xml' });
 	let previewFiles = $state<File[]>([previewFile]);
+	const notesFile = new File(
+		['# Notes\n\n- Check the copy\n- Review the responsive layout'],
+		'notes.md',
+		{ type: 'text/markdown' },
+	);
+	let textFiles = $state<File[]>([notesFile]);
 </script>
 
 <Story name="Default" asChild>
@@ -48,3 +54,15 @@
 {/snippet}
 
 <Story name="Image preview" template={previewTemplate} />
+
+{#snippet textPreviewTemplate()}
+	<div class="w-[32rem] max-w-full">
+		<FileUpload
+			bind:files={textFiles}
+			label="Upload notes"
+			description="Markdown and text files preview in the lightbox."
+		/>
+	</div>
+{/snippet}
+
+<Story name="Text preview" template={textPreviewTemplate} />

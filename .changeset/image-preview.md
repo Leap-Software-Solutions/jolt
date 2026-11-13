@@ -2,4 +2,4 @@
 '@leap/jolt': minor
 ---
 
-Add image previews to `ChatAttachments` and `FileUpload`. `ChatAttachment` supports `previewSrc`, `thumbnailSrc`, and `alt`; `FileUpload` creates and revokes object URLs for local image files. Both accept `preview={false}` to opt out.
+Add generic `Attachment` and `AttachmentList` components with full-chip previews, removable chips, and shared lightbox navigation. `ChatAttachments` now wraps the generic list, while `FileUpload` previews selected image, Markdown, and text files from local object URLs. Text previews require `content`; unsupported files open a download fallback.
