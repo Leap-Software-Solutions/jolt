@@ -22,6 +22,7 @@ export * from './components/empty-state/index.js';
 export * from './components/field/index.js';
 export * from './components/hover-card/index.js';
 export * from './components/input/index.js';
+export * from './components/kbd/index.js';
 export * from './components/label/index.js';
 export * from './components/menubar/index.js';
 export * from './components/multi-select/index.js';
