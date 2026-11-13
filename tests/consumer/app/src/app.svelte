@@ -32,6 +32,7 @@
 		SelectField,
 		Sheet,
 		Spinner,
+		SplitButton,
 		Table,
 		Sidebar,
 		TextField,
@@ -182,6 +183,15 @@
 			<Button variant="outline" onclick={() => toast.success('Saved')}>Toast</Button>
 			<Spinner size="sm" />
 			<Loader size="sm" />
+			<SplitButton
+				label="Save"
+				items={[
+					{ label: 'Save as draft', onSelect: () => {} },
+					{ label: 'Save and publish', onSelect: () => {} },
+				]}
+				onAction={() => {}}
+				menuLabel="More save options"
+			/>
 			<Kbd>⌘K</Kbd>
 			<AvatarGroup
 				items={engineers.map((person) => ({ alt: person.name, initials: person.name.slice(0, 2) }))}
@@ -233,6 +243,18 @@
 				</div>
 				<ChatToolCall name="search_codebase" summary="Found the component exports">
 					<CodeBlock language="json" code={'{\n  "results": 2\n}'} />
+				</ChatToolCall>
+				<ChatToolCall
+					name="delete_file"
+					status="awaiting-approval"
+					summary="Delete src/legacy.ts"
+					approvalDescription="The assistant wants to delete a file. This cannot be undone."
+					allowOptions={[{ label: 'Allow for this session', onSelect: () => {} }]}
+					approvalMenu={[{ label: 'View arguments', onSelect: () => {} }]}
+					onApprove={() => {}}
+					onDeny={() => {}}
+				>
+					<p class="text-sm">The file will be removed from the workspace.</p>
 				</ChatToolCall>
 			</div>
 		</Card>
