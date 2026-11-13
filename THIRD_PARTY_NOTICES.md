@@ -20,3 +20,6 @@ Jolt depends on the following packages. Their full license texts are included in
 - `@tanstack/svelte-table` — MIT License
 - `svelte-sonner` — MIT License
 - `valibot` — MIT License
+- `marked` — MIT License
+- `sanitize-html` — MIT License
+- `highlight.js` — BSD 3-Clause License

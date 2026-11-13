@@ -526,7 +526,8 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 3. Forms and navigation | Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, TextField/SelectField/CheckboxField | Field wrappers reduce form boilerplate |
 | 4. Data and advanced | Sheet, DatePicker, DateRangePicker, Toast, Command palette, DataTable, ScrollArea | TanStack table, `svelte-sonner` or custom toast |
 | 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Composed patterns and application layout |
-| 6. Later | Charts, blocks/templates | Only when a consumer needs them |
+| 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Markdown sanitisation and code highlighting included |
+| 7. Later | Charts, blocks/templates, InputOTP, TagsInput, Timeline, TreeView | Only when a consumer needs them |
 
 Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
 
