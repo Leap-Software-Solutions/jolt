@@ -1,3 +1,4 @@
+export { default as Chat, type Props as ChatProps } from './chat.svelte';
 export {
 	default as ChatActions,
 	type Props as ChatActionsProps,
@@ -9,3 +10,4 @@ export { default as ChatMarkdown, type Props as ChatMarkdownProps } from './chat
 export { default as ChatMessage, type Props as ChatMessageProps } from './chat-message.svelte';
 export { default as ChatViewport, type Props as ChatViewportProps } from './chat-viewport.svelte';
 export type { ChatMessageStatus, ChatRole } from './types.js';
+export type { ChatMessageData } from './types.js';
