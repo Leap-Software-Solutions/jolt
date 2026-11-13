@@ -18,3 +18,11 @@ export type ChatSource = {
 	href?: string;
 	description?: string;
 };
+
+export type ChatAttachment = {
+	id: string;
+	name: string;
+	size?: number;
+	type?: string;
+	href?: string;
+};

@@ -4,6 +4,10 @@ export {
 	type Props as ChatActionsProps,
 	type ChatFeedback,
 } from './chat-actions.svelte';
+export {
+	default as ChatAttachments,
+	type Props as ChatAttachmentsProps,
+} from './chat-attachments.svelte';
 export { default as ChatComposer, type Props as ChatComposerProps } from './chat-composer.svelte';
 export { default as ChatLoader, type Props as ChatLoaderProps } from './chat-loader.svelte';
 export { default as ChatMarkdown, type Props as ChatMarkdownProps } from './chat-markdown.svelte';
@@ -26,3 +30,4 @@ export { default as ChatViewport, type Props as ChatViewportProps } from './chat
 export type { ChatMessageStatus, ChatRole } from './types.js';
 export type { ChatMessageData } from './types.js';
 export type { ChatSource } from './types.js';
+export type { ChatAttachment } from './types.js';
