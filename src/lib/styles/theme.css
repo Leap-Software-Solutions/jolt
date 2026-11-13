@@ -199,7 +199,7 @@
 
 @layer components {
 	.hljs {
-		color: var(--foreground);
+		color: inherit;
 	}
 
 	.hljs-comment,
@@ -235,5 +235,133 @@
 	.hljs-variable,
 	.hljs-template-variable {
 		color: var(--brand-strong);
+	}
+}
+
+@layer components {
+	.jolt-prose {
+		color: inherit;
+		line-height: 1.7;
+	}
+
+	.jolt-prose :where(p, ul, ol, blockquote, pre, table) {
+		margin-block: 0.75rem;
+	}
+
+	.jolt-prose :where(p:first-child) {
+		margin-block-start: 0;
+	}
+
+	.jolt-prose :where(p:last-child) {
+		margin-block-end: 0;
+	}
+
+	.jolt-prose :where(h1, h2, h3, h4) {
+		margin-block: 1rem 0.5rem;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	.jolt-prose :where(h1) {
+		font-size: 1.25rem;
+	}
+
+	.jolt-prose :where(h2) {
+		font-size: 1.125rem;
+	}
+
+	.jolt-prose :where(h3) {
+		font-size: 1rem;
+	}
+
+	.jolt-prose :where(a) {
+		color: var(--brand-strong);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.jolt-prose :where(ul, ol) {
+		padding-inline-start: 1.25rem;
+	}
+
+	.jolt-prose :where(ul) {
+		list-style: disc;
+	}
+
+	.jolt-prose :where(ol) {
+		list-style: decimal;
+	}
+
+	.jolt-prose :where(li) {
+		margin-block: 0.25rem;
+	}
+
+	.jolt-prose :where(blockquote) {
+		border-inline-start: 2px solid var(--border);
+		padding-inline-start: 0.875rem;
+		color: var(--muted-foreground);
+	}
+
+	.jolt-prose :where(code:not(pre code)) {
+		border-radius: var(--radius-sm);
+		background: var(--muted);
+		padding: 0.125rem 0.3rem;
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+	}
+
+	.jolt-prose :where(pre) {
+		overflow-x: auto;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--muted);
+		padding: 0.75rem;
+	}
+
+	.jolt-prose :where(pre code) {
+		background: transparent;
+		padding: 0;
+		font-family: var(--font-mono);
+		font-size: 0.875rem;
+	}
+
+	.jolt-prose :where(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+	}
+
+	.jolt-prose :where(th, td) {
+		border: 1px solid var(--border);
+		padding: 0.4rem 0.6rem;
+		text-align: start;
+	}
+
+	.jolt-prose :where(th) {
+		background: var(--muted);
+		font-weight: 600;
+	}
+
+	.jolt-prose :where(hr) {
+		margin-block: 1rem;
+		border: 0;
+		border-top: 1px solid var(--border);
+	}
+
+	.jolt-prose :where(img) {
+		max-width: 100%;
+		border-radius: var(--radius-md);
+	}
+
+	.jolt-chat-user-bubble .jolt-prose :where(pre, code:not(pre code)) {
+		background: color-mix(in oklch, currentColor 12%, transparent);
+	}
+
+	.jolt-chat-user-bubble .jolt-prose :where(pre) {
+		border-color: color-mix(in oklch, currentColor 20%, transparent);
+	}
+
+	.jolt-chat-user-bubble .jolt-prose :where(.hljs, .hljs *) {
+		color: inherit;
 	}
 }

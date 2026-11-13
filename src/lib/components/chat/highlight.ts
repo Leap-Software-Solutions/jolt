@@ -34,7 +34,7 @@ export function highlightCode(code: string, language?: string): string {
 	return escapeHtml(code);
 }
 
-export function highlightMarkdown(node: HTMLElement): { update: () => void } {
+export function highlightMarkdown(node: HTMLElement): { destroy: () => void } {
 	function run(): void {
 		for (const block of node.querySelectorAll<HTMLElement>('pre code')) {
 			if (!block.classList.contains('hljs')) hljs.highlightElement(block);
@@ -43,5 +43,8 @@ export function highlightMarkdown(node: HTMLElement): { update: () => void } {
 
 	run();
 
-	return { update: run };
+	const observer = new MutationObserver(() => run());
+	observer.observe(node, { childList: true, subtree: true, characterData: true });
+
+	return { destroy: () => observer.disconnect() };
 }
