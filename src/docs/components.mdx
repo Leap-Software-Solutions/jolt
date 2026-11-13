@@ -158,6 +158,10 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `TreeView` takes recursive `TreeNode[]` and supports controlled expansion, single or multiple selection, optional tri-state checkboxes, and native drag-and-drop. Pass `draggable` and `onMove`, then apply the move with the exported `moveTreeNode` helper. Dragging starts anywhere on a row, and node text selection is disabled. The `node` snippet receives the node plus its level, expansion, selection, and check state. `cascade={false}` makes checkbox changes independent.
 
+## Media previews
+
+`ImageLightbox` is a full-screen image viewer with an optional `trigger` button or controlled `bind:open` state. It provides previous/next navigation, a counter, captions, close-on-overlay, and focus restoration. `ChatAttachments` opens it for image attachments that provide `href`, `previewSrc`, or `thumbnailSrc`; `FileUpload` creates and revokes object URLs for selected local image files. Both accept `preview={false}` to keep static attachment chips and file rows.
+
 ## Application chrome
 
 `Sidebar` takes typed groups of navigation items, supports a bindable `collapsed` state, and can render `header` and `footer` snippets. `AppShell` composes a sidebar, optional header, and scrollable content area for a full application frame.
