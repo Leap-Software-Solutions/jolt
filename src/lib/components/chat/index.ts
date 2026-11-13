@@ -14,6 +14,10 @@ export {
 } from './chat-reasoning.svelte';
 export { default as ChatSources, type Props as ChatSourcesProps } from './chat-sources.svelte';
 export {
+	default as ChatSuggestions,
+	type Props as ChatSuggestionsProps,
+} from './chat-suggestions.svelte';
+export {
 	default as ChatToolCall,
 	type Props as ChatToolCallProps,
 	type ChatToolStatus,
