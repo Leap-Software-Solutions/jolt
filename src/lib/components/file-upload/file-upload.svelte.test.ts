@@ -54,7 +54,7 @@ test('previews an uploaded image', async () => {
 	await userEvent.click(preview!);
 	await tick();
 
-	expect(document.querySelector('[data-slot="image-lightbox"]')).not.toBeNull();
+	expect(document.querySelector('[data-slot="lightbox"]')).not.toBeNull();
 
 	unmount(app);
 	target.remove();

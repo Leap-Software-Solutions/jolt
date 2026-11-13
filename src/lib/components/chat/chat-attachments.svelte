@@ -15,7 +15,7 @@
 	import { FileIcon, FileTextIcon, ImageIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
-	import { ImageLightbox, type LightboxImage } from '../image-lightbox/index.js';
+	import { Lightbox, type LightboxImage } from '../lightbox/index.js';
 
 	let {
 		attachments,
@@ -51,7 +51,12 @@
 			if (!isImageAttachment(attachment)) continue;
 			const src = getPreviewSrc(attachment);
 			if (!src) continue;
-			images.push({ src, alt: attachment.alt ?? attachment.name, caption: attachment.name });
+			images.push({
+				kind: 'image',
+				src,
+				alt: attachment.alt ?? attachment.name,
+				caption: attachment.name,
+			});
 		}
 
 		return images;
@@ -147,9 +152,9 @@
 	{/if}
 </section>
 
-<ImageLightbox
+<Lightbox
 	bind:open={lightboxOpen}
 	bind:index={lightboxIndex}
-	images={previewImages}
+	items={previewImages}
 	ariaLabel="Attachment preview"
 />

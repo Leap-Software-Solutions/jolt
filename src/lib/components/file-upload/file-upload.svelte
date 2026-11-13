@@ -17,7 +17,7 @@
 	import { CloudUploadIcon, FileIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
-	import { ImageLightbox, type LightboxImage } from '../image-lightbox/index.js';
+	import { Lightbox, type LightboxImage } from '../lightbox/index.js';
 
 	let {
 		files = $bindable<File[]>([]),
@@ -72,7 +72,7 @@
 		files.forEach((file, index) => {
 			const src = objectUrls[index];
 			if (!src) return;
-			images.push({ src, alt: file.name, caption: file.name });
+			images.push({ kind: 'image', src, alt: file.name, caption: file.name });
 		});
 
 		return images;
@@ -219,9 +219,9 @@
 	{/if}
 </div>
 
-<ImageLightbox
+<Lightbox
 	bind:open={lightboxOpen}
 	bind:index={lightboxIndex}
-	images={previewImages}
+	items={previewImages}
 	ariaLabel="File preview"
 />

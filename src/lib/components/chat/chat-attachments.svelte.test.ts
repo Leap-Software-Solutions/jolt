@@ -50,13 +50,11 @@ test('opens an image attachment in the lightbox', async () => {
 	await userEvent.click(preview!);
 	await tick();
 
-	const lightbox = document.querySelector('[data-slot="image-lightbox"]');
+	const lightbox = document.querySelector('[data-slot="lightbox"]');
 	expect(lightbox).not.toBeNull();
 	expect(lightbox?.textContent).toContain('1 / 1');
 	expect(
-		document
-			.querySelector<HTMLImageElement>('[data-slot="image-lightbox-image"]')
-			?.getAttribute('src'),
+		document.querySelector<HTMLImageElement>('[data-slot="lightbox-image"]')?.getAttribute('src'),
 	).toBe('https://example.com/architecture.png');
 
 	unmount(app);
