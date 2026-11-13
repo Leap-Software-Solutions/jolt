@@ -23,6 +23,7 @@ export * from './components/dialog/index.js';
 export * from './components/dropdown-menu/index.js';
 export * from './components/empty-state/index.js';
 export * from './components/field/index.js';
+export * from './components/file-upload/index.js';
 export * from './components/hover-card/index.js';
 export * from './components/input/index.js';
 export * from './components/kbd/index.js';
