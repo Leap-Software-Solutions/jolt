@@ -12,3 +12,9 @@ export type ChatMessageData = {
 	timestamp?: string;
 	status?: ChatMessageStatus;
 };
+
+export type ChatSource = {
+	label: string;
+	href?: string;
+	description?: string;
+};

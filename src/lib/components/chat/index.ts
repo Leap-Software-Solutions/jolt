@@ -12,6 +12,7 @@ export {
 	default as ChatReasoning,
 	type Props as ChatReasoningProps,
 } from './chat-reasoning.svelte';
+export { default as ChatSources, type Props as ChatSourcesProps } from './chat-sources.svelte';
 export {
 	default as ChatToolCall,
 	type Props as ChatToolCallProps,
@@ -20,3 +21,4 @@ export {
 export { default as ChatViewport, type Props as ChatViewportProps } from './chat-viewport.svelte';
 export type { ChatMessageStatus, ChatRole } from './types.js';
 export type { ChatMessageData } from './types.js';
+export type { ChatSource } from './types.js';
