@@ -14,9 +14,9 @@ pipelines:
           script:
             - npm install -g pnpm@12.16.1
             - pnpm install --frozen-lockfile
+            - pnpm build
             - pnpm check
             - pnpm lint
-            - pnpm build
             - git fetch origin main:refs/remotes/origin/main
             - pnpm exec changeset status --since=origin/main
       - step:
@@ -40,9 +40,9 @@ pipelines:
           script:
             - npm install -g pnpm@12.16.1
             - pnpm install --frozen-lockfile
+            - pnpm build
             - pnpm check
             - pnpm lint
-            - pnpm build
       - step:
           name: Test, package, and consumer fixture
           image: mcr.microsoft.com/playwright:v1.65.0-noble
