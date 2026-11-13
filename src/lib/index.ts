@@ -45,6 +45,7 @@ export * from './components/sidebar/index.js';
 export * from './components/skeleton/index.js';
 export * from './components/slider/index.js';
 export * from './components/spinner/index.js';
+export * from './components/split-button/index.js';
 export * from './components/switch/index.js';
 export * from './components/table/index.js';
 export * from './components/tabs/index.js';
