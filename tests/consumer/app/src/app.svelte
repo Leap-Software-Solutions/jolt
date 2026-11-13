@@ -2,11 +2,15 @@
 	import {
 		Accordion,
 		AppShell,
+		AvatarGroup,
 		Badge,
 		Button,
 		Calendar,
+		Chat,
+		ChatToolCall,
 		Card,
 		CheckboxField,
+		CodeBlock,
 		Combobox,
 		CommandPalette,
 		ConfirmDialog,
@@ -14,7 +18,10 @@
 		DataTable,
 		DatePicker,
 		EmptyState,
+		FileUpload,
 		HoverCard,
+		Kbd,
+		Loader,
 		Menubar,
 		MultiSelect,
 		NavigationMenu,
@@ -24,6 +31,7 @@
 		ScrollArea,
 		SelectField,
 		Sheet,
+		Spinner,
 		Table,
 		Sidebar,
 		TextField,
@@ -106,6 +114,23 @@
 	let accepted = $state(false);
 	let selectedEngineers = $state<Engineer[]>([]);
 	let toggled = $state(false);
+	let prompt = $state('');
+	let chatMessages = $state([
+		{ id: '1', role: 'user' as const, content: 'Summarise the Jolt release.' },
+		{
+			id: '2',
+			role: 'assistant' as const,
+			content: 'The release adds **calendar ranges** and a chat family.',
+		},
+	]);
+
+	function sendChat(text: string): void {
+		chatMessages = [
+			...chatMessages,
+			{ id: String(chatMessages.length + 1), role: 'user', content: text },
+		];
+		prompt = '';
+	}
 	let page = $state(1);
 	let commandsOpen = $state(false);
 	let confirmOpen = $state(false);
@@ -142,6 +167,13 @@
 			<Button>Hello from Jolt</Button>
 			<Badge variant="brand" label="New" />
 			<Button variant="outline" onclick={() => toast.success('Saved')}>Toast</Button>
+			<Spinner size="sm" />
+			<Loader size="sm" />
+			<Kbd>⌘K</Kbd>
+			<AvatarGroup
+				items={engineers.map((person) => ({ alt: person.name, initials: person.name.slice(0, 2) }))}
+				max={2}
+			/>
 			<Toggle bind:pressed={toggled}>Bold</Toggle>
 		</div>
 
@@ -163,6 +195,7 @@
 					ariaLabel="Engineer"
 				/>
 				<TextField label="Search" placeholder="Search" bind:value={name} />
+				<FileUpload description="Attach a brief for the request." />
 				<TextareaField label="Brief" placeholder="Project brief" bind:value={brief} />
 				<CheckboxField label="Accept the terms" bind:checked={accepted} />
 				<Progress value={40} label="Uploading assets" showValue />
@@ -177,6 +210,17 @@
 				</HoverCard>
 				<Accordion items={help} />
 				<Pagination count={100} perPage={10} bind:page />
+			</div>
+		</Card>
+
+		<Card title="Chat" description="Batteries-included conversation surface.">
+			<div class="grid gap-3">
+				<div class="h-[26rem]">
+					<Chat messages={chatMessages} bind:value={prompt} onSend={sendChat} />
+				</div>
+				<ChatToolCall name="search_codebase" summary="Found the component exports">
+					<CodeBlock language="json" code={'{\n  "results": 2\n}'} />
+				</ChatToolCall>
 			</div>
 		</Card>
 
