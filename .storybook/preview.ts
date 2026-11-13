@@ -26,6 +26,7 @@ const preview: Preview = {
 					'Layout',
 					'Overlays',
 					'Patterns',
+					'Chat',
 					'*',
 				],
 			},
