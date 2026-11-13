@@ -1,11 +1,5 @@
 <script lang="ts" module>
-	import {
-		CopyIcon,
-		MoreHorizontalIcon,
-		PencilIcon,
-		SettingsIcon,
-		TrashIcon,
-	} from '@lucide/svelte';
+	import { CopyIcon, EllipsisIcon, PencilIcon, SettingsIcon, TrashIcon } from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import type { DropdownMenuEntry } from './dropdown-menu.svelte';
 	import DropdownMenu from './dropdown-menu.svelte';
@@ -104,7 +98,7 @@
 					type="button"
 					class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-input bg-background px-4 text-sm font-medium shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden"
 				>
-					<MoreHorizontalIcon class="size-4" />
+					<EllipsisIcon class="size-4" />
 					Actions
 				</button>
 			{/snippet}

@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-	import { FileIcon, UploadCloudIcon, XIcon } from '@lucide/svelte';
+	import { CloudUploadIcon, FileIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
 
@@ -103,7 +103,7 @@
 		ondragleave={() => (isDragging = false)}
 		ondrop={handleDrop}
 	>
-		<UploadCloudIcon class="size-6 text-muted-foreground" />
+		<CloudUploadIcon class="size-6 text-muted-foreground" />
 		<div class="grid gap-1">
 			<span class="text-sm font-medium">{label}</span>
 			<span class="text-xs text-muted-foreground">{description}</span>

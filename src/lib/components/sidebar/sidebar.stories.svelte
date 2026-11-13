@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { FolderKanban, Home, Settings, Users } from '@lucide/svelte';
+	import { FolderKanban, House, Settings, Users } from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Sidebar from './sidebar.svelte';
 	import type { Props as SidebarProps, SidebarGroup } from './types.js';
@@ -8,7 +8,7 @@
 		{
 			label: 'Workspace',
 			items: [
-				{ label: 'Home', href: '#', icon: Home },
+				{ label: 'Home', href: '#', icon: House },
 				{ label: 'Projects', href: '#', icon: FolderKanban, active: true },
 				{ label: 'Engineers', href: '#', icon: Users, badge: '8' },
 			],

@@ -23,7 +23,7 @@
 </script>
 
 <script lang="ts">
-	import { MoreHorizontalIcon } from '@lucide/svelte';
+	import { EllipsisIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
 	import { Popover } from '../popover/index.js';
@@ -94,7 +94,7 @@
 								class="size-7"
 								aria-label={overflowLabel}
 							>
-								<MoreHorizontalIcon class="size-4" />
+								<EllipsisIcon class="size-4" />
 							</Button>
 						{/snippet}
 						<div class="grid gap-0.5">

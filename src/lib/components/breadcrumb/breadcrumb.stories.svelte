@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { FileText, Folder, Home, Layers } from '@lucide/svelte';
+	import { FileText, Folder, House, Layers } from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Breadcrumb, {
 		type BreadcrumbItem,
@@ -7,14 +7,14 @@
 	} from './breadcrumb.svelte';
 
 	const items: BreadcrumbItem[] = [
-		{ label: 'Home', href: '#', icon: Home },
+		{ label: 'Home', href: '#', icon: House },
 		{ label: 'Projects', href: '#', icon: Folder },
 		{ label: 'Jolt', href: '#' },
 		{ label: 'Components', current: true },
 	];
 
 	const longItems: BreadcrumbItem[] = [
-		{ label: 'Home', href: '#', icon: Home },
+		{ label: 'Home', href: '#', icon: House },
 		{ label: 'Engineering', href: '#', icon: Folder },
 		{ label: 'Design systems', href: '#', icon: Layers },
 		{ label: 'Jolt', href: '#' },

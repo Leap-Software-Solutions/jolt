@@ -1,13 +1,20 @@
 <script lang="ts" module>
-	import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Underline } from '@lucide/svelte';
+	import {
+		Bold,
+		Italic,
+		TextAlignCenter,
+		TextAlignEnd,
+		TextAlignStart,
+		Underline,
+	} from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import type { Props as ToggleGroupProps, ToggleGroupItem } from './toggle-group.svelte';
 	import ToggleGroup from './toggle-group.svelte';
 
 	const alignments: ToggleGroupItem[] = [
-		{ value: 'left', ariaLabel: 'Align left', icon: AlignLeft },
-		{ value: 'center', ariaLabel: 'Align center', icon: AlignCenter },
-		{ value: 'right', ariaLabel: 'Align right', icon: AlignRight },
+		{ value: 'left', ariaLabel: 'Align left', icon: TextAlignStart },
+		{ value: 'center', ariaLabel: 'Align center', icon: TextAlignCenter },
+		{ value: 'right', ariaLabel: 'Align right', icon: TextAlignEnd },
 	];
 
 	const formatting: ToggleGroupItem[] = [

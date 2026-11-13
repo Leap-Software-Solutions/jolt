@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { Copy, Pencil, Trash2 } from '@lucide/svelte';
+	import { Copy, Pencil, Trash } from '@lucide/svelte';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import type { ContextMenuEntry } from './context-menu.svelte';
 	import ContextMenu from './context-menu.svelte';
@@ -8,7 +8,7 @@
 		{ label: 'Edit', icon: Pencil, shortcut: '⌘E' },
 		{ label: 'Duplicate', icon: Copy, shortcut: '⌘D' },
 		{ type: 'separator' },
-		{ label: 'Delete', icon: Trash2, variant: 'destructive' },
+		{ label: 'Delete', icon: Trash, variant: 'destructive' },
 	];
 
 	const { Story } = defineMeta({
