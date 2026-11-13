@@ -6,6 +6,7 @@
 		removable?: boolean;
 		onRemove?: (attachment: ChatAttachment) => void;
 		removeLabel?: string;
+		preview?: boolean;
 		class?: string;
 	};
 </script>
@@ -14,14 +15,55 @@
 	import { FileIcon, FileTextIcon, ImageIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
+	import { ImageLightbox, type LightboxImage } from '../image-lightbox/index.js';
 
 	let {
 		attachments,
 		removable = false,
 		onRemove,
 		removeLabel = 'Remove attachment',
+		preview = true,
 		class: className,
 	}: Props = $props();
+
+	const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+
+	let lightboxOpen = $state(false);
+	let lightboxIndex = $state(0);
+
+	function isImageAttachment(attachment: ChatAttachment): boolean {
+		return Boolean(attachment.type?.startsWith('image/') || imageExtension.test(attachment.name));
+	}
+
+	function getPreviewSrc(attachment: ChatAttachment): string | undefined {
+		return attachment.previewSrc ?? attachment.href ?? attachment.thumbnailSrc;
+	}
+
+	function getThumbnailSrc(attachment: ChatAttachment): string | undefined {
+		return attachment.thumbnailSrc ?? attachment.previewSrc ?? attachment.href;
+	}
+
+	const previewImages = $derived.by(() => {
+		const images: LightboxImage[] = [];
+		if (!preview) return images;
+
+		for (const attachment of attachments) {
+			if (!isImageAttachment(attachment)) continue;
+			const src = getPreviewSrc(attachment);
+			if (!src) continue;
+			images.push({ src, alt: attachment.alt ?? attachment.name, caption: attachment.name });
+		}
+
+		return images;
+	});
+
+	function openPreview(attachment: ChatAttachment): void {
+		const src = getPreviewSrc(attachment);
+		const index = previewImages.findIndex((image) => image.src === src);
+		if (index < 0) return;
+		lightboxIndex = index;
+		lightboxOpen = true;
+	}
 
 	function formatSize(bytes: number | undefined): string {
 		if (!bytes) return '';
@@ -54,7 +96,24 @@
 					removable ? 'pr-1.5' : 'pr-2.5',
 				)}
 			>
-				<Icon class="size-4 shrink-0 text-muted-foreground" />
+				{#if preview && isImageAttachment(attachment) && getThumbnailSrc(attachment)}
+					<button
+						type="button"
+						data-slot="chat-attachment-preview"
+						aria-label={`Preview ${attachment.name}`}
+						class="size-8 shrink-0 overflow-hidden rounded-md border focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden"
+						onclick={() => openPreview(attachment)}
+					>
+						<img
+							src={getThumbnailSrc(attachment)}
+							alt=""
+							loading="lazy"
+							class="size-full object-cover"
+						/>
+					</button>
+				{:else}
+					<Icon class="size-4 shrink-0 text-muted-foreground" />
+				{/if}
 				<div class="min-w-0">
 					{#if attachment.href}
 						<a
@@ -87,3 +146,10 @@
 		{/each}
 	{/if}
 </section>
+
+<ImageLightbox
+	bind:open={lightboxOpen}
+	bind:index={lightboxIndex}
+	images={previewImages}
+	ariaLabel="Attachment preview"
+/>

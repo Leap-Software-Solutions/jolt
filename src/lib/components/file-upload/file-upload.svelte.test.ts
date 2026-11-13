@@ -29,3 +29,33 @@ test('uploads a file and removes it', async () => {
 	unmount(app);
 	target.remove();
 });
+
+test('previews an uploaded image', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const app = mount(FileUpload, { target });
+	const input = target.querySelector<HTMLInputElement>('input[type="file"]');
+	const png = Uint8Array.from(
+		atob(
+			'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+		),
+		(character) => character.charCodeAt(0),
+	);
+	const file = new File([png], 'preview.png', { type: 'image/png' });
+
+	await userEvent.upload(input!, file);
+	await tick();
+	await tick();
+
+	const preview = target.querySelector<HTMLButtonElement>('[data-slot="file-upload-preview"]');
+	expect(preview).not.toBeNull();
+
+	await userEvent.click(preview!);
+	await tick();
+
+	expect(document.querySelector('[data-slot="image-lightbox"]')).not.toBeNull();
+
+	unmount(app);
+	target.remove();
+});

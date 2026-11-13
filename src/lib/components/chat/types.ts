@@ -25,4 +25,7 @@ export type ChatAttachment = {
 	size?: number;
 	type?: string;
 	href?: string;
+	previewSrc?: string;
+	thumbnailSrc?: string;
+	alt?: string;
 };

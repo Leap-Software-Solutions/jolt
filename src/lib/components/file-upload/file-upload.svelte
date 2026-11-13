@@ -8,6 +8,7 @@
 		label?: string;
 		description?: string;
 		onFilesChange?: (files: File[]) => void;
+		preview?: boolean;
 		class?: string;
 	};
 </script>
@@ -16,6 +17,7 @@
 	import { CloudUploadIcon, FileIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
+	import { ImageLightbox, type LightboxImage } from '../image-lightbox/index.js';
 
 	let {
 		files = $bindable<File[]>([]),
@@ -26,12 +28,67 @@
 		label = 'Upload files',
 		description = 'Drag and drop files here, or click to browse.',
 		onFilesChange,
+		preview = true,
 		class: className,
 	}: Props = $props();
 
 	let input = $state<HTMLInputElement | null>(null);
 	let isDragging = $state(false);
 	let sizeError = $state('');
+	const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+
+	let lightboxOpen = $state(false);
+	let lightboxIndex = $state(0);
+	let objectUrls = $state<string[]>([]);
+
+	function isImageFile(file: File): boolean {
+		return file.type.startsWith('image/') || imageExtension.test(file.name);
+	}
+
+	$effect(() => {
+		if (!preview) {
+			objectUrls = [];
+			return;
+		}
+
+		const urls = files.map((file) => {
+			if (!isImageFile(file)) return '';
+			return URL.createObjectURL(file);
+		});
+
+		objectUrls = urls;
+
+		return () => {
+			for (const url of urls) {
+				if (url) URL.revokeObjectURL(url);
+			}
+		};
+	});
+
+	const previewImages = $derived.by(() => {
+		const images: LightboxImage[] = [];
+		if (!preview) return images;
+
+		files.forEach((file, index) => {
+			const src = objectUrls[index];
+			if (!src) return;
+			images.push({ src, alt: file.name, caption: file.name });
+		});
+
+		return images;
+	});
+
+	$effect(() => {
+		if (lightboxOpen && lightboxIndex >= previewImages.length) lightboxOpen = false;
+	});
+
+	function openPreview(fileIndex: number): void {
+		const src = objectUrls[fileIndex];
+		const index = previewImages.findIndex((image) => image.src === src);
+		if (index < 0) return;
+		lightboxIndex = index;
+		lightboxOpen = true;
+	}
 
 	function formatSize(bytes: number): string {
 		if (bytes < 1024) return `${bytes} B`;
@@ -128,7 +185,19 @@
 					data-slot="file-upload-item"
 					class="flex items-center gap-2 rounded-md border bg-background px-2.5 py-2 text-sm"
 				>
-					<FileIcon class="size-4 shrink-0 text-muted-foreground" />
+					{#if preview && objectUrls[index]}
+						<button
+							type="button"
+							data-slot="file-upload-preview"
+							aria-label={`Preview ${file.name}`}
+							class="size-8 shrink-0 overflow-hidden rounded-md border focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden"
+							onclick={() => openPreview(index)}
+						>
+							<img src={objectUrls[index]} alt="" loading="lazy" class="size-full object-cover" />
+						</button>
+					{:else}
+						<FileIcon class="size-4 shrink-0 text-muted-foreground" />
+					{/if}
 					<span class="min-w-0 flex-1 truncate">{file.name}</span>
 					<span class="shrink-0 text-xs text-muted-foreground">{formatSize(file.size)}</span>
 					<Button
@@ -149,3 +218,10 @@
 		<p class="text-xs text-destructive" role="alert">{sizeError}</p>
 	{/if}
 </div>
+
+<ImageLightbox
+	bind:open={lightboxOpen}
+	bind:index={lightboxIndex}
+	images={previewImages}
+	ariaLabel="File preview"
+/>
