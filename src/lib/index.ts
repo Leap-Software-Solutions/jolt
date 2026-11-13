@@ -10,6 +10,7 @@ export * from './components/calendar/index.js';
 export * from './components/card/index.js';
 export * from './components/chat/index.js';
 export * from './components/checkbox/index.js';
+export * from './components/code-block/index.js';
 export * from './components/collapsible/index.js';
 export * from './components/combobox/index.js';
 export * from './components/command-palette/index.js';

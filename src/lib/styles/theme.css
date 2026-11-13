@@ -196,3 +196,44 @@
 		}
 	}
 }
+
+@layer components {
+	.hljs {
+		color: var(--foreground);
+	}
+
+	.hljs-comment,
+	.hljs-quote {
+		color: var(--muted-foreground);
+		font-style: italic;
+	}
+
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-built_in {
+		color: var(--brand-strong);
+	}
+
+	.hljs-string,
+	.hljs-attr,
+	.hljs-template-tag {
+		color: var(--leap-gray-600);
+	}
+
+	.hljs-title,
+	.hljs-section {
+		color: var(--foreground);
+		font-weight: 600;
+	}
+
+	.hljs-number,
+	.hljs-symbol {
+		color: var(--destructive);
+	}
+
+	.hljs-variable,
+	.hljs-template-variable {
+		color: var(--brand-strong);
+	}
+}
