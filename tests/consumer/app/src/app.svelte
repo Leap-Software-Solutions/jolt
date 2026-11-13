@@ -7,6 +7,7 @@
 		Button,
 		Calendar,
 		Chat,
+		ChatAttachments,
 		ChatToolCall,
 		Card,
 		CheckboxField,
@@ -244,6 +245,17 @@
 				<ChatToolCall name="search_codebase" summary="Found the component exports">
 					<CodeBlock language="json" code={'{\n  "results": 2\n}'} />
 				</ChatToolCall>
+				<ChatAttachments
+					attachments={[
+						{
+							id: 'architecture',
+							name: 'architecture.jpg',
+							type: 'image/jpeg',
+							href: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80',
+							alt: 'A modern concrete building',
+						},
+					]}
+				/>
 				<ChatToolCall
 					name="delete_file"
 					status="awaiting-approval"
