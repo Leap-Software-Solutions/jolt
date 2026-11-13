@@ -89,7 +89,7 @@ The current components follow this split:
 
 - Fixed copy: `Badge`, `Alert`, `Card` header, `Dialog`, `Sheet`, `ConfirmDialog`, `PageHeader`, `EmptyState`, fields, `Checkbox`, `Switch`, and progress/slider labels.
 - Arbitrary composition: `Button`, `Toggle`, `Label`, `ScrollArea`, `Card` body, dialog/sheet bodies, `HoverCard`, `Popover`, and `AppShell` content.
-- Typed data: the list components below, plus `Select`, `Combobox`, `MultiSelect`, `SplitButton`, `Table`, `DataTable`, and `TreeView`.
+- Typed data: the list components below, plus `Select`, `Combobox`, `MultiSelect`, `SplitButton`, `Table`, `DataTable`, `TreeView`, `AttachmentList`, and `Lightbox`.
 
 `Popover` uses `children` for its content, matching Dialog, Sheet, and HoverCard. Tooltip keeps its `text` prop for the common case and an optional custom `content` snippet.
 
@@ -144,7 +144,7 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `TextField`, `TextareaField`, `SelectField`, and `CheckboxField` generate their own ids. The error text becomes `role="alert"` and is connected to the control with `aria-describedby`; the control gets `aria-invalid` while the error is present. Prefer these wrappers over rebuilding label and description markup by hand.
 
-`FileUpload` handles drag-and-drop selection, file size validation, and removable file chips. It is a regular form control, not a chat-specific component.
+`FileUpload` handles drag-and-drop selection, file size validation, and removable attachment chips. It is a regular form control, not a chat-specific component. Image, Markdown, and text files preview in the shared lightbox; local object URLs provide the download action.
 
 ## Structural exceptions
 
@@ -160,7 +160,9 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 ## Media previews
 
-`ImageLightbox` is a full-screen image viewer with an optional `trigger` button or controlled `bind:open` state. It provides previous/next navigation, a counter, captions, close-on-overlay, and focus restoration. `ChatAttachments` opens it for image attachments that provide `href`, `previewSrc`, or `thumbnailSrc`; `FileUpload` creates and revokes object URLs for selected local image files. Both accept `preview={false}` to keep static attachment chips and file rows.
+`Lightbox` is a full-screen media viewer with an optional `trigger` button or controlled `bind:open` state. It accepts a typed `items` array of images, text, and unsupported files, with previous/next navigation, a counter, captions, close-on-overlay, and focus restoration. Markdown text offers rendered Preview and raw Code tabs. Items with `downloadUrl` get a header download action; unsupported files show a centred fallback and download button inside the lightbox.
+
+`Attachment` is the generic chip for a single file, and `AttachmentList` composes chips with a shared lightbox. The whole chip opens the preview; the title is plain text and the remove control stays separate. `ChatAttachments` is a chat-labelled wrapper around `AttachmentList`. Text previews require `content`, while `href` supplies the download URL. `FileUpload` reads local text files and creates object URLs for previews and downloads. `ChatAttachments` and `FileUpload` accept `preview={false}` to keep static chips.
 
 ## Application chrome
 
@@ -201,7 +203,7 @@ For custom surfaces, compose the primitives directly:
 - `CodeBlock` renders standalone highlighted code with copying.
 - `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking. `ChatToolCall` also supports `status="awaiting-approval"`: it renders a split Allow control, with a chevron menu for always-allow and optional custom allow options such as allowing for the current session. A separate ellipsis menu holds other actions, with Deny between it and the split control. All menus use the same entries as `DropdownMenu`. After a denial, set `status="denied"` to keep the decision visible on the tool call.
 - `ChatSources` and `ChatSuggestions` cover citations and starter prompts.
-- `ChatAttachments` renders file chips for messages and composer toolbars.
+- `ChatAttachments` renders generic attachment chips for messages and composer toolbars. Set `content` on Markdown or text attachments so they can preview; `href` becomes the download URL.
 
 Markdown is sanitised with `sanitize-html`; code highlighting uses `highlight.js`. Both are runtime dependencies of the package, so consumers do not need to add a renderer themselves. Chat status indicators keep their visible label, and the user bubble inherits its foreground colour from the bubble rather than the page. Code inside a user bubble uses the bubble colours instead of the page code palette.
 
