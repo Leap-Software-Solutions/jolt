@@ -2,6 +2,7 @@
 	import {
 		Accordion,
 		AppShell,
+		AttachmentList,
 		AvatarGroup,
 		Badge,
 		Button,
@@ -78,6 +79,28 @@
 	const tableColumns = [
 		{ id: 'name', header: 'Name', accessor: (row: Engineer) => row.name, sortable: true },
 	];
+
+	const attachmentItems = [
+		{
+			id: 'notes',
+			name: 'notes.md',
+			size: 1800,
+			type: 'text/markdown',
+			content: '# Notes\n\n- Review the attachment preview',
+			href: 'https://example.com/notes.md',
+		},
+		{
+			id: 'archive',
+			name: 'assets.zip',
+			size: 2400000,
+			type: 'application/zip',
+			href: 'https://example.com/assets.zip',
+		},
+	];
+
+	const notesFile = new File(['# Notes\n\n- Review the responsive layout'], 'notes.md', {
+		type: 'text/markdown',
+	});
 
 	const treeNodes = [
 		{
@@ -219,7 +242,7 @@
 					ariaLabel="Engineer"
 				/>
 				<TextField label="Search" placeholder="Search" bind:value={name} />
-				<FileUpload description="Attach a brief for the request." />
+				<FileUpload files={[notesFile]} description="Attach a brief for the request." />
 				<TextareaField label="Brief" placeholder="Project brief" bind:value={brief} />
 				<CheckboxField label="Accept the terms" bind:checked={accepted} />
 				<Progress value={40} label="Uploading assets" showValue />
@@ -254,6 +277,13 @@
 							href: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80',
 							alt: 'A modern concrete building',
 						},
+						{
+							id: 'notes',
+							name: 'release-notes.md',
+							type: 'text/markdown',
+							content: '# Release notes\n\n- Generic attachment previews',
+							href: 'https://example.com/release-notes.md',
+						},
 					]}
 				/>
 				<ChatToolCall
@@ -273,6 +303,7 @@
 
 		<Card title="Advanced" description="Overlays, scroll areas, tables, and commands.">
 			<div class="grid gap-3">
+				<AttachmentList attachments={attachmentItems} ariaLabel="Reference files" />
 				<DataTable data={engineers} columns={tableColumns} caption="Engineers" />
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
