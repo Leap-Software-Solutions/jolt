@@ -39,6 +39,7 @@
 		TimePicker,
 		Toast,
 		Toggle,
+		TreeView,
 		toast,
 	} from '@leap/jolt';
 
@@ -74,6 +75,18 @@
 
 	const tableColumns = [
 		{ id: 'name', header: 'Name', accessor: (row: Engineer) => row.name, sortable: true },
+	];
+
+	const treeNodes = [
+		{
+			id: 'src',
+			label: 'src',
+			children: [
+				{ id: 'components', label: 'components' },
+				{ id: 'index', label: 'index.ts' },
+			],
+		},
+		{ id: 'package', label: 'package.json' },
 	];
 
 	const menubarMenus = [
@@ -228,6 +241,7 @@
 			<div class="grid gap-3">
 				<DataTable data={engineers} columns={tableColumns} caption="Engineers" />
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
+				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
 					{#snippet trigger(props)}
 						<div {...props} class="rounded-md border border-dashed p-3 text-sm">
