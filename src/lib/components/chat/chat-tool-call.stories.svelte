@@ -3,6 +3,16 @@
 	import { CodeBlock } from '../code-block/index.js';
 	import ChatToolCall, { type Props as ChatToolCallProps } from './chat-tool-call.svelte';
 
+	const allowOptions: ChatToolCallProps['allowOptions'] = [
+		{ label: 'Allow for this session', onSelect: () => {} },
+	];
+
+	const approvalMenu: ChatToolCallProps['approvalMenu'] = [
+		{ label: 'View arguments', onSelect: () => {} },
+		{ type: 'separator' },
+		{ label: 'Block this tool', variant: 'destructive', onSelect: () => {} },
+	];
+
 	const { Story } = defineMeta({
 		title: 'Chat/Chat tool call',
 		component: ChatToolCall,
@@ -35,3 +45,20 @@
 />
 
 <Story name="Failed" args={{ status: 'error', summary: 'Search timed out' }} {template} />
+
+<Story
+	name="Awaiting approval"
+	args={{
+		name: 'delete_file',
+		status: 'awaiting-approval',
+		summary: 'Delete src/legacy.ts',
+		approvalDescription: 'The assistant wants to delete a file. This cannot be undone.',
+		onApprove: () => {},
+		onDeny: () => {},
+		allowOptions,
+		approvalMenu,
+	}}
+	{template}
+/>
+
+<Story name="Denied" args={{ status: 'denied', summary: 'Permission denied' }} {template} />

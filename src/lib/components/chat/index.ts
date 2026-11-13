@@ -22,6 +22,7 @@ export {
 	type Props as ChatSuggestionsProps,
 } from './chat-suggestions.svelte';
 export {
+	type ChatToolApprovalScope,
 	default as ChatToolCall,
 	type Props as ChatToolCallProps,
 	type ChatToolStatus,
