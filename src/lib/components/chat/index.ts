@@ -9,6 +9,10 @@ export { default as ChatLoader, type Props as ChatLoaderProps } from './chat-loa
 export { default as ChatMarkdown, type Props as ChatMarkdownProps } from './chat-markdown.svelte';
 export { default as ChatMessage, type Props as ChatMessageProps } from './chat-message.svelte';
 export {
+	default as ChatReasoning,
+	type Props as ChatReasoningProps,
+} from './chat-reasoning.svelte';
+export {
 	default as ChatToolCall,
 	type Props as ChatToolCallProps,
 	type ChatToolStatus,
