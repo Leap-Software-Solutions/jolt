@@ -143,6 +143,8 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `TextField`, `TextareaField`, `SelectField`, and `CheckboxField` generate their own ids. The error text becomes `role="alert"` and is connected to the control with `aria-describedby`; the control gets `aria-invalid` while the error is present. Prefer these wrappers over rebuilding label and description markup by hand.
 
+`FileUpload` handles drag-and-drop selection, file size validation, and removable file chips. It is a regular form control, not a chat-specific component.
+
 ## Structural exceptions
 
 `Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-only: it takes a `label` and an optional icon rather than arbitrary children.
@@ -162,6 +164,41 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 - `ConfirmDialog` wraps the alert-dialog behaviour and a destructive confirm action. Use `confirmLabel`, `variant`, and `onConfirm` for irreversible decisions; the dialog closes after confirming.
 - `EmptyState` handles no-data and zero-result states with an optional icon, description, and `action` snippet.
 - `PageHeader` renders the page title, optional description, and `breadcrumb` and `actions` snippets. It keeps the responsive action layout consistent across pages.
+
+## Chat and LLM surfaces
+
+`Chat` is the batteries-included conversation component: typed messages, Markdown rendering, copy and feedback actions, and a composer with Enter-to-send, Shift+Enter, and stop-generation support. Use it when a consumer wants a complete chat surface with minimal wiring.
+
+```svelte
+<script lang="ts">
+	import { Chat } from '@leap/jolt';
+
+	let value = $state('');
+	const messages = [
+		{ id: '1', role: 'user' as const, content: 'Summarise the release.' },
+		{ id: '2', role: 'assistant' as const, content: 'The release is ready.' },
+	];
+</script>
+
+<Chat {messages} bind:value onSend={(message) => (value = message)} />
+```
+
+For custom surfaces, compose the primitives directly:
+
+- `ChatViewport` handles scroll-to-bottom behaviour and a keyboard-focusable conversation log.
+- `ChatMessage` renders role-aware rows with avatars, statuses, and message actions.
+- `ChatComposer` provides the auto-growing input and send/stop controls. Use its `toolbar` snippet for model, effort, or attachment controls, and `onFiles` to accept files dropped onto the composer. `Chat` forwards both props to its composer.
+- `ChatMarkdown` sanitises assistant Markdown and highlights fenced code blocks.
+- `CodeBlock` renders standalone highlighted code with copying.
+- `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking.
+- `ChatSources` and `ChatSuggestions` cover citations and starter prompts.
+- `ChatAttachments` renders file chips for messages and composer toolbars.
+
+Markdown is sanitised with `sanitize-html`; code highlighting uses `highlight.js`. Both are runtime dependencies of the package, so consumers do not need to add a renderer themselves. Chat status indicators keep their visible label, and the user bubble inherits its foreground colour from the bubble rather than the page. Code inside a user bubble uses the bubble colours instead of the page code palette.
+
+## Small primitives
+
+`Spinner` provides an accessible loading indicator for async actions and chat states. `Loader` renders three animated dots in small, default, and large sizes; `ChatLoader` composes the small loader with a visible label. `Kbd` renders keyboard shortcut labels. `AvatarGroup` overlaps avatars, caps the visible count, and exposes an overflow count.
 
 ## Classes and accessibility
 
