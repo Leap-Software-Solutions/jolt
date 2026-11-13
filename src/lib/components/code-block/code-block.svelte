@@ -14,7 +14,7 @@
 	import { CheckIcon, ClipboardIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
-	import { highlightCode } from '../chat/highlight.js';
+	import { highlightCode } from '../../utils/highlight.js';
 
 	let {
 		code,
