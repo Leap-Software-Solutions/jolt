@@ -1,5 +1,15 @@
 # @leap/jolt
 
+## 0.4.0
+
+### Minor Changes
+
+- 42541cf18d0ef75e9f2192d5fcf08e06f65a7515: Add `Lightbox`, a full-screen media viewer for images, Markdown, plain text, and source files. Source previews use `CodeBlock` with syntax highlighting, while Markdown switches between rendered and source views. Unsupported files show a fallback with a download action when a URL is available.
+- 9d66669e29ef53d9bb7c8a18924d28d5632646d9: Add generic `Attachment` and `AttachmentList` components with full-chip previews, removable chips, and shared lightbox navigation. `ChatAttachments` now wraps the generic list, while `FileUpload` previews selected image, Markdown, text, and source files from local object URLs. Source language detection covers common extensions and MIME types, with syntax highlighting for JavaScript/TypeScript, Python, Rust, Go, Java, C/C++, C#, CSS, JSON, YAML, SQL, shell, HTML/XML, Dockerfile, and Makefile. Text and source previews require `content`; unsupported files open a download fallback.
+- a1f4431897d23ade4975c822546cc2eb2b2f39c7: Add `SplitButton`, combining a primary action with an adjacent chevron menu. It takes typed menu entries, supports the standard button sizes and every variant except `link`, and keeps the primary and menu actions visually joined.
+- ec25b4285121207c7294ca1b151bb4238e3f4256: Add an approval state to `ChatToolCall`. It adds an approval state with a split Allow control: the main action allows once, while the chevron menu offers always-allow and custom allow options. Other actions live in a separate ellipsis menu, with Deny between it and the split control. A `denied` status is available for showing the result.
+- 8997df8d55041f0871614d2d3ff319a38106a48a: Add `TreeView` for recursive, keyboard-navigable hierarchies. It supports controlled expansion, single and multiple selection, optional cascading checkboxes, custom node content, and native drag-and-drop from anywhere on a row through `onMove`. The new `moveTreeNode` helper applies drop results immutably.
+
 ## 0.3.0
 
 ### Minor Changes
