@@ -17,7 +17,7 @@
 	import { CloudUploadIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { AttachmentList } from '../attachment/index.js';
-	import { getTextFormat } from '../attachment/preview.js';
+	import { hasTextPreview } from '../attachment/preview.js';
 	import type { AttachmentItem } from '../attachment/types.js';
 
 	let {
@@ -69,7 +69,7 @@
 
 		const textFiles = files
 			.map((file, index) => ({ attachment: attachments[index], file, index }))
-			.filter(({ attachment }) => getTextFormat(attachment) !== null);
+			.filter(({ attachment }) => hasTextPreview(attachment));
 
 		if (textFiles.length > 0) {
 			void Promise.all(

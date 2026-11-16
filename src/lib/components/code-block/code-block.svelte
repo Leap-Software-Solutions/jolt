@@ -42,7 +42,7 @@
 
 <figure
 	data-slot="code-block"
-	class={cls('overflow-hidden rounded-lg border bg-muted/50 text-sm', className)}
+	class={cls('overflow-hidden rounded-lg border bg-muted/50 text-sm text-foreground', className)}
 >
 	<figcaption
 		class="flex items-center justify-between gap-3 border-b bg-muted/50 px-3 py-1.5 text-xs text-muted-foreground"

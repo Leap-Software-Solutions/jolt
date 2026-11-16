@@ -21,6 +21,8 @@
 	const current = $derived(items[index] ?? items[0]);
 	const hasNavigation = $derived(items.length > 1);
 	const isMarkdown = $derived(current?.kind === 'text' && current.format === 'markdown');
+	// CodeBlock uses translucent muted surfaces by default; the overlay needs an opaque one.
+	const codeBlockClass = 'min-h-full rounded-lg border-0 bg-muted [&>figcaption]:bg-muted';
 
 	let textTab = $state('preview');
 
@@ -61,10 +63,16 @@
 
 	function getItemLabel(item: LightboxItem): string {
 		if (item.kind === 'image') return item.alt;
-		if (item.kind === 'text') return item.title;
+		if (item.kind === 'text' || item.kind === 'code') return item.title;
 		return item.name;
 	}
 </script>
+
+{#snippet codeSurface(content: string, language: string)}
+	<div data-slot="lightbox-code" class="h-full overflow-auto rounded-lg">
+		<CodeBlock code={content} {language} class={codeBlockClass} />
+	</div>
+{/snippet}
 
 <BitsDialog.Root bind:open {onOpenChange}>
 	{#if trigger}
@@ -174,13 +182,7 @@
 									</div>
 								</BitsTabs.Content>
 								<BitsTabs.Content value="code" class="min-h-0 flex-1 focus-visible:outline-hidden">
-									<div data-slot="lightbox-code" class="h-full overflow-auto rounded-lg">
-										<CodeBlock
-											code={text.content}
-											language="markdown"
-											class="min-h-full rounded-lg border-0"
-										/>
-									</div>
+									{@render codeSurface(text.content, 'markdown')}
 								</BitsTabs.Content>
 							{:else}
 								<div
@@ -192,6 +194,18 @@
 										class="overflow-auto font-sans text-sm leading-relaxed break-words whitespace-pre-wrap">{text.content}</pre>
 								</div>
 							{/if}
+						</div>
+					{:else if current?.kind === 'code'}
+						{@const code = current}
+						<div data-slot="lightbox-code-item" class="flex h-full w-full max-w-4xl flex-col gap-2">
+							<h2
+								data-slot="lightbox-code-title"
+								title={code.title}
+								class="shrink-0 truncate px-1 text-sm font-medium text-white/80"
+							>
+								{code.title}
+							</h2>
+							{@render codeSurface(code.content, code.language)}
 						</div>
 					{:else if current?.kind === 'file'}
 						{@const file = current}

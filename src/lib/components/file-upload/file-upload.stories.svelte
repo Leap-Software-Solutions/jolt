@@ -22,6 +22,10 @@
 		{ type: 'text/markdown' },
 	);
 	let textFiles = $state<File[]>([notesFile]);
+	const sourceFile = new File(['export const accent = "#bba53d";\n'], 'theme.ts', {
+		type: 'text/plain',
+	});
+	let codeFiles = $state<File[]>([sourceFile]);
 </script>
 
 <Story name="Default" asChild>
@@ -66,3 +70,15 @@
 {/snippet}
 
 <Story name="Text preview" template={textPreviewTemplate} />
+
+{#snippet codePreviewTemplate()}
+	<div class="w-[32rem] max-w-full">
+		<FileUpload
+			bind:files={codeFiles}
+			label="Upload source"
+			description="Source files preview with syntax highlighting."
+		/>
+	</div>
+{/snippet}
+
+<Story name="Code preview" template={codePreviewTemplate} />

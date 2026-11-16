@@ -69,6 +69,25 @@ const preview = { format: 'markdown' };
 			content: 'Handoff notes\n\n- Review the copy\n- Check the responsive layout\n- Ship it',
 		},
 		{
+			kind: 'code',
+			title: 'theme.ts',
+			language: 'typescript',
+			content: `export const accent = '#bba53d';
+
+export type Theme = {
+	background: string;
+	foreground: string;
+};
+
+export const light: Theme = {
+	background: '#ffffff',
+	foreground: '#111111',
+};
+`,
+			downloadUrl:
+				'data:text/typescript;charset=utf-8,export%20const%20accent%20%3D%20%27%23bba53d%27%3B',
+		},
+		{
 			kind: 'file',
 			name: 'design-assets.zip',
 			mimeType: 'application/zip',

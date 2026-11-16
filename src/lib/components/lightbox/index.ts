@@ -1,5 +1,6 @@
 export { default as Lightbox } from './lightbox.svelte';
 export type {
+	LightboxCode,
 	LightboxFile,
 	LightboxImage,
 	LightboxItem,

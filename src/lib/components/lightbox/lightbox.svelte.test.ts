@@ -153,3 +153,38 @@ test('shows a download action for an unsupported file', async () => {
 	unmount(app);
 	target.remove();
 });
+
+test('renders a source file as a code block without tabs', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const items: LightboxItem[] = [
+		{
+			kind: 'code',
+			title: 'main.ts',
+			language: 'typescript',
+			content: 'const answer: number = 42;',
+			downloadUrl: 'https://example.com/main.ts',
+		},
+	];
+	const app = mount(Lightbox, { target, props: { items, open: true } });
+	await tick();
+
+	expect(document.querySelector('[data-slot="lightbox-code-title"]')?.textContent?.trim()).toBe(
+		'main.ts',
+	);
+	expect(document.querySelector('[data-slot="lightbox-tabs"] [role="tab"]')).toBeNull();
+	expect(
+		document.querySelector('[data-slot="lightbox-code"] [data-slot="code-block"]'),
+	).not.toBeNull();
+	expect(document.querySelector('[data-slot="lightbox-code"]')?.textContent).toContain(
+		'const answer: number = 42;',
+	);
+	expect(document.querySelector('[aria-label="Copy code"]')).not.toBeNull();
+	expect(document.querySelector<HTMLAnchorElement>('[aria-label="Download main.ts"]')?.href).toBe(
+		'https://example.com/main.ts',
+	);
+
+	unmount(app);
+	target.remove();
+});

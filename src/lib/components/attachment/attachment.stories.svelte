@@ -44,6 +44,13 @@
 			href: 'https://example.com/release-notes.md',
 		},
 		{
+			id: 'source',
+			name: 'theme.ts',
+			type: 'text/plain',
+			content: `export const accent = '#bba53d';`,
+			href: 'https://example.com/theme.ts',
+		},
+		{
 			id: 'archive',
 			name: 'design-assets.zip',
 			size: 2400000,

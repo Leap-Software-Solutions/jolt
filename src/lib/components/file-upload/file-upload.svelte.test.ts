@@ -83,3 +83,32 @@ test('previews a selected Markdown file', async () => {
 	unmount(app);
 	target.remove();
 });
+
+test('previews a selected source file', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const app = mount(FileUpload, { target });
+	const input = target.querySelector<HTMLInputElement>('input[type="file"]');
+	const file = new File(['const answer: number = 42;'], 'main.ts', { type: 'text/plain' });
+
+	await userEvent.upload(input!, file);
+	await tick();
+	await new Promise((resolve) => setTimeout(resolve, 0));
+
+	await userEvent.click(
+		target.querySelector<HTMLButtonElement>('[data-slot="attachment-preview"]')!,
+	);
+	await tick();
+
+	expect(
+		document.querySelector('[data-slot="lightbox-code"] [data-slot="code-block"]'),
+	).not.toBeNull();
+	expect(document.querySelector('[data-slot="lightbox-tabs"] [role="tab"]')).toBeNull();
+	expect(document.querySelector('[data-slot="lightbox-code"]')?.textContent).toContain(
+		'const answer: number = 42;',
+	);
+
+	unmount(app);
+	target.remove();
+});

@@ -13,6 +13,13 @@ const attachments: AttachmentItem[] = [
 		href: 'https://example.com/release-notes.md',
 	},
 	{
+		id: 'source',
+		name: 'main.ts',
+		type: 'text/plain',
+		content: 'const answer: number = 42;',
+		href: 'https://example.com/main.ts',
+	},
+	{
 		id: 'archive',
 		name: 'design-assets.zip',
 		type: 'application/zip',
@@ -68,6 +75,31 @@ test('opens a fallback for an unsupported file', async () => {
 	expect(
 		document.querySelector<HTMLAnchorElement>('[aria-label="Download design-assets.zip"]')?.href,
 	).toBe('https://example.com/design-assets.zip');
+
+	unmount(app);
+	target.remove();
+});
+
+test('opens a source attachment as a code block', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const app = mount(AttachmentList, { target, props: { attachments } });
+	await tick();
+
+	await userEvent.click(target.querySelector<HTMLButtonElement>('[aria-label="Preview main.ts"]')!);
+	await tick();
+
+	expect(document.querySelector('[data-slot="lightbox-code-title"]')?.textContent?.trim()).toBe(
+		'main.ts',
+	);
+	expect(
+		document.querySelector('[data-slot="lightbox-code"] [data-slot="code-block"]'),
+	).not.toBeNull();
+	expect(document.querySelector('[data-slot="lightbox-tabs"] [role="tab"]')).toBeNull();
+	expect(document.querySelector('[data-slot="lightbox-code"]')?.textContent).toContain(
+		'const answer: number = 42;',
+	);
 
 	unmount(app);
 	target.remove();

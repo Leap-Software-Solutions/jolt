@@ -20,6 +20,14 @@ export type LightboxText = {
 	downloadUrl?: string;
 };
 
+export type LightboxCode = {
+	kind: 'code';
+	title: string;
+	content: string;
+	language: string;
+	downloadUrl?: string;
+};
+
 export type LightboxFile = {
 	kind: 'file';
 	name: string;
@@ -27,7 +35,7 @@ export type LightboxFile = {
 	downloadUrl?: string;
 };
 
-export type LightboxItem = LightboxImage | LightboxText | LightboxFile;
+export type LightboxItem = LightboxImage | LightboxText | LightboxCode | LightboxFile;
 
 export type Props = {
 	items: LightboxItem[];

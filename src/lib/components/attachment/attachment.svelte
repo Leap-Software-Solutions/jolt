@@ -14,11 +14,11 @@
 </script>
 
 <script lang="ts">
-	import { FileIcon, FileTextIcon, ImageIcon, XIcon } from '@lucide/svelte';
+	import { FileCodeIcon, FileIcon, FileTextIcon, ImageIcon, XIcon } from '@lucide/svelte';
 	import { cls } from '../../utils/index.js';
 	import { Button } from '../button/index.js';
 	import { formatFileSize } from './format.js';
-	import { getTextFormat, getThumbnailSrc, isImageAttachment } from './preview.js';
+	import { getCodeLanguage, getTextFormat, getThumbnailSrc, isImageAttachment } from './preview.js';
 
 	let {
 		attachment,
@@ -36,7 +36,13 @@
 		preview && isImageAttachment(attachment) ? getThumbnailSrc(attachment) : undefined,
 	);
 	const hasPreviewAction = $derived(Boolean(preview && onPreview));
-	const TextIcon = $derived(getTextFormat(attachment) ? FileTextIcon : FileIcon);
+	function getFileTypeIcon() {
+		if (getCodeLanguage(attachment)) return FileCodeIcon;
+		if (getTextFormat(attachment)) return FileTextIcon;
+		return FileIcon;
+	}
+
+	const FileTypeIcon = $derived(getFileTypeIcon());
 	const sizeLabel = $derived(formatFileSize(attachment.size));
 	const previewLabel = $derived(`Preview ${attachment.name}${sizeLabel ? ` ${sizeLabel}` : ''}`);
 </script>
@@ -62,7 +68,7 @@
 		{:else if isImageAttachment(attachment)}
 			<ImageIcon class="size-4 shrink-0 text-muted-foreground" />
 		{:else}
-			<TextIcon class="size-4 shrink-0 text-muted-foreground" />
+			<FileTypeIcon class="size-4 shrink-0 text-muted-foreground" />
 		{/if}
 		<div class={cls('min-w-0 flex-1', isSmall ? 'grid' : 'flex items-center gap-2')}>
 			<span class={cls('truncate', isSmall && 'font-medium')}>{attachment.name}</span>
