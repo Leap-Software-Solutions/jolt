@@ -90,6 +90,13 @@
 			href: 'https://example.com/notes.md',
 		},
 		{
+			id: 'source',
+			name: 'theme.ts',
+			type: 'text/plain',
+			content: 'export const accent = "#bba53d";',
+			href: 'https://example.com/theme.ts',
+		},
+		{
 			id: 'archive',
 			name: 'assets.zip',
 			size: 2400000,
@@ -100,6 +107,10 @@
 
 	const notesFile = new File(['# Notes\n\n- Review the responsive layout'], 'notes.md', {
 		type: 'text/markdown',
+	});
+
+	const sourceFile = new File(['export const accent = "#bba53d";'], 'theme.ts', {
+		type: 'text/plain',
 	});
 
 	const treeNodes = [
@@ -242,7 +253,11 @@
 					ariaLabel="Engineer"
 				/>
 				<TextField label="Search" placeholder="Search" bind:value={name} />
-				<FileUpload files={[notesFile]} description="Attach a brief for the request." />
+				<FileUpload
+					files={[notesFile, sourceFile]}
+					multiple
+					description="Attach a brief for the request."
+				/>
 				<TextareaField label="Brief" placeholder="Project brief" bind:value={brief} />
 				<CheckboxField label="Accept the terms" bind:checked={accepted} />
 				<Progress value={40} label="Uploading assets" showValue />
@@ -283,6 +298,13 @@
 							type: 'text/markdown',
 							content: '# Release notes\n\n- Generic attachment previews',
 							href: 'https://example.com/release-notes.md',
+						},
+						{
+							id: 'source',
+							name: 'theme.ts',
+							type: 'text/plain',
+							content: 'export const accent = "#bba53d";',
+							href: 'https://example.com/theme.ts',
 						},
 					]}
 				/>
