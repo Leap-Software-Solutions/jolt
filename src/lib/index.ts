@@ -17,6 +17,7 @@ export * from './components/combobox/index.js';
 export * from './components/command-palette/index.js';
 export * from './components/confirm-dialog/index.js';
 export * from './components/context-menu/index.js';
+export * from './components/copy-button/index.js';
 export * from './components/data-table/index.js';
 export * from './components/date-picker/index.js';
 export * from './components/date-range-picker/index.js';
