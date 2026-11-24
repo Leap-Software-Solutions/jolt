@@ -3,6 +3,7 @@
 		Accordion,
 		AppShell,
 		AttachmentList,
+		Avatar,
 		AvatarGroup,
 		Badge,
 		Button,
@@ -17,8 +18,10 @@
 		CommandPalette,
 		ConfirmDialog,
 		ContextMenu,
+		CopyButton,
 		DataTable,
 		DatePicker,
+		EmailInput,
 		EmptyState,
 		FileUpload,
 		HoverCard,
@@ -37,6 +40,7 @@
 		SplitButton,
 		Table,
 		Sidebar,
+		TagsInput,
 		TextField,
 		TextareaField,
 		TimePicker,
@@ -158,6 +162,9 @@
 
 	let status = $state('active');
 	let engineer = $state<Engineer | undefined>();
+	let actionItemOwner = $state<Engineer | undefined>();
+	let tags = $state<string[]>(['retro', 'action-item']);
+	let emails = $state<string[]>(['ada@example.com']);
 	let name = $state('');
 	let brief = $state('');
 	let accepted = $state(false);
@@ -228,10 +235,16 @@
 				menuLabel="More save options"
 			/>
 			<Kbd>⌘K</Kbd>
+			<Avatar alt="Ada Lovelace" initials="AL" status="online" size="sm" />
 			<AvatarGroup
-				items={engineers.map((person) => ({ alt: person.name, initials: person.name.slice(0, 2) }))}
+				items={engineers.map((person) => ({
+					alt: person.name,
+					initials: person.name.slice(0, 2),
+					status: 'online' as const,
+				}))}
 				max={2}
 			/>
+			<CopyButton value="https://leap.online/retro/42" label="Copy invite link" variant="outline" />
 			<Toggle bind:pressed={toggled}>Bold</Toggle>
 		</div>
 
@@ -252,6 +265,18 @@
 					getLabel={(item) => item.name}
 					ariaLabel="Engineer"
 				/>
+				<Combobox
+					items={engineers}
+					bind:value={actionItemOwner}
+					getKey={(item) => item.id}
+					getLabel={(item) => item.name}
+					creatable
+					createItem={(label) => ({ id: `invite:${label.toLowerCase()}`, name: label })}
+					ariaLabel="Assign action item"
+					placeholder="Assign action item"
+				/>
+				<TagsInput bind:value={tags} ariaLabel="Retro tags" />
+				<EmailInput bind:value={emails} ariaLabel="Invite emails" />
 				<TextField label="Search" placeholder="Search" bind:value={name} />
 				<FileUpload
 					files={[notesFile, sourceFile]}

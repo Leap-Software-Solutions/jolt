@@ -71,6 +71,7 @@ try {
 		'bg-popover',
 		'bg-card',
 		'bg-muted',
+		'bg-success',
 		'rounded-md',
 	]) {
 		if (!css.includes(`.${expected}`)) {
