@@ -21,7 +21,7 @@
 	const MultiSelectEngineer = MultiSelect as unknown as Component<MultiSelectProps<Engineer>>;
 
 	const { Story } = defineMeta({
-		title: 'Forms/MultiSelect',
+		title: 'Forms/Multi Select',
 		component: MultiSelectEngineer,
 		tags: ['autodocs'],
 		parameters: {

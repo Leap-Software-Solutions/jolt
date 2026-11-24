@@ -7,7 +7,7 @@
 	const end = start.add({ days: 6 });
 
 	const { Story } = defineMeta({
-		title: 'Forms/DateRangePicker',
+		title: 'Forms/Date Range Picker',
 		component: DateRangePicker,
 		tags: ['autodocs'],
 		parameters: {

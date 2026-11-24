@@ -5,7 +5,7 @@
 	import type { AttachmentItem } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Data display/Attachments',
+		title: 'Data Display/Attachments',
 		component: AttachmentList,
 		tags: ['autodocs'],
 		parameters: {

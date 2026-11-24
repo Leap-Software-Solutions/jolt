@@ -4,7 +4,7 @@
 	import CopyButton from './copy-button.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Actions/CopyButton',
+		title: 'Actions/Copy Button',
 		component: CopyButton,
 		tags: ['autodocs'],
 		parameters: {

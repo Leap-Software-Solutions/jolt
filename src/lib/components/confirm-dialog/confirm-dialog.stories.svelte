@@ -4,7 +4,7 @@
 	import ConfirmDialog, { type Props as ConfirmDialogProps } from './confirm-dialog.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Patterns/ConfirmDialog',
+		title: 'Patterns/Confirm Dialog',
 		component: ConfirmDialog,
 		tags: ['autodocs'],
 		parameters: {

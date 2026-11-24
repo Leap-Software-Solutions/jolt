@@ -24,7 +24,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Actions/ToggleGroup',
+		title: 'Actions/Toggle Group',
 		component: ToggleGroup,
 		tags: ['autodocs'],
 		parameters: {

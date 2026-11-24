@@ -8,7 +8,7 @@
 	} from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Navigation/NavigationMenu',
+		title: 'Navigation/Navigation Menu',
 		component: NavigationMenu,
 		tags: ['autodocs'],
 		parameters: {

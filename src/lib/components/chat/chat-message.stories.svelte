@@ -4,7 +4,7 @@
 	import ChatMessage from './chat-message.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat message',
+		title: 'Chat/Chat Message',
 		component: ChatMessage,
 		tags: ['autodocs'],
 		parameters: {

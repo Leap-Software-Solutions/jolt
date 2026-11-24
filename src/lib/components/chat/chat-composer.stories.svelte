@@ -3,7 +3,7 @@
 	import ChatComposer from './chat-composer.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat composer',
+		title: 'Chat/Chat Composer',
 		component: ChatComposer,
 		tags: ['autodocs'],
 		parameters: {

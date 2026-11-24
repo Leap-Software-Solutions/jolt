@@ -4,7 +4,7 @@
 	import type { TextFieldProps } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Forms/TextField',
+		title: 'Forms/Text Field',
 		component: TextField,
 		tags: ['autodocs'],
 		parameters: {

@@ -44,7 +44,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Data Display/TreeView',
+		title: 'Data Display/Tree View',
 		component: TreeView,
 		tags: ['autodocs'],
 		parameters: {

@@ -4,7 +4,7 @@
 	import type { CheckboxFieldProps } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Forms/CheckboxField',
+		title: 'Forms/Checkbox Field',
 		component: CheckboxField,
 		tags: ['autodocs'],
 		parameters: {

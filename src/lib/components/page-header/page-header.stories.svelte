@@ -10,7 +10,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Patterns/PageHeader',
+		title: 'Patterns/Page Header',
 		component: PageHeader,
 		tags: ['autodocs'],
 		parameters: {

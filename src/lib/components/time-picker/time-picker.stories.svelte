@@ -4,7 +4,7 @@
 	import type { Props as TimePickerProps } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Forms/TimePicker',
+		title: 'Forms/Time Picker',
 		component: TimePicker,
 		tags: ['autodocs'],
 		parameters: {

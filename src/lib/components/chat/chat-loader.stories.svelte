@@ -3,7 +3,7 @@
 	import ChatLoader from './chat-loader.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat loader',
+		title: 'Chat/Chat Loader',
 		component: ChatLoader,
 		tags: ['autodocs'],
 		parameters: {

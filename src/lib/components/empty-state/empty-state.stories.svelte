@@ -5,7 +5,7 @@
 	import EmptyState, { type Props as EmptyStateProps } from './empty-state.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Patterns/EmptyState',
+		title: 'Patterns/Empty State',
 		component: EmptyState,
 		tags: ['autodocs'],
 		parameters: {

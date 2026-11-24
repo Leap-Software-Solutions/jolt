@@ -5,7 +5,7 @@
 	import DropdownMenu from './dropdown-menu.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Overlays/DropdownMenu',
+		title: 'Overlays/Dropdown Menu',
 		component: DropdownMenu,
 		tags: ['autodocs'],
 		parameters: {

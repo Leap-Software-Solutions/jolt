@@ -3,7 +3,7 @@
 	import ChatActions from './chat-actions.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat actions',
+		title: 'Chat/Chat Actions',
 		component: ChatActions,
 		tags: ['autodocs'],
 		parameters: {

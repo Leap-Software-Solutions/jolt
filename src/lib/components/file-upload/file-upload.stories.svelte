@@ -3,7 +3,7 @@
 	import FileUpload from './file-upload.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Forms/File upload',
+		title: 'Forms/File Upload',
 		component: FileUpload,
 		tags: ['autodocs'],
 		parameters: {

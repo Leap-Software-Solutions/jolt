@@ -25,7 +25,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Overlays/CommandPalette',
+		title: 'Overlays/Command Palette',
 		component: CommandPalette,
 		tags: ['autodocs'],
 		parameters: {

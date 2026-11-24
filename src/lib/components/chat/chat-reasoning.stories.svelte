@@ -3,7 +3,7 @@
 	import ChatReasoning from './chat-reasoning.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat reasoning',
+		title: 'Chat/Chat Reasoning',
 		component: ChatReasoning,
 		tags: ['autodocs'],
 		parameters: {

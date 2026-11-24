@@ -14,7 +14,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Forms/SelectField',
+		title: 'Forms/Select Field',
 		component: SelectFieldString,
 		tags: ['autodocs'],
 		parameters: {

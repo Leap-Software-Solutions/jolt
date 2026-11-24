@@ -3,7 +3,7 @@
 	import ChatSuggestions from './chat-suggestions.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat suggestions',
+		title: 'Chat/Chat Suggestions',
 		component: ChatSuggestions,
 		tags: ['autodocs'],
 		parameters: {

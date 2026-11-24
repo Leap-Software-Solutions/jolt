@@ -4,7 +4,7 @@
 	import DatePicker, { type Props as DatePickerProps } from './date-picker.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Forms/DatePicker',
+		title: 'Forms/Date Picker',
 		component: DatePicker,
 		tags: ['autodocs'],
 		parameters: {

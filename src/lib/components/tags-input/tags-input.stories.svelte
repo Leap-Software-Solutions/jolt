@@ -4,7 +4,7 @@
 	import type { Props as TagsInputProps } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Forms/TagsInput',
+		title: 'Forms/Tags Input',
 		component: TagsInput,
 		tags: ['autodocs'],
 		parameters: {

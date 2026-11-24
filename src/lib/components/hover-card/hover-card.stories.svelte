@@ -4,7 +4,7 @@
 	import HoverCard, { type Props as HoverCardProps } from './hover-card.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Overlays/HoverCard',
+		title: 'Overlays/Hover Card',
 		component: HoverCard,
 		tags: ['autodocs'],
 		parameters: {

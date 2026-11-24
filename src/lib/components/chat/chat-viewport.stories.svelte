@@ -3,7 +3,7 @@
 	import ChatViewport, { type Props as ChatViewportProps } from './chat-viewport.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat viewport',
+		title: 'Chat/Chat Viewport',
 		component: ChatViewport,
 		tags: ['autodocs'],
 		parameters: {
@@ -33,4 +33,4 @@
 
 <Story name="Default" {template} />
 
-<Story name="Without auto-scroll" args={{ autoScroll: false }} {template} />
+<Story name="Without auto scroll" args={{ autoScroll: false }} {template} />

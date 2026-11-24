@@ -3,7 +3,7 @@
 	import FormDemo from './fixtures/form-demo.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Patterns/Form tooling',
+		title: 'Patterns/Form Tooling',
 		component: FormDemo,
 		parameters: {
 			layout: 'centered',

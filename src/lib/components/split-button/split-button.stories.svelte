@@ -10,7 +10,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Actions/SplitButton',
+		title: 'Actions/Split Button',
 		component: SplitButton,
 		tags: ['autodocs'],
 		parameters: {

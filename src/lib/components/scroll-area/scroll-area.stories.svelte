@@ -3,7 +3,7 @@
 	import ScrollArea, { type Props as ScrollAreaProps } from './scroll-area.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Layout/ScrollArea',
+		title: 'Layout/Scroll Area',
 		component: ScrollArea,
 		tags: ['autodocs'],
 		parameters: {

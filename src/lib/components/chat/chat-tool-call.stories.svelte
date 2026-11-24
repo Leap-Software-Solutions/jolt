@@ -14,7 +14,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat tool call',
+		title: 'Chat/Chat Tool Call',
 		component: ChatToolCall,
 		tags: ['autodocs'],
 		parameters: {

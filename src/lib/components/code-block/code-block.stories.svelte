@@ -3,7 +3,7 @@
 	import CodeBlock from './code-block.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Code block',
+		title: 'Chat/Code Block',
 		component: CodeBlock,
 		tags: ['autodocs'],
 		parameters: {

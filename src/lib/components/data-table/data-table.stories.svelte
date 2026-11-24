@@ -26,7 +26,7 @@
 	const DataTableEngineers = DataTable as unknown as Component<DataTableProps<Engineer>>;
 
 	const { Story } = defineMeta({
-		title: 'Data Display/DataTable',
+		title: 'Data Display/Data Table',
 		component: DataTableEngineers,
 		tags: ['autodocs'],
 		parameters: {

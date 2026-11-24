@@ -22,7 +22,7 @@
 	];
 
 	const { Story } = defineMeta({
-		title: 'Layout/AppShell',
+		title: 'Layout/App Shell',
 		component: AppShell,
 		tags: ['autodocs'],
 		parameters: {

@@ -133,7 +133,7 @@
 	</div>
 </Story>
 
-<Story name="Auto-scroll" asChild>
+<Story name="Auto scroll" asChild>
 	<div class="grid w-[42rem] max-w-full gap-3">
 		<div class="h-[24rem]">
 			<Chat messages={longMessages} bind:value={longValue} onSend={handleLongSend} />

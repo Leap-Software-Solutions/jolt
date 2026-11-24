@@ -4,7 +4,7 @@
 	import EmailInput from './email-input.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Forms/EmailInput',
+		title: 'Forms/Email Input',
 		component: EmailInput,
 		tags: ['autodocs'],
 		parameters: {

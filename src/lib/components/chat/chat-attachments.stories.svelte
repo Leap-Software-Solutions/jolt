@@ -4,7 +4,7 @@
 	import type { ChatAttachment } from './types.js';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat attachments',
+		title: 'Chat/Chat Attachments',
 		component: ChatAttachments,
 		tags: ['autodocs'],
 		parameters: {

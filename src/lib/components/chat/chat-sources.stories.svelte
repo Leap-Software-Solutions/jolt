@@ -3,7 +3,7 @@
 	import ChatSources from './chat-sources.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Chat sources',
+		title: 'Chat/Chat Sources',
 		component: ChatSources,
 		tags: ['autodocs'],
 		parameters: {
