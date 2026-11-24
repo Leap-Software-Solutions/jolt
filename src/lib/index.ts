@@ -23,6 +23,7 @@ export * from './components/date-picker/index.js';
 export * from './components/date-range-picker/index.js';
 export * from './components/dialog/index.js';
 export * from './components/dropdown-menu/index.js';
+export * from './components/email-input/index.js';
 export * from './components/empty-state/index.js';
 export * from './components/field/index.js';
 export * from './components/file-upload/index.js';
