@@ -34,6 +34,8 @@ Combined components keep the keyboard model of their primitive:
 - `ToggleGroup` uses arrow keys when roving focus is enabled.
 - `Pagination` moves focus between page triggers with the arrow keys.
 - `TagsInput` adds the current value on Enter or a configured separator, and removes the last tag with Backspace when the input is empty.
+- `InlineEdit` enters edit mode with Enter or Space on the display, saves single-line values with Enter, saves multiline values with Cmd/Ctrl+Enter, and cancels with Escape. Blur commits unless focus moved into the inline actions.
+- `ReactionBar` uses Tab to move between reactions and Space or Enter to toggle one.
 - `Popover`, `DropdownMenu`, `Select`, and `Combobox` close with Escape.
 
 Do not add custom key handlers on top of a combined component unless the product interaction genuinely differs.

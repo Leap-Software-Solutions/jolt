@@ -175,6 +175,21 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `EmailInput` is a thin `TagsInput` preset for invite flows. It splits pasted addresses on commas, semicolons, whitespace, and newlines, lowercases them for storage, ignores duplicates, and rejects incomplete addresses. Invalid text stays in the input so the user can correct it; use `onInvalid` to surface the reason. Both components expose `id`, `describedBy`, `invalid`, and `disabled` for field composition.
 
+`InlineEdit` edits a single string in place. The display is a button, and `editing` is bindable so a card menu or other external control can open the editor. Clicking the display opens it too. `placeholder` and `ariaLabel` are required; an empty value is allowed and falls back to the placeholder. `onValueChange` fires only when a changed value is committed.
+
+```svelte
+<InlineEdit
+	bind:value={card.text}
+	bind:editing={isEditing}
+	placeholder="Add a card"
+	ariaLabel="Card text"
+	multiline
+	onValueChange={(next) => saveCard(card.id, next)}
+/>
+```
+
+Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and saves on Cmd/Ctrl+Enter. Escape cancels, while blur commits unless focus moved into the inline actions or the edit was cancelled. The display and editor share the same text shell so switching modes does not shift the text.
+
 ## Structural exceptions
 
 `Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-only: it takes a `label` and an optional icon rather than arbitrary children.
@@ -241,6 +256,16 @@ Markdown is sanitised with `sanitize-html`; code highlighting uses `highlight.js
 `Spinner` provides an accessible loading indicator for async actions and chat states. `Loader` renders three animated dots in small, default, and large sizes; `ChatLoader` composes the small loader with a visible label. `Kbd` renders keyboard shortcut labels. `Avatar` accepts an optional `status` (`online`, `away`, `busy`, or `offline`) and renders an accessible presence dot; `AvatarGroup` passes the same fields through its items. `AvatarGroup` overlaps avatars, caps the visible count, and exposes an overflow count.
 
 `CopyButton` copies a supplied string with the async clipboard API. It handles success, failure, and unavailable-clipboard states, keeps a labelled or icon-only appearance, and announces the result to screen readers. Use `copyLabel`, `copiedLabel`, `errorLabel`, and `unavailableLabel` for custom copy. `CodeBlock` uses it internally, and `ChatActions` shares the same clipboard helper.
+
+`ReactionBar` renders a supplied set of emoji reactions as accessible toggle chips. Each reaction carries a stable `key`, an emoji, a required label, a count, and an optional active state. Toggling updates the count optimistically and emits the new array through `onReactionsChange`; `reactions` is bindable. The component does not include an emoji picker or add-reaction flow. Zero counts are hidden, and active chips use the brand tint.
+
+```svelte
+<ReactionBar
+	bind:reactions={card.reactions}
+	ariaLabel="Card reactions"
+	onReactionsChange={(next) => saveReactions(card.id, next)}
+/>
+```
 
 ## Classes and accessibility
 
