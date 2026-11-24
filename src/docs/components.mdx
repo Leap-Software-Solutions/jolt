@@ -98,7 +98,7 @@ The current components follow this split:
 `Select`, `Combobox`, `MultiSelect`, `SplitButton`, `NavigationMenu`, `Menubar`, `DropdownMenu`, `ContextMenu`, `Tabs`, `Accordion`, `RadioGroup`, `ToggleGroup`, `Breadcrumb`, and `Pagination` take typed item arrays or configuration props. This keeps the markup small and makes keyboard navigation, typeahead, and selection state live in one place.
 
 - `Select` items are `{ value, label, disabled? }`. Pass `getKey` when values are objects.
-- `Combobox` takes your own data array plus `getKey` and `getLabel`.
+- `Combobox` takes your own data array plus `getKey` and `getLabel`. Set `creatable` and provide `createItem` to turn typed text into a value; the create row is hidden when the query exactly matches an existing label.
 - `MultiSelect` uses the same item array plus a bindable `values` array and renders selected items as removable chips.
 - `ContextMenu` uses the same entry union as `DropdownMenu` and opens on the trigger's context-menu event.
 - `NavigationMenu` items either provide a `content` snippet for a panel or an `href` for a direct link; `value` controls the open panel.
@@ -124,6 +124,21 @@ Generic components are inferred at the call site:
 />
 ```
 
+For free-text assignment, enable `creatable`. `createItem` receives the trimmed query and returns the value to select, or `undefined` to reject creation. A created value stays selected even before the parent adds it to `items`; add it to the list when it should become searchable.
+
+```svelte
+<Combobox
+	items={engineers}
+	bind:value
+	getKey={(person) => person.id}
+	getLabel={(person) => person.name}
+	creatable
+	createItem={(name) => ({ id: `invite:${name.toLowerCase()}`, name, pending: true })}
+	createLabel={(query) => `Invite “${query}”`}
+	ariaLabel="Assign action item"
+/>
+```
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
@@ -145,6 +160,20 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 `TextField`, `TextareaField`, `SelectField`, and `CheckboxField` generate their own ids. The error text becomes `role="alert"` and is connected to the control with `aria-describedby`; the control gets `aria-invalid` while the error is present. Prefer these wrappers over rebuilding label and description markup by hand.
 
 `FileUpload` handles drag-and-drop selection, file size validation, and removable attachment chips. It is a regular form control, not a chat-specific component. Image, Markdown, text, and source files preview in the shared lightbox; local object URLs provide the download action.
+
+`TagsInput` is the free-form counterpart to `MultiSelect`: it accepts arbitrary strings, splits pasted lists, supports removable chips, and can validate, normalise, deduplicate, and limit values. Enter always adds the current text; configure `separators` for additional commit keys.
+
+```svelte
+<TagsInput bind:value={tags} ariaLabel="Retro tags" />
+<TagsInput
+	bind:value={labels}
+	ariaLabel="Labels"
+	validate={(label) => label.length <= 24}
+	onInvalid={(label, reason) => console.log(label, reason)}
+/>
+```
+
+`EmailInput` is a thin `TagsInput` preset for invite flows. It splits pasted addresses on commas, semicolons, whitespace, and newlines, lowercases them for storage, ignores duplicates, and rejects incomplete addresses. Invalid text stays in the input so the user can correct it; use `onInvalid` to surface the reason. Both components expose `id`, `describedBy`, `invalid`, and `disabled` for field composition.
 
 ## Structural exceptions
 
@@ -209,7 +238,9 @@ Markdown is sanitised with `sanitize-html`; code highlighting uses `highlight.js
 
 ## Small primitives
 
-`Spinner` provides an accessible loading indicator for async actions and chat states. `Loader` renders three animated dots in small, default, and large sizes; `ChatLoader` composes the small loader with a visible label. `Kbd` renders keyboard shortcut labels. `AvatarGroup` overlaps avatars, caps the visible count, and exposes an overflow count.
+`Spinner` provides an accessible loading indicator for async actions and chat states. `Loader` renders three animated dots in small, default, and large sizes; `ChatLoader` composes the small loader with a visible label. `Kbd` renders keyboard shortcut labels. `Avatar` accepts an optional `status` (`online`, `away`, `busy`, or `offline`) and renders an accessible presence dot; `AvatarGroup` passes the same fields through its items. `AvatarGroup` overlaps avatars, caps the visible count, and exposes an overflow count.
+
+`CopyButton` copies a supplied string with the async clipboard API. It handles success, failure, and unavailable-clipboard states, keeps a labelled or icon-only appearance, and announces the result to screen readers. Use `copyLabel`, `copiedLabel`, `errorLabel`, and `unavailableLabel` for custom copy. `CodeBlock` uses it internally, and `ChatActions` shares the same clipboard helper.
 
 ## Classes and accessibility
 
