@@ -1,10 +1,12 @@
 <script lang="ts" module>
-	import type { AvatarSize } from '../avatar/index.js';
+	import type { AvatarSize, AvatarStatus } from '../avatar/index.js';
 
 	export type AvatarGroupItem = {
 		src?: string;
 		alt: string;
 		initials?: string;
+		status?: AvatarStatus;
+		statusLabel?: string;
 	};
 
 	export type Props = {
@@ -49,7 +51,15 @@
 >
 	{#each visibleItems as item, index (index)}
 		<div class="relative rounded-full ring-2 ring-background" data-slot="avatar-group-item">
-			<Avatar src={item.src} alt={item.alt} initials={item.initials} {size} class={avatarClass} />
+			<Avatar
+				src={item.src}
+				alt={item.alt}
+				initials={item.initials}
+				status={item.status}
+				statusLabel={item.statusLabel}
+				{size}
+				class={avatarClass}
+			/>
 		</div>
 	{/each}
 

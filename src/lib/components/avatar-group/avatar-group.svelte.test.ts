@@ -12,6 +12,10 @@ test('limits the visible avatars and shows the overflow count', () => {
 
 	expect(group?.getAttribute('role')).toBe('group');
 	expect(group?.querySelectorAll('[data-slot="avatar-group-item"]')).toHaveLength(2);
+	expect(group?.querySelectorAll('[data-slot="avatar-status"]')).toHaveLength(2);
+	expect(group?.querySelector('[data-slot="avatar-status"]')?.getAttribute('aria-label')).toBe(
+		'Online',
+	);
 	expect(overflow?.textContent).toContain('+2');
 	expect(overflow?.getAttribute('aria-label')).toBe('2 more');
 

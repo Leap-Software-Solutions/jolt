@@ -2,8 +2,8 @@
 	import AvatarGroup from './avatar-group.svelte';
 
 	const items = [
-		{ alt: 'Ada Lovelace', initials: 'AL' },
-		{ alt: 'Grace Hopper', initials: 'GH' },
+		{ alt: 'Ada Lovelace', initials: 'AL', status: 'online' as const },
+		{ alt: 'Grace Hopper', initials: 'GH', status: 'away' as const },
 		{ alt: 'Katherine Johnson', initials: 'KJ' },
 		{ alt: 'Margaret Hamilton', initials: 'MH' },
 	];
