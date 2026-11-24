@@ -36,6 +36,7 @@
 	let asyncItems = $state<Engineer[]>(engineers);
 	let asyncValue = $state<Engineer | undefined>();
 	let asyncLoading = $state(false);
+	let createdEngineer = $state<Engineer | undefined>();
 	let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
 	function searchEngineers(query: string): void {
@@ -64,6 +65,10 @@
 	type CustomArgs = Omit<
 		ComboboxProps<Engineer>,
 		'items' | 'value' | 'getKey' | 'getLabel' | 'item'
+	>;
+	type CreatableArgs = Omit<
+		ComboboxProps<Engineer>,
+		'items' | 'value' | 'getKey' | 'getLabel' | 'createItem'
 	>;
 </script>
 
@@ -133,6 +138,25 @@
 	</div>
 {/snippet}
 
+{#snippet creatableTemplate(args: CreatableArgs)}
+	<div class="grid w-72 gap-2">
+		<Combobox
+			items={engineers}
+			bind:value={createdEngineer}
+			getKey={(engineer) => engineer.id}
+			getLabel={(engineer) => engineer.name}
+			ariaLabel="Assign action item"
+			placeholder="Search or invite someone"
+			creatable
+			createItem={(name) => ({ id: `invite:${name.toLowerCase()}`, name, role: 'Invited' })}
+			{...args}
+		/>
+		<p class="text-xs text-muted-foreground">
+			Assigned: {createdEngineer ? createdEngineer.name : 'none'}
+		</p>
+	</div>
+{/snippet}
+
 {#snippet emptyTemplate(args: EmptyArgs)}
 	<div class="w-72">
 		<Combobox
@@ -156,6 +180,8 @@
 <Story name="With custom item" template={customTemplate} />
 
 <Story name="Async search" template={asyncTemplate} />
+
+<Story name="Creatable" template={creatableTemplate} />
 
 <Story name="Loading" args={{ loading: true }} template={emptyTemplate} />
 

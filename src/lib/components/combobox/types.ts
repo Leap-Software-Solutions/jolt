@@ -7,6 +7,18 @@ export type Props<T> = {
 	getLabel: (item: T) => string;
 	onValueChange?: (value: T | undefined) => void;
 	/**
+	 * Adds a create row when the query does not match an existing label.
+	 */
+	creatable?: boolean;
+	/**
+	 * Turns the current query into a value. Return `undefined` to reject creation.
+	 */
+	createItem?: (label: string) => T | undefined;
+	/**
+	 * Customises the create row label. Defaults to `Create “<query>”`.
+	 */
+	createLabel?: (query: string) => string;
+	/**
 	 * Called with the current input value after `debounceMs`. When omitted, the
 	 * component filters `items` locally by `getLabel`.
 	 */

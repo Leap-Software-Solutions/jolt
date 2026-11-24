@@ -5,10 +5,14 @@
 		ChevronsUpDownIcon,
 		ChevronUpIcon,
 		LoaderCircleIcon,
+		PlusIcon,
 	} from '@lucide/svelte';
 	import { Combobox as BitsCombobox } from 'bits-ui';
 	import { cls } from '../../utils/index.js';
 	import type { Props } from './types.js';
+
+	const uid = $props.id();
+	const createKey = `__jolt_create_${uid}`;
 
 	let {
 		items,
@@ -16,6 +20,9 @@
 		getKey,
 		getLabel,
 		onValueChange,
+		creatable = false,
+		createItem,
+		createLabel,
 		onSearch,
 		debounceMs = 200,
 		loading = false,
@@ -38,32 +45,62 @@
 
 	let searchQuery = $state('');
 	let inputElement = $state<HTMLInputElement | null>(null);
+	let createdItem = $state<T | undefined>();
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
-	const bitItems = $derived(
-		items.map((item) => ({
+	const query = $derived(searchQuery.trim());
+	const createRowLabel = $derived.by(() => {
+		if (query.length === 0) return '';
+		return createLabel ? createLabel(query) : `Create “${query}”`;
+	});
+	const canCreate = $derived.by(() => {
+		if (!creatable || !createItem || query.length === 0) return false;
+		return !items.some((item) => getLabel(item).trim().toLowerCase() === query.toLowerCase());
+	});
+
+	const bitItems = $derived([
+		...(canCreate ? [{ value: createKey, label: createRowLabel }] : []),
+		...items.map((item) => ({
 			value: getKey(item),
 			label: getLabel(item),
 		})),
-	);
+	]);
 
 	const selectedItem = $derived.by(() => {
 		if (value === undefined) return undefined;
 		const key = getKey(value);
-		return items.find((item) => getKey(item) === key);
+		const item = items.find((candidate) => getKey(candidate) === key);
+		if (item) return item;
+		if (createdItem && getKey(createdItem) === key) return createdItem;
+		return undefined;
 	});
 	const selectedLabel = $derived(selectedItem ? getLabel(selectedItem) : '');
 
 	let bitValue = $derived(selectedItem ? getKey(selectedItem) : '');
 
 	const visibleItems = $derived.by(() => {
-		if (onSearch || searchQuery.trim() === '') return items;
-		const query = searchQuery.trim().toLowerCase();
-		return items.filter((item) => getLabel(item).toLowerCase().includes(query));
+		if (onSearch || query === '') return items;
+		const normalizedQuery = query.toLowerCase();
+		return items.filter((item) => getLabel(item).toLowerCase().includes(normalizedQuery));
 	});
 
 	function handleValueChange(next: string): void {
+		if (next === createKey) {
+			if (!createItem || query.length === 0) return;
+
+			const nextItem = createItem(query);
+			if (nextItem === undefined) return;
+
+			createdItem = nextItem;
+			value = nextItem;
+			onValueChange?.(nextItem);
+			searchQuery = '';
+			if (inputElement) inputElement.value = getLabel(nextItem);
+			return;
+		}
+
 		const nextItem = items.find((item) => getKey(item) === next);
+		createdItem = undefined;
 		value = nextItem;
 		onValueChange?.(nextItem);
 	}
@@ -170,7 +207,7 @@
 						<LoaderCircleIcon class="size-4 animate-spin" />
 						Loading...
 					</BitsCombobox.Item>
-				{:else if visibleItems.length === 0}
+				{:else if visibleItems.length === 0 && !canCreate}
 					<BitsCombobox.Item
 						value="__empty__"
 						disabled
@@ -183,6 +220,22 @@
 						{/if}
 					</BitsCombobox.Item>
 				{:else}
+					{#if canCreate}
+						<BitsCombobox.Item
+							value={createKey}
+							label={createRowLabel}
+							data-slot="combobox-create"
+							class={cls(
+								'relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 ps-2 pe-8 text-sm outline-hidden select-none',
+								'data-highlighted:bg-accent data-highlighted:text-accent-foreground',
+								'data-disabled:pointer-events-none data-disabled:opacity-50',
+								itemClass,
+							)}
+						>
+							<PlusIcon class="size-4 text-muted-foreground" />
+							<span class="truncate">{createRowLabel}</span>
+						</BitsCombobox.Item>
+					{/if}
 					{#each visibleItems as item (getKey(item))}
 						<BitsCombobox.Item
 							value={getKey(item)}
