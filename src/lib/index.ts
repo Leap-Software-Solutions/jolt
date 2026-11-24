@@ -42,6 +42,7 @@ export * from './components/pagination/index.js';
 export * from './components/popover/index.js';
 export * from './components/progress/index.js';
 export * from './components/radio-group/index.js';
+export * from './components/reaction-bar/index.js';
 export * from './components/scroll-area/index.js';
 export * from './components/select/index.js';
 export * from './components/separator/index.js';
