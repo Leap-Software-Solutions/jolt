@@ -25,6 +25,7 @@
 		EmptyState,
 		FileUpload,
 		HoverCard,
+		InlineEdit,
 		Kbd,
 		Loader,
 		Menubar,
@@ -33,6 +34,7 @@
 		PageHeader,
 		Pagination,
 		Progress,
+		ReactionBar,
 		ScrollArea,
 		SelectField,
 		Sheet,
@@ -47,6 +49,7 @@
 		Toast,
 		Toggle,
 		TreeView,
+		type Reaction,
 		toast,
 	} from '@leap/jolt';
 
@@ -165,6 +168,12 @@
 	let actionItemOwner = $state<Engineer | undefined>();
 	let tags = $state<string[]>(['retro', 'action-item']);
 	let emails = $state<string[]>(['ada@example.com']);
+	let cardText = $state('Move the release checklist into the retro');
+	let editingCard = $state(false);
+	let reactions = $state<Reaction[]>([
+		{ key: 'agree', emoji: '👍', label: 'Agree', count: 2 },
+		{ key: 'question', emoji: '❓', label: 'Question', count: 1, active: true },
+	]);
 	let name = $state('');
 	let brief = $state('');
 	let accepted = $state(false);
@@ -277,6 +286,15 @@
 				/>
 				<TagsInput bind:value={tags} ariaLabel="Retro tags" />
 				<EmailInput bind:value={emails} ariaLabel="Invite emails" />
+				<InlineEdit
+					bind:value={cardText}
+					bind:editing={editingCard}
+					placeholder="Add a card"
+					ariaLabel="Retro card text"
+					multiline
+				/>
+				<Button variant="outline" size="sm" onclick={() => (editingCard = true)}>Edit card</Button>
+				<ReactionBar bind:reactions ariaLabel="Retro card reactions" />
 				<TextField label="Search" placeholder="Search" bind:value={name} />
 				<FileUpload
 					files={[notesFile, sourceFile]}
