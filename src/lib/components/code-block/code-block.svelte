@@ -11,10 +11,9 @@
 </script>
 
 <script lang="ts">
-	import { CheckIcon, ClipboardIcon } from '@lucide/svelte';
 	import { highlightCode } from '../../utils/highlight.js';
 	import { cls } from '../../utils/index.js';
-	import { Button } from '../button/index.js';
+	import { CopyButton } from '../copy-button/index.js';
 
 	let {
 		code,
@@ -26,18 +25,8 @@
 		class: className,
 	}: Props = $props();
 
-	let copied = $state(false);
-	let copyTimer: ReturnType<typeof setTimeout> | undefined;
-
 	const highlighted = $derived(highlightCode(code, language));
 	const languageLabel = $derived(label ?? language);
-
-	async function copyCode(): Promise<void> {
-		await navigator.clipboard.writeText(code);
-		copied = true;
-		clearTimeout(copyTimer);
-		copyTimer = setTimeout(() => (copied = false), 1800);
-	}
 </script>
 
 <figure
@@ -49,20 +38,14 @@
 	>
 		<span class="font-mono">{languageLabel}</span>
 		{#if copyable}
-			<Button
+			<CopyButton
+				value={code}
+				{copyLabel}
+				{copiedLabel}
 				variant="ghost"
 				size="icon"
 				class="size-7"
-				aria-label={copied ? copiedLabel : copyLabel}
-				title={copied ? copiedLabel : copyLabel}
-				onclick={copyCode}
-			>
-				{#if copied}
-					<CheckIcon class="text-brand-strong" />
-				{:else}
-					<ClipboardIcon />
-				{/if}
-			</Button>
+			/>
 		{/if}
 	</figcaption>
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -- highlight.js escapes code before rendering -->
