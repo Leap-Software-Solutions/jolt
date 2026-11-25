@@ -1,4 +1,4 @@
-# @leap/jolt
+# @leap-online/jolt
 
 ## 0.5.0
 

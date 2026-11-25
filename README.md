@@ -25,21 +25,21 @@ pnpm test:consumer  # packed-tarball consumer smoke test
 ## Usage
 
 ```sh
-pnpm add @leap/jolt
+pnpm add @leap-online/jolt
 ```
 
 Import the theme after Tailwind in your application CSS:
 
 ```css
 @import 'tailwindcss';
-@import '@leap/jolt/styles.css';
+@import '@leap-online/jolt/styles.css';
 ```
 
 Then import components from the package root:
 
 ```svelte
 <script lang="ts">
-	import { Button } from '@leap/jolt';
+	import { Button } from '@leap-online/jolt';
 </script>
 
 <Button>Continue</Button>

@@ -42,7 +42,7 @@
 			id: '2',
 			role: 'assistant',
 			content:
-				'The rules sort imports in one contiguous block, then enforce `import type` for type-only imports.\n\n```typescript\nimport { Button } from "@leap/jolt";\n```',
+				'The rules sort imports in one contiguous block, then enforce `import type` for type-only imports.\n\n```typescript\nimport { Button } from "@leap-online/jolt";\n```',
 			name: 'Jolt',
 		},
 	]);

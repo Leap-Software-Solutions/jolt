@@ -1,7 +1,7 @@
 # Jolt — Leap design system plan
 
 Status: draft for implementation
-Package: `@leap/jolt`
+Package: `@leap-online/jolt`
 License: MIT
 Repo: `~/projects/leap/jolt`
 
@@ -119,7 +119,7 @@ Shared types (`WithElementRef`, item unions used by more than one component) liv
 
 ```json
 {
-	"name": "@leap/jolt",
+	"name": "@leap-online/jolt",
 	"version": "0.1.0",
 	"license": "MIT",
 	"type": "module",
@@ -199,7 +199,7 @@ Tailwind v4 ignores `node_modules` when scanning class names, so the library shi
 ```css
 /* consumer app.css */
 @import 'tailwindcss';
-@import '@leap/jolt/styles.css';
+@import '@leap-online/jolt/styles.css';
 ```
 
 `src/lib/styles/theme.css` becomes `dist/styles/theme.css`. It contains, in order:
@@ -645,7 +645,7 @@ Package validation:
 - `svelte-package` build;
 - `publint` for export map and file correctness — hard CI gate;
 - `attw --pack .` as an advisory local check — Svelte-only export conditions can produce expected warnings, so it does not block CI initially;
-- `pnpm pack` into a temp consumer app that imports components and `@leap/jolt/styles.css`, builds with Vite, and asserts that a known component utility class is present in the output CSS.
+- `pnpm pack` into a temp consumer app that imports components and `@leap-online/jolt/styles.css`, builds with Vite, and asserts that a known component utility class is present in the output CSS.
 
 The consumer fixture is the release gate until a registry exists.
 

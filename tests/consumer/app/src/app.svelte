@@ -51,7 +51,7 @@
 		TreeView,
 		type Reaction,
 		toast,
-	} from '@leap/jolt';
+	} from '@leap-online/jolt';
 
 	type Engineer = {
 		id: string;

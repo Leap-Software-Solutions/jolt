@@ -99,7 +99,7 @@ A paragraph with **bold**, *italic*, ~~strikethrough~~, \`inline code\`, and a [
 	name="Code languages"
 	args={{
 		content:
-			'```bash\npnpm add @leap/jolt\n```\n\n```json\n{ "name": "jolt", "private": true }\n```\n\n```python\ndef greet(name: str) -> str:\n    return f"Hello, {name}"\n```\n\n```sql\nselect id, name from components where status = "ready";\n```\n\n```css\n.chat-bubble { color: var(--foreground); }\n```\n\n```javascript\nconst message = "Hello";\n```\n\n```typescript\nconst message: string = "Hello";\n```\n\n```xml\n<message role="user">Hello</message>\n```',
+			'```bash\npnpm add @leap-online/jolt\n```\n\n```json\n{ "name": "jolt", "private": true }\n```\n\n```python\ndef greet(name: str) -> str:\n    return f"Hello, {name}"\n```\n\n```sql\nselect id, name from components where status = "ready";\n```\n\n```css\n.chat-bubble { color: var(--foreground); }\n```\n\n```javascript\nconst message = "Hello";\n```\n\n```typescript\nconst message: string = "Hello";\n```\n\n```xml\n<message role="user">Hello</message>\n```',
 	}}
 	{template}
 />

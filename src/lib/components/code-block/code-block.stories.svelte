@@ -36,7 +36,11 @@
 	{template}
 />
 
-<Story name="Plain text" args={{ language: 'text', code: 'npm install @leap/jolt' }} {template} />
+<Story
+	name="Plain text"
+	args={{ language: 'text', code: 'npm install @leap-online/jolt' }}
+	{template}
+/>
 
 <Story
 	name="Without copy"

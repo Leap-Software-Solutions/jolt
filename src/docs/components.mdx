@@ -12,7 +12,7 @@ Most components own their trigger, portal, content, and focus management:
 
 ```svelte
 <script lang="ts">
-	import { Dialog, Select } from '@leap/jolt';
+	import { Dialog, Select } from '@leap-online/jolt';
 
 	let status = $state('active');
 	let open = $state(false);
@@ -145,7 +145,7 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 ```svelte
 <script lang="ts">
-	import { CheckboxField, SelectField, TextField } from '@leap/jolt';
+	import { CheckboxField, SelectField, TextField } from '@leap-online/jolt';
 
 	let name = $state('');
 	let status = $state('active');
@@ -226,7 +226,7 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 ```svelte
 <script lang="ts">
-	import { Chat } from '@leap/jolt';
+	import { Chat } from '@leap-online/jolt';
 
 	let value = $state('');
 	const messages = [

@@ -38,7 +38,7 @@ try {
 			build: 'vite build',
 		},
 		dependencies: {
-			'@leap/jolt': `file:../${tarball}`,
+			[rootPackage.name]: `file:../${tarball}`,
 			'bits-ui': versions['bits-ui'],
 		},
 		devDependencies: {
