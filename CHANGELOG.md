@@ -1,5 +1,11 @@
 # @leap-online/jolt
 
+## 0.5.1
+
+### Patch Changes
+
+- b0f518dda22fe97d5d62bffb442dd92a239032b5: Rename the package to `@leap-online/jolt`, add public package metadata, and move CI and releases to GitHub Actions with npm trusted publishing.
+
 ## 0.5.0
 
 ### Minor Changes
