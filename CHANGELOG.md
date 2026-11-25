@@ -1,5 +1,17 @@
 # @leap/jolt
 
+## 0.5.0
+
+### Minor Changes
+
+- 4446d5bba2dda3948a04980f4785e36791291e65: Add presence statuses to `Avatar` and `AvatarGroupItem`: `online`, `away`, `busy`, and `offline`. Each status renders an accessible dot with a default or custom label. Add the semantic `success` and `success-foreground` colour tokens used by the online state.
+- 0d1e02b6238f301a2439161bfa7fe82d562d7773: Add `CopyButton` for copying strings with success, failure, and unavailable-clipboard states. It announces results to screen readers, supports labelled or icon-only presentations, and uses the shared async clipboard helper.
+- cd617aa44dcd42eaa8a84598471ed8f7fddb508a: Allow `Combobox` to create values from typed text. Set `creatable` and provide `createItem` to turn the current query into a value; a create row appears when the query does not match an existing label. Created values keep their label selected even before they are added to the supplied item list.
+- a423af2909a99c5a1b3d8dface8f697aca651a9e: Add `EmailInput`, a `TagsInput` preset for inviting multiple addresses. It splits pasted lists on separators and whitespace, validates and normalises addresses, and ignores duplicates.
+- a3ee69dc68f6772edf14056eeb7fc605a153c13b: Add `InlineEdit` for editing a single string in place. It supports single-line and multiline fields, click-to-edit and controlled editing, keyboard save and cancel, required placeholders for empty values, and a synchronous commit callback.
+- 667258d1d01ce9b1fccb1f7b0f3110a76532d2f1: Add `ReactionBar` for displaying a supplied set of emoji reactions. Each reaction is an accessible toggle with a count and active state, and the component emits an updated array with optimistic count changes.
+- 2d6b0a0587038db4977bd9a2d438dd8c44035506: Add `TagsInput` for arbitrary string tags with keyboard entry, paste splitting, removable chips, validation, normalisation, duplicate handling, and tag limits.
+
 ## 0.4.0
 
 ### Minor Changes
