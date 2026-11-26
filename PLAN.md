@@ -1,6 +1,6 @@
 # Jolt — Leap design system plan
 
-Status: draft for implementation
+Status: active — `0.5.1` published
 Package: `@leap-online/jolt`
 License: MIT
 Repo: `~/projects/leap/jolt`
@@ -25,12 +25,12 @@ Jolt is Leap's internal Svelte 5 component library: black-and-white foundations,
 | API surface | Combined components by default; styled primitive parts only when a real need appears |
 | Token names | Unprefixed, shadcn-compatible semantic names |
 | Visual regression | Not now; no Chromatic |
-| CI | Bitbucket Pipelines |
-| Publishing | Deferred; changesets and `pnpm pack` validation from the start |
+| CI | GitHub Actions |
+| Publishing | npm via Changesets, Trusted Publishing, and provenance |
 
 ## 2. Stack
 
-Pin exact dev-dependency versions at scaffold time. Target versions as of planning:
+Current versions:
 
 | Area | Package | Version |
 | --- | --- | --- |
@@ -50,6 +50,7 @@ Pin exact dev-dependency versions at scaffold time. Target versions as of planni
 | Story format | `@storybook/addon-svelte-csf` | 5.1 |
 | Storybook addons | docs, a11y, vitest, themes | 10.6 |
 | Tests | `vitest` + `@vitest/browser-playwright` | 5.1 |
+| Data table | `@tanstack/svelte-table` | 9.3 |
 | Type checking | `svelte-check` | 4.7 |
 | TypeScript | `typescript` | 6.0 |
 | Lint / format | ESLint 10, Prettier 3.9, `prettier-plugin-svelte`, `prettier-plugin-tailwindcss` | current |
@@ -65,6 +66,10 @@ Single package. Promote to a pnpm workspace only when a docs app or a second pac
 ```text
 jolt/
 ├── .changeset/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── release.yml
 ├── .storybook/
 │   ├── main.ts
 │   ├── manager.ts
@@ -73,17 +78,19 @@ jolt/
 │   └── vitest.setup.ts
 ├── src/
 │   ├── docs/                    # Storybook MDX pages, not published
-│   │   ├── introduction.mdx
+│   │   ├── accessibility.mdx
+│   │   ├── components.mdx
+│   │   ├── form-tooling.mdx
 │   │   ├── installation.mdx
+│   │   ├── introduction.mdx
 │   │   ├── theming.mdx
-│   │   ├── typography.mdx
-│   │   └── accessibility.mdx
+│   │   └── typography.mdx
 │   └── lib/
 │       ├── components/
 │       │   ├── button/
 │       │   │   ├── button.svelte
 │       │   │   ├── button.stories.svelte
-│       │   │   ├── button.test.ts
+│       │   │   ├── button.svelte.test.ts
 │       │   │   └── index.ts
 │       │   ├── dialog/
 │       │   ├── combobox/
@@ -93,15 +100,17 @@ jolt/
 │       ├── types/
 │       │   └── index.ts
 │       ├── utils/
+│       │   ├── clipboard.ts
 │       │   ├── cls.ts
+│       │   ├── highlight.ts
 │       │   └── index.ts
 │       └── index.ts             # root barrel
 ├── tests/
 │   └── consumer/                # packed-tarball smoke test
+├── AGENTS.md
 ├── LICENSE
 ├── README.md
 ├── THIRD_PARTY_NOTICES.md
-├── bitbucket-pipelines.yml
 ├── eslint.config.js
 ├── package.json
 ├── prettier.config.js
@@ -120,7 +129,7 @@ Shared types (`WithElementRef`, item unions used by more than one component) liv
 ```json
 {
 	"name": "@leap-online/jolt",
-	"version": "0.1.0",
+	"version": "0.5.1",
 	"license": "MIT",
 	"type": "module",
 	"engines": { "node": ">=24" },
@@ -146,10 +155,13 @@ Shared types (`WithElementRef`, item unions used by more than one component) liv
 		"dev": "storybook dev -p 6006 --no-open",
 		"build": "svelte-package",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test": "vitest run",
-		"test:watch": "vitest",
+		"test:unit": "vitest run --project=unit",
+		"test:components": "vitest run --project=components",
+		"test:storybook": "vitest run --project=storybook",
 		"storybook": "storybook dev -p 6006 --no-open",
 		"storybook:build": "storybook build",
 		"package": "svelte-package && publint",
@@ -165,20 +177,16 @@ Peer dependencies:
 ```json
 {
 	"peerDependencies": {
-		"@internationalized/date": "^3.8.0",
 		"bits-ui": "^2.20.0",
 		"svelte": "^5.33.0",
 		"tailwindcss": "^4.0.0"
-	},
-	"peerDependenciesMeta": {
-		"@internationalized/date": { "optional": true }
 	}
 }
 ```
 
-Runtime dependencies: `@fontsource-variable/manrope`, `@lucide/svelte`, `clsx`, `tailwind-merge`, `tailwind-variants`, `tw-animate-css`.
+Runtime dependencies: `@fontsource-variable/manrope`, `@internationalized/date`, `@lucide/svelte`, `@tanstack/svelte-table`, `clsx`, `highlight.js`, `marked`, `sanitize-html`, `svelte-sonner`, `tailwind-merge`, `tailwind-variants`, `tw-animate-css`, and `valibot`.
 
-`bits-ui` is a peer because version alignment matters and consumers may already use it. `@internationalized/date` is optional because only date components need it. `tailwindcss` is a peer because Jolt is useless without Tailwind v4.
+`bits-ui` is a peer because version alignment matters and consumers may already use it. `tailwindcss` is a peer because Jolt is useless without Tailwind v4. Date, table, markdown, clipboard, and validation dependencies are owned by Jolt so consumer apps do not have to assemble the same stack.
 
 Root barrel only for now. Add per-family subpath exports if import-graph size or build times become a problem.
 
@@ -273,12 +281,18 @@ The site's neutral scale is reused, with a generated gold scale anchored on the 
 	--accent-foreground: oklch(18.70% 0.0361 290.10);
 	--destructive: oklch(50.03% 0.1821 29.51);       /* #b42318 */
 	--destructive-foreground: oklch(100% 0 0);
+	--success: oklch(52% 0.14 150);
+	--success-foreground: oklch(100% 0 0);
+	--info: oklch(48.8% 0.217 264.376);
+	--info-foreground: oklch(100% 0 0);
+	--warning: oklch(51% 0.145 49);
+	--warning-foreground: oklch(100% 0 0);
 	--border: oklch(94.01% 0 0);                     /* #ebebeb */
 	--input: oklch(90.32% 0.0017 247.84);            /* #dedfe0 */
 	--ring: oklch(57.66% 0.1141 95.56);              /* #8e7810 */
 	--brand: oklch(72.18% 0.1244 97.16);             /* #bba53d */
 	--brand-foreground: oklch(18.70% 0.0361 290.10);
-	--brand-strong: oklch(57.66% 0.1141 95.56);
+	--brand-strong: oklch(48% 0.12 95.56);             /* #725b00 */
 	--brand-subtle: oklch(96.50% 0.028 97.16);       /* #f8f4df */
 	--chart-1: var(--brand);
 	--chart-2: oklch(18.70% 0.0361 290.10);
@@ -304,6 +318,12 @@ The site's neutral scale is reused, with a generated gold scale anchored on the 
 	--accent-foreground: oklch(98.51% 0 0);
 	--destructive: oklch(71.06% 0.1661 22.22);       /* #f87171 */
 	--destructive-foreground: oklch(14.52% 0.0021 286.13);
+	--success: oklch(70% 0.15 150);
+	--success-foreground: oklch(14.52% 0.0021 286.13);
+	--info: oklch(80.9% 0.105 251.813);
+	--info-foreground: oklch(14.52% 0.0021 286.13);
+	--warning: oklch(87.9% 0.169 91.605);
+	--warning-foreground: oklch(14.52% 0.0021 286.13);
 	--border: oklch(27.02% 0.0073 285.90);           /* #26262a */
 	--input: oklch(32.39% 0.0123 285.69);            /* #33333a */
 	--ring: oklch(72.18% 0.1244 97.16);              /* #bba53d */
@@ -328,7 +348,8 @@ Contrast is the constraint, not taste:
 | Foreground | Background | Ratio | Allowed use |
 | --- | --- | --- | --- |
 | `#bba53d` brand | white | 2.45:1 | Decorative fills, borders, large graphics only |
-| `#8e7810` brand-strong | white | 4.34:1 | Text (large/bold), focus ring, icons, UI boundaries |
+| `#725b00` brand-strong | white | 6.54:1 | Text, icons, UI boundaries |
+| `#8e7810` focus ring | white | 4.34:1 | Focus rings and UI boundaries |
 | `#bba53d` brand | `#131022` | 7.61:1 | Text, icons, focus ring |
 | `#131022` foreground | `#bba53d` fill | 8.56:1 | Text on gold buttons/badges |
 | `#d4bc5a` brand-strong | `#0a0a0b` | 10.5:1 | Text on dark surfaces |
@@ -450,12 +471,6 @@ Examples:
 		<Button {...props} size="icon" variant="ghost" aria-label="Delete"><Trash /></Button>
 	{/snippet}
 </Tooltip>
-
-<Tooltip text="Delete asset">
-	{#snippet trigger(props)}
-		<Button {...props} size="icon" variant="ghost" aria-label="Delete"><Trash /></Button>
-	{/snippet}
-</Tooltip>
 ```
 
 ```svelte
@@ -519,19 +534,22 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 
 ## 8. Component roadmap
 
-| Wave | Components | Notes |
+| Wave | Components | Status and notes |
 | --- | --- | --- |
-| 1. Vertical slice | Button, Tooltip, Dialog, Input, Label, Badge, Separator | Proves combined API, theme, Storybook, packaging |
-| 2. Pattern setters | Select, Combobox, DropdownMenu, Tabs, Card, Alert, Avatar, Checkbox, Switch, Skeleton | Establishes list/item/snippet conventions |
-| 3. Forms and navigation | Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, TextField/SelectField/CheckboxField | Field wrappers reduce form boilerplate |
-| 4. Data and advanced | Sheet, DatePicker, DateRangePicker, Toast, Command palette, DataTable, ScrollArea | TanStack table, `svelte-sonner` or custom toast |
-| 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Composed patterns and application layout |
-| 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Markdown sanitisation and code highlighting included |
-| 7. Later | Charts, blocks/templates, InputOTP, TagsInput, Timeline, TreeView | Only when a consumer needs them |
+| 1. Vertical slice | Button, Tooltip, Dialog, Input, Label, Badge, Separator | Complete; proves combined API, theme, Storybook, packaging |
+| 2. Pattern setters | Select, Combobox, DropdownMenu, Tabs, Card, Alert, Avatar, Checkbox, Switch, Skeleton | Complete; establishes list/item/snippet conventions |
+| 3. Forms and navigation | Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, TextField/SelectField/CheckboxField | Complete; field wrappers reduce form boilerplate |
+| 4. Data and advanced | Sheet, DatePicker, DateRangePicker, Toast, Command palette, DataTable, ScrollArea | Complete; TanStack table and toast integration |
+| 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Complete; composed patterns and application layout |
+| 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Complete; Markdown sanitisation and code highlighting included |
+| 7. Published increments | TagsInput, EmailInput, CopyButton, SplitButton, TreeView, Lightbox, InlineEdit, ReactionBar | Complete; published through `0.5.1` |
+| 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Planned for `0.6.0`; unblocks dense list and detail surfaces |
+| 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, StatusPipeline, ApprovalBar, ChatApprovalRequest, CommentThread | Planned for `0.7.0`; depends on real review surfaces |
+| 10. Later | Charts, blocks/templates, InputOTP, Timeline, MetricTile, FilterBar, UserChip, MentionInput, GridLayout | Evaluate when a concrete consumer surface needs them; no blanket deferral |
 
-Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader.
+Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, SeverityDot, StatusPipeline, ApprovalBar, CommentThread.
 
-Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), Chart containers.
+Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), DiffViewer (large content shell), MetricTile (sparkline and action snippets), Chart containers.
 
 ## 9. Storybook
 
@@ -550,7 +568,7 @@ Storybook navigation is purpose-based, not atomic:
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
-Data Display/  Card, DataTable, Table, Badge, Avatar
+Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar
@@ -647,7 +665,7 @@ Package validation:
 - `attw --pack .` as an advisory local check — Svelte-only export conditions can produce expected warnings, so it does not block CI initially;
 - `pnpm pack` into a temp consumer app that imports components and `@leap-online/jolt/styles.css`, builds with Vite, and asserts that a known component utility class is present in the output CSS.
 
-The consumer fixture is the release gate until a registry exists.
+The packed-tarball consumer fixture remains a release gate alongside `publint`.
 
 A11y requirements:
 
@@ -656,86 +674,32 @@ A11y requirements:
 - overlays rely on bits-ui focus management;
 - focus-visible rings are always visible in both themes;
 - reduced motion respected;
-- no a11y violations in story tests before 0.1.0.
+- no a11y violations in story tests.
 
 Visual regression is deferred. If needed later, use Playwright screenshots rather than Chromatic.
 
-## 11. Bitbucket CI and releases
+## 11. GitHub Actions and releases
 
-`bitbucket-pipelines.yml`:
+CI lives in `.github/workflows/ci.yml` and runs on pull requests and pushes to `main`:
 
-```yaml
-image: node:24
+- **Verify:** install with the frozen lockfile, build, run `svelte-check`, lint, and check for changesets on pull requests.
+- **Test and package:** install Playwright Chromium, run unit/component/story tests, build the package with `publint`, build Storybook, and run the packed-tarball consumer fixture on `main`.
 
-definitions:
-  caches:
-    pnpm: ~/.local/share/pnpm/store
+The release workflow lives in `.github/workflows/release.yml` and runs on `v*` tags:
 
-pipelines:
-  pull-requests:
-    '**':
-      - step:
-          name: Verify
-          caches: [pnpm]
-          script:
-            - npm install -g pnpm@12.16.1
-            - pnpm install --frozen-lockfile
-            - pnpm check
-            - pnpm lint
-            - pnpm build
-            - git fetch origin main:refs/remotes/origin/main
-            - pnpm exec changeset status --since=origin/main
-      - step:
-          name: Test and package
-          image: mcr.microsoft.com/playwright:v1.65.0-noble # pin to installed Playwright version
-          caches: [pnpm]
-          script:
-            - npm install -g pnpm@12.16.1
-            - pnpm install --frozen-lockfile
-            - pnpm test
-            - pnpm package
-            - pnpm storybook:build
-  branches:
-    main:
-      - step:
-          name: Verify
-          caches: [pnpm]
-          script:
-            - npm install -g pnpm@12.16.1
-            - pnpm install --frozen-lockfile
-            - pnpm check
-            - pnpm lint
-            - pnpm build
-      - step:
-          name: Test, package, and consumer fixture
-          image: mcr.microsoft.com/playwright:v1.65.0-noble
-          caches: [pnpm]
-          script:
-            - npm install -g pnpm@12.16.1
-            - pnpm install --frozen-lockfile
-            - pnpm test
-            - pnpm package
-            - pnpm test:consumer
-            - pnpm storybook:build
-  tags:
-    'v*':
-      - step:
-          name: Release
-          script:
-            - npm install -g pnpm@12.16.1
-            - pnpm install --frozen-lockfile
-            - pnpm build
-            - pnpm changeset publish
-```
+- `contents: write` for the GitHub Release and `id-token: write` for npm Trusted Publishing;
+- install, build, and package;
+- publish with npm provenance through OIDC when the version is not already on npm;
+- create a GitHub Release with generated notes when one does not already exist.
 
-The tag pipeline is a placeholder until a registry is chosen.
+The package was bootstrapped by publishing `0.5.1` manually. Trusted Publishing is configured for the GitHub repository and `release.yml`; later releases use OIDC and do not need a long-lived npm token. A tag run is idempotent: if npm already has the version, it skips publishing and only creates the GitHub Release.
 
 Release flow:
 
 1. Add a changeset with each user-facing change.
 2. Before release: `pnpm changeset version`, commit the version bump and changelog.
 3. `git tag vX.Y.Z` and push the tag.
-4. The tag pipeline publishes once registry credentials exist.
+4. The release workflow publishes to npm and creates the GitHub Release.
 
 Pre-1.0, breaking changes may ship as minor bumps; document them in the changelog. Strict semver after 1.0.
 
@@ -762,8 +726,8 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 
 - Textarea, RadioGroup, Slider, ToggleGroup, Accordion, Popover, Collapsible, Pagination, Breadcrumb, Progress, field wrappers.
 - Foundations and guidelines MDX pages.
-- Bitbucket pipeline and changesets flow in place.
-- `0.1.0` tag; `pnpm pack` artifact; publishing still deferred.
+- CI and changesets flow in place.
+- `0.1.0` tag; `pnpm pack` artifact; npm publishing followed in a later milestone.
 
 ### M3 — Data and integration
 
@@ -771,11 +735,18 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 - Form integration with superforms/valibot if a consumer needs it.
 - Integrate into the first real Leap app and fix what integration exposes.
 
-### M4 — Publishing and scale
+### M4 — Publishing and scale (done)
 
-- Choose and configure a registry; enable the tag publish pipeline.
-- SvelteKit docs site if external consumption justifies it.
-- Sidebar/AppShell, charts, blocks, visual regression only when needed.
+- Public npm package, Trusted Publishing, provenance, and GitHub Releases.
+- GitHub Actions CI and release workflows.
+- Sidebar/AppShell and the published component set through `0.5.1`.
+- SvelteKit docs site and visual regression remain deferred.
+
+### M5 — Consumer-driven additions
+
+- `0.6.0`: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
+- `0.7.0`: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; StatusPipeline; ApprovalBar; ChatApprovalRequest; CommentThread.
+- Later: charts, layout blocks, Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
 
 ## 13. Risks and mitigations
 
@@ -788,7 +759,10 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 | Gold fails contrast | Enforce the contrast table; `brand-strong` for text in light mode; a11y tests |
 | bits-ui version drift | Peer dependency; pin a compatible range; test upgrades deliberately |
 | Storybook Svelte CSF addon is community-maintained | Keep story files simple; fall back to CSF if the addon breaks |
-| Playwright browser installs slow/flaky in Bitbucket | Use the matching Playwright image for the test step |
+| Playwright browser installs slow/flaky in CI | Cache pnpm and install Chromium with `--with-deps`; keep browser jobs isolated |
+| npm registry propagation delays the release guard | The release workflow is idempotent; rerun the tag workflow if the version check raced propagation |
+| Trusted Publishing misconfiguration blocks a release | Keep the workflow filename stable, test with a patch release, and fall back to a manually authenticated publish only with explicit approval |
+| Consumer-specific vocabulary leaks into the library | Enforce the intake rules in `AGENTS.md`; components receive data, labels, and callbacks rather than product concepts |
 | Vendored shadcn-svelte code accumulates stale patterns | Vendor once, restyle, then own the code; no periodic re-copy. Keep the MIT notice in `THIRD_PARTY_NOTICES.md` |
 
 ## 14. Definition of done for a component
@@ -804,11 +778,11 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 
 ## 15. Deferred and out of scope
 
-- Package registry and automated publishing.
 - SvelteKit documentation site.
 - Copy-in shadcn registry distribution.
 - Chromatic and visual regression.
-- Charts, blocks, templates, full page patterns.
+- Charts, blocks, templates, and full page patterns are consumer-driven; evaluate them when a concrete surface needs them.
+- Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout are candidates, not commitments.
 - i18n inside components; labels remain props/snippets.
 - RTL testing; logical properties are used from the start.
 - Storybook logo/brand image; add when an asset exists.
