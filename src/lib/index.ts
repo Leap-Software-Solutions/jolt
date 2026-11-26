@@ -21,6 +21,7 @@ export * from './components/copy-button/index.js';
 export * from './components/data-table/index.js';
 export * from './components/date-picker/index.js';
 export * from './components/date-range-picker/index.js';
+export * from './components/description-list/index.js';
 export * from './components/dialog/index.js';
 export * from './components/dropdown-menu/index.js';
 export * from './components/email-input/index.js';

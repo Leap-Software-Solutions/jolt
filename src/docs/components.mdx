@@ -162,6 +162,19 @@ For free-text assignment, enable `creatable`. `createItem` receives the trimmed 
 
 The label refreshes on a minute interval. Invalid timestamps render as `Invalid date` without removing the row.
 
+`DescriptionList` renders label/value metadata as a semantic description list. It supports horizontal and stacked layouts, skeleton rows, a custom value snippet, and an optional copy control per row.
+
+```svelte
+<DescriptionList
+	items={[
+		{ label: 'Endpoint', value: 'https://api.example.com/v1', copyable: true },
+		{ label: 'Region', value: 'eu-west-1' },
+	]}
+/>
+```
+
+Use `copyValue` when the visible value is rendered through the `value` snippet but the copied text should stay plain.
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
