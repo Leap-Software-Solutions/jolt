@@ -1,5 +1,23 @@
 # @leap-online/jolt
 
+## 0.7.0
+
+### Minor Changes
+
+- 68bd342710d2dc56cb7945e40081e3dd5388e1be: Add `ApprovalBar` for outbound actions that need a human decision. It renders an optional effect badge, title, description, approve/reject actions, a custom-actions snippet, resolved approved and rejected states, and a locked state that disables actions and exposes the lock reason to assistive technology.
+- f28768af88c4991fad455a0cb2de260e8f3f4129: Add `ChatApprovalRequest`, an assistant-message wrapper around `ApprovalBar`. It carries the agent name, avatar, timestamp, effect, decision state, locked reason, and custom actions while keeping approval controls in the shared action footer.
+- a7d705eba632fc893030b0c56eb6d131405735e0: Render `ChatMessage` and `ChatApprovalRequest` timestamps with `TimeAgo`. Their `timestamp` prop now accepts a `DateInput` instead of a preformatted string, so the relative label stays current and the absolute timestamp remains available through the native time element.
+- 1baf345dd1e534bb9ca4f998144fb7fa2b02a61e: Extend `CodeBlock` with an optional numbered gutter, highlighted line ranges, and a wrap mode. Lines remain independently rendered without breaking highlight spans.
+- f42f9845ff256ff62023b9ba05005c112ee3a718: Add `CommentThread` for flat review discussions: Markdown comments with author chips and `TimeAgo` timestamps, open/resolved state, quote-reply callbacks, an inline reply composer, and deep-link highlighting.
+- 5f1378a07346dc747470cde58813fa0e08aa8836: Add opt-in row virtualization and selection to `DataTable`. Pass `virtualize={{ height: 320 }}` to render only the visible rows in a fixed-height scroll viewport with a sticky header; `rowHeight` sets the initial estimate and rendered rows are measured. Set `selectionMode` to `single` or `multiple`, bind `selectedIds`, and pass `getRowId` for stable row identity. Add a `loading` state with configurable skeleton rows.
+- 3f3d637226fed98c2a84f7ecab76059ed4d78a47: Add `DiffViewer` for rendering Git patches in unified or split layouts. It shows file status and line totals, collapses files and hunks, handles renames, copies, binary files, mode changes, CRLF, and missing final newlines, and can reveal whitespace characters as muted markers. Syntax highlighting is inferred from file paths, with an optional `language` override, and hunk headers have a divider from the code. Export `parsePatch` and the normalised diff types for custom renderers.
+- 79dbe8f3c2c749492bd3a90622db7d31e9ab5578: Export the shared `Markdown` renderer for general content surfaces. It sanitises GitHub-flavoured Markdown and highlights fenced code; `ChatMarkdown` remains the chat-labelled wrapper.
+- 95b7b65820b17f5496faa4019bb2cf7c6d254657: Add `Stepper` for ordered build, review, approval, and onboarding progress. Support horizontal and vertical layouts, complete/current/pending/error states, optional descriptions, accessible current-step and status announcements, and optional `href` or `onStepActivate` navigation. Complete steps use the success colour, the current step uses info, horizontal connectors align to the step markers regardless of description length, vertical connectors sit outside linked steps, meet the markers, and are not pointer targets, vertical spacing sits on the list item rather than inside the interactive step, and linked steps highlight as one surface using the ghost button hover colours.
+
+### Patch Changes
+
+- 3f3d637226fed98c2a84f7ecab76059ed4d78a47: Raise the light-mode success colour contrast so success badges and diff-addition markers meet WCAG AA.
+
 ## 0.6.0
 
 ### Minor Changes
