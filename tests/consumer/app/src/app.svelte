@@ -46,6 +46,7 @@
 		Sidebar,
 		Spinner,
 		SplitButton,
+		Stepper,
 		Table,
 		TagsInput,
 		TextField,
@@ -87,6 +88,12 @@
 			heading: 'Actions',
 			items: [{ value: 'save', label: 'Save changes' }],
 		},
+	];
+
+	const releaseSteps = [
+		{ id: 'build', label: 'Build', status: 'complete' as const },
+		{ id: 'test', label: 'Test', status: 'current' as const },
+		{ id: 'deploy', label: 'Deploy', status: 'pending' as const },
 	];
 
 	const diffPatch = [
@@ -426,6 +433,7 @@
 					virtualize={{ height: 180 }}
 				/>
 				<DiffViewer patch={diffPatch} view="split" />
+				<Stepper steps={releaseSteps} ariaLabel="Release progress" />
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>

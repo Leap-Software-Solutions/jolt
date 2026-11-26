@@ -273,6 +273,27 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 `parsePatch` is exported for custom renderers and returns the normalised `DiffFile[]` model.
 
+## Status and review
+
+`Stepper` displays ordered progress through a build, review, approval, or onboarding flow. Each step has a `complete`, `current`, `pending`, or `error` status, with an optional description. The current step is marked with `aria-current="step"`; status is also announced alongside the label, so the stepper is not colour-only.
+
+```svelte
+<Stepper
+	steps={[
+		{ id: 'build', label: 'Build', status: 'complete' },
+		{ id: 'test', label: 'Test', status: 'current' },
+		{ id: 'deploy', label: 'Deploy', status: 'pending' },
+	]}
+	ariaLabel="Release progress"
+/>
+```
+
+Use `orientation="vertical"` in sidebars and narrow detail panels. Steps can navigate with `href` or call `onStepActivate`; without either, the stepper is display-only. Place actions that advance a step outside the stepper.
+
+```svelte
+<Stepper {steps} onStepActivate={(step) => openStep(step.id)} />
+```
+
 ## Tables and dates
 
 `Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:

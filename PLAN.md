@@ -544,10 +544,10 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Complete; Markdown sanitisation and code highlighting included |
 | 7. Published increments | TagsInput, EmailInput, CopyButton, SplitButton, TreeView, Lightbox, InlineEdit, ReactionBar | Complete; published through `0.5.1` |
 | 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Complete; published in `0.6.0` |
-| 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, StatusPipeline, ApprovalBar, ChatApprovalRequest, CommentThread | Planned for `0.7.0`; depends on real review surfaces |
+| 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, Stepper, ApprovalBar, ChatApprovalRequest, CommentThread | Planned for `0.7.0`; depends on real review surfaces |
 | 10. Later | Charts, blocks/templates, InputOTP, Timeline, MetricTile, FilterBar, UserChip, MentionInput, GridLayout | Evaluate when a concrete consumer surface needs them; no blanket deferral |
 
-Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, SeverityDot, StatusPipeline, ApprovalBar, CommentThread.
+Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, SeverityDot, Stepper, ApprovalBar, CommentThread.
 
 Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), DiffViewer (large content shell), MetricTile (sparkline and action snippets), Chart containers.
 
@@ -568,7 +568,7 @@ Storybook navigation is purpose-based, not atomic:
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
-Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown, DiffViewer
+Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown, DiffViewer, Stepper
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar
@@ -745,7 +745,7 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 ### M5 — Consumer-driven additions
 
 - `0.6.0` complete: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
-- `0.7.0`: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; StatusPipeline; ApprovalBar; ChatApprovalRequest; CommentThread.
+- `0.7.0`: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; Stepper; ApprovalBar; ChatApprovalRequest; CommentThread.
 - Later: charts, layout blocks, Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
 
 ## 13. Risks and mitigations
