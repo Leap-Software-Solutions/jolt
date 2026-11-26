@@ -11,6 +11,11 @@
 				outline: 'border-foreground/20 text-foreground',
 				brand: 'border-transparent bg-brand text-brand-foreground',
 				destructive: 'border-transparent bg-destructive text-destructive-foreground',
+				neutral: 'border-border bg-muted text-muted-foreground',
+				info: 'border-info/20 bg-info/10 text-info',
+				success: 'border-success/20 bg-success/10 text-success',
+				warning: 'border-warning/20 bg-warning/10 text-warning',
+				danger: 'border-destructive/20 bg-destructive/10 text-destructive',
 			},
 		},
 		defaultVariants: {
@@ -26,6 +31,7 @@
 		icon?: BadgeIcon;
 		iconClass?: string;
 		variant?: BadgeVariant;
+		dot?: boolean;
 		class?: string;
 	};
 </script>
@@ -33,10 +39,20 @@
 <script lang="ts">
 	import { cls } from '../../utils/index.js';
 
-	let { class: className, label, icon, iconClass, variant = 'default' }: Props = $props();
+	let {
+		class: className,
+		label,
+		icon,
+		iconClass,
+		variant = 'default',
+		dot = false,
+	}: Props = $props();
 </script>
 
-<span data-slot="badge" class={cls(badgeVariants({ variant }), className)}>
+<span data-slot="badge" data-variant={variant} class={cls(badgeVariants({ variant }), className)}>
+	{#if dot}
+		<span data-slot="badge-dot" aria-hidden="true" class="size-1.5 rounded-full bg-current"></span>
+	{/if}
 	{#if icon}
 		{@const Icon = icon}
 		<Icon class={cls('size-3', iconClass)} />

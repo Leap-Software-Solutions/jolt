@@ -243,7 +243,7 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 ## Structural exceptions
 
-`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-only: it takes a `label` and an optional icon rather than arbitrary children.
+`Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-first: it takes a `label`, an optional icon, and an optional status dot rather than arbitrary children. Use the semantic `neutral`, `info`, `success`, `warning`, and `danger` variants for status; use `secondary`, `outline`, or `brand` for non-status labels.
 
 ## Tables and dates
 
