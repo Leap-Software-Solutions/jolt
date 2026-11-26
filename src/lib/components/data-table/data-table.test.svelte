@@ -1,6 +1,8 @@
 <script lang="ts">
 	import DataTable, { type DataTableColumn } from './data-table.svelte';
 
+	let { loading = false }: { loading?: boolean } = $props();
+
 	type Engineer = {
 		name: string;
 		commits: number;
@@ -17,4 +19,4 @@
 	];
 </script>
 
-<DataTable data={engineers} {columns} />
+<DataTable data={engineers} {columns} {loading} />

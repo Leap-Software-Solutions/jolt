@@ -267,6 +267,8 @@ Virtualized tables render a sticky header and only the visible rows plus a small
 
 Set `selectionMode` to `single` or `multiple` to add a checkbox column. `selectedIds` is bindable and `onSelectionChange` receives the row ids. Pass `getRowId` so selection survives sorting and data refreshes; without it, row ids are the original data indexes.
 
+Set `loading` while data is in flight. The table keeps its header and renders `loadingRows` skeleton rows, with `aria-busy` set on the table.
+
 `Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
 
 ## Trees and hierarchy

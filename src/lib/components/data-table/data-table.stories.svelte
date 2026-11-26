@@ -76,6 +76,8 @@
 
 <Story name="Selectable" args={{ selectionMode: 'multiple' }} {template} />
 
+<Story name="Loading" args={{ loading: true }} {template} />
+
 <Story name="Virtualized" args={{ data: manyEngineers, virtualize: { height: 320 } }} {template} />
 
 <Story name="Empty" args={{ data: [] }} {template} />

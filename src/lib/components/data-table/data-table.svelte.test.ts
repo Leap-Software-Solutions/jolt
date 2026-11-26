@@ -139,3 +139,21 @@ test('replaces the selected row in single selection mode', async () => {
 	unmount(app);
 	target.remove();
 });
+
+test('renders skeleton rows while loading', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const app = mount(DataTableTest, { target, props: { loading: true } });
+	await tick();
+
+	const table = target.querySelector<HTMLTableElement>('table');
+	const rows = target.querySelectorAll('[data-slot="data-table-skeleton"]');
+
+	expect(table?.getAttribute('aria-busy')).toBe('true');
+	expect(rows.length).toBe(5);
+	expect(target.textContent).not.toContain('No results.');
+
+	unmount(app);
+	target.remove();
+});

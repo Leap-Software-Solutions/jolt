@@ -14,6 +14,7 @@
 	import { get } from 'svelte/store';
 	import { cls } from '../../utils/index.js';
 	import { Checkbox } from '../checkbox/index.js';
+	import { Skeleton } from '../skeleton/index.js';
 
 	const DEFAULT_ROW_HEIGHT = 45;
 	const DEFAULT_OVERSCAN = 8;
@@ -45,6 +46,8 @@
 		cell?: Snippet<[T, DataTableColumn<T>]>;
 		selectionMode?: DataTableSelectionMode;
 		selectedIds?: string[];
+		loading?: boolean;
+		loadingRows?: number;
 		getRowId?: (row: T) => string;
 		onSelectionChange?: (ids: string[]) => void;
 		virtualize?: DataTableVirtualization;
@@ -65,6 +68,8 @@
 		cell,
 		selectionMode = 'none',
 		selectedIds = $bindable([]),
+		loading = false,
+		loadingRows = 5,
 		getRowId,
 		onSelectionChange,
 		virtualize,
@@ -106,6 +111,7 @@
 	const rows = $derived(table.getRowModel().rows);
 	const selectedSet = $derived(new Set(selectedIds));
 	const displayedColumnCount = $derived(columns.length + (selectionMode === 'none' ? 0 : 1));
+	const skeletonRowIndexes = $derived([...Array(Math.max(0, loadingRows)).keys()]);
 	const allSelected = $derived(rows.length > 0 && rows.every((row) => selectedSet.has(row.id)));
 	const someSelected = $derived(rows.some((row) => selectedSet.has(row.id)));
 	const rowHeight = $derived(virtualize?.rowHeight ?? DEFAULT_ROW_HEIGHT);
@@ -212,6 +218,23 @@
 	</tr>
 {/snippet}
 
+{#snippet skeletonRows()}
+	{#each skeletonRowIndexes as index (index)}
+		<tr aria-hidden="true" data-slot="data-table-skeleton" class="border-b">
+			{#if selectionMode !== 'none'}
+				<td data-slot="data-table-select" class="w-10 p-3 align-middle">
+					<Skeleton class="size-4" />
+				</td>
+			{/if}
+			{#each columns as column (column.id)}
+				<td data-slot="data-table-cell" class={cls('p-3 align-middle', column.class)}>
+					<Skeleton class="h-5 w-3/4" />
+				</td>
+			{/each}
+		</tr>
+	{/each}
+{/snippet}
+
 {#snippet emptyRow()}
 	<tr class="border-b">
 		<td colspan={displayedColumnCount} class="p-6 text-center text-sm text-muted-foreground">
@@ -233,6 +256,7 @@
 	<table
 		data-slot="data-table-table"
 		aria-rowcount={virtualize ? rows.length + 1 : undefined}
+		aria-busy={loading || undefined}
 		class={cls('w-full caption-bottom text-sm', tableClass)}
 	>
 		{#if caption}
@@ -249,6 +273,7 @@
 							<Checkbox
 								checked={allSelected}
 								indeterminate={someSelected && !allSelected}
+								disabled={loading}
 								label="Select all rows"
 								class="[&>span]:sr-only"
 								onCheckedChange={toggleAll}
@@ -293,7 +318,9 @@
 			</tr>
 		</thead>
 		<tbody data-slot="data-table-body" class="[&_tr:last-child]:border-0">
-			{#if virtualize}
+			{#if loading}
+				{@render skeletonRows()}
+			{:else if virtualize}
 				{#if rows.length === 0}
 					{@render emptyRow()}
 				{:else}
