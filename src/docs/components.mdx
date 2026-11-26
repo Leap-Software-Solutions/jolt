@@ -154,6 +154,14 @@ For free-text assignment, enable `creatable`. `createItem` receives the trimmed 
 
 `formatRelativeTime` accepts a `Date`, ISO string, or timestamp and returns a stable English label such as `3 hours ago`, `yesterday`, or `in 2 days`. It renders `just now` under 45 seconds and `Invalid date` for unparseable values.
 
+`TimeAgo` renders the same relative label as a passive `<time>` element. The absolute timestamp is available through the native `title` tooltip, the `datetime` attribute, and the accessible name; the visible label is not a focus target.
+
+```svelte
+<TimeAgo date={job.updatedAt} />
+```
+
+The label refreshes on a minute interval. Invalid timestamps render as `Invalid date` without removing the row.
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:

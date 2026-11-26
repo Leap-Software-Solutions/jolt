@@ -57,6 +57,7 @@ export * from './components/table/index.js';
 export * from './components/tabs/index.js';
 export * from './components/tags-input/index.js';
 export * from './components/textarea/index.js';
+export * from './components/time-ago/index.js';
 export * from './components/time-picker/index.js';
 export * from './components/toast/index.js';
 export * from './components/toggle/index.js';
