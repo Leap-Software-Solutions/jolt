@@ -16,3 +16,26 @@ test('highlights code and exposes a copy control', () => {
 	unmount(app);
 	target.remove();
 });
+
+test('renders numbered lines and highlighted ranges', () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const app = mount(CodeBlockTest, {
+		target,
+		props: {
+			code: 'const value = 1;\nreturn value;',
+			showLineNumbers: true,
+			highlightLines: [2],
+		},
+	});
+	const lines = target.querySelectorAll<HTMLElement>('[data-slot="code-block-line"]');
+
+	expect(lines.length).toBe(2);
+	expect(lines[0]?.textContent).toContain('1');
+	expect(lines[1]?.textContent).toContain('2');
+	expect(lines[1]?.className).toContain('bg-brand/10');
+
+	unmount(app);
+	target.remove();
+});

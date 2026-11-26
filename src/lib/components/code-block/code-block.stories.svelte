@@ -12,7 +12,13 @@
 	});
 </script>
 
-{#snippet template(args: { code: string; language?: string })}
+{#snippet template(args: {
+	code: string;
+	language?: string;
+	showLineNumbers?: boolean;
+	highlightLines?: number[];
+	wrap?: boolean;
+})}
 	<div class="w-[36rem] max-w-full">
 		<CodeBlock {...args} />
 	</div>
@@ -45,5 +51,36 @@
 <Story
 	name="Without copy"
 	args={{ language: 'bash', copyable: false, code: 'pnpm build' }}
+	{template}
+/>
+
+<Story
+	name="Line numbers"
+	args={{
+		language: 'typescript',
+		showLineNumbers: true,
+		code: `type Message = {\n  id: string;\n  role: 'user' | 'assistant';\n  content: string;\n};\n\nfunction isUser(message: Message): boolean {\n  return message.role === 'user';\n}`,
+	}}
+	{template}
+/>
+
+<Story
+	name="Highlighted lines"
+	args={{
+		language: 'typescript',
+		showLineNumbers: true,
+		highlightLines: [4, 5],
+		code: `function greet(name: string) {\n  return 'Hello, ' + name;\n}\n\nconst message = greet('Ada');\nconsole.log(message);`,
+	}}
+	{template}
+/>
+
+<Story
+	name="Wrapped"
+	args={{
+		language: 'bash',
+		wrap: true,
+		code: 'pnpm add @leap-online/jolt && pnpm storybook',
+	}}
 	{template}
 />
