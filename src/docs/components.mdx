@@ -326,11 +326,39 @@ Set `loading` while data is in flight. The table keeps its header and renders `l
 
 ## Patterns
 
-`ConfirmDialog`, `EmptyState`, and `PageHeader` compose the smaller primitives for recurring page-level states.
+`ApprovalBar`, `ConfirmDialog`, `EmptyState`, and `PageHeader` compose the smaller primitives for recurring page-level states.
 
 - `ConfirmDialog` wraps the alert-dialog behaviour and a destructive confirm action. Use `confirmLabel`, `variant`, and `onConfirm` for irreversible decisions; the dialog closes after confirming.
 - `EmptyState` handles no-data and zero-result states with an optional icon, description, and `action` snippet.
 - `PageHeader` renders the page title, optional description, and `breadcrumb` and `actions` snippets. It keeps the responsive action layout consistent across pages.
+
+`ApprovalBar` is the decision surface for an outbound action. Show the effect with an optional badge, explain what will happen, and provide `onApprove` and `onReject` handlers. The `children` snippet adds custom detail below the description. The `status` prop switches to an approved or rejected result and removes the actions.
+
+```svelte
+<ApprovalBar
+	effect={{ label: 'External write', tone: 'warning' }}
+	title="Publish release notes"
+	description="This sends the draft to the public changelog."
+	onApprove={approve}
+	onReject={reject}
+>
+	{#snippet actions({ locked, describedBy })}
+		<Button
+			variant="ghost"
+			size="sm"
+			disabled={locked}
+			aria-describedby={describedBy}
+			onclick={editDraft}
+		>
+			Edit draft
+		</Button>
+	{/snippet}
+</ApprovalBar>
+```
+
+The `actions` snippet adds custom controls such as edit-draft or overflow menus alongside Reject and Approve. It receives the locked state and the lock-reason ID so custom controls can disable themselves and stay described by the reason.
+
+Set `locked` and `lockReason` for actions an automated run may never take. The actions stay visible but are disabled, and each button is described by the reason.
 
 ## Chat and LLM surfaces
 

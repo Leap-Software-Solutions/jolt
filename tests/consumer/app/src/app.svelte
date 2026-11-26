@@ -2,6 +2,7 @@
 	import {
 		Accordion,
 		AppShell,
+		ApprovalBar,
 		AttachmentList,
 		Avatar,
 		AvatarGroup,
@@ -56,6 +57,7 @@
 		Toast,
 		Toggle,
 		TreeView,
+		type ApprovalActionContext,
 		type Reaction,
 		toast,
 	} from '@leap-online/jolt';
@@ -434,6 +436,25 @@
 				/>
 				<DiffViewer patch={diffPatch} view="split" />
 				<Stepper steps={releaseSteps} ariaLabel="Release progress" />
+				<ApprovalBar
+					effect={{ label: 'External write', tone: 'warning' }}
+					title="Publish release notes"
+					description="This sends the draft to the public changelog."
+					onApprove={() => {}}
+					onReject={() => {}}
+				>
+					{#snippet actions({ locked, describedBy }: ApprovalActionContext)}
+						<Button
+							variant="ghost"
+							size="sm"
+							disabled={locked}
+							aria-describedby={describedBy}
+							onclick={() => {}}
+						>
+							Edit draft
+						</Button>
+					{/snippet}
+				</ApprovalBar>
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
