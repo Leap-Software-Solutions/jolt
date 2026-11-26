@@ -1,6 +1,6 @@
 # Jolt — Leap design system plan
 
-Status: active — `0.5.1` published
+Status: active — `0.6.0` published
 Package: `@leap-online/jolt`
 License: MIT
 Repo: `~/projects/leap/jolt`
@@ -129,7 +129,7 @@ Shared types (`WithElementRef`, item unions used by more than one component) liv
 ```json
 {
 	"name": "@leap-online/jolt",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"license": "MIT",
 	"type": "module",
 	"engines": { "node": ">=24" },
@@ -543,7 +543,7 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 5. Patterns and app chrome | ConfirmDialog, EmptyState, PageHeader, ContextMenu, HoverCard, MultiSelect, NavigationMenu, Menubar, Sidebar, AppShell | Complete; composed patterns and application layout |
 | 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Complete; Markdown sanitisation and code highlighting included |
 | 7. Published increments | TagsInput, EmailInput, CopyButton, SplitButton, TreeView, Lightbox, InlineEdit, ReactionBar | Complete; published through `0.5.1` |
-| 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Planned for `0.6.0`; unblocks dense list and detail surfaces |
+| 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Complete; published in `0.6.0` |
 | 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, StatusPipeline, ApprovalBar, ChatApprovalRequest, CommentThread | Planned for `0.7.0`; depends on real review surfaces |
 | 10. Later | Charts, blocks/templates, InputOTP, Timeline, MetricTile, FilterBar, UserChip, MentionInput, GridLayout | Evaluate when a concrete consumer surface needs them; no blanket deferral |
 
@@ -744,7 +744,7 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 
 ### M5 — Consumer-driven additions
 
-- `0.6.0`: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
+- `0.6.0` complete: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
 - `0.7.0`: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; StatusPipeline; ApprovalBar; ChatApprovalRequest; CommentThread.
 - Later: charts, layout blocks, Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
 
