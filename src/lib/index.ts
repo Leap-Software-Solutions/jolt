@@ -16,6 +16,7 @@ export * from './components/code-block/index.js';
 export * from './components/collapsible/index.js';
 export * from './components/combobox/index.js';
 export * from './components/command-palette/index.js';
+export * from './components/comment-thread/index.js';
 export * from './components/confirm-dialog/index.js';
 export * from './components/context-menu/index.js';
 export * from './components/copy-button/index.js';

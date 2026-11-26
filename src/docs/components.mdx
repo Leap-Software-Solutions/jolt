@@ -294,6 +294,17 @@ Use `orientation="vertical"` in sidebars and narrow detail panels. Steps can nav
 <Stepper {steps} onStepActivate={(step) => openStep(step.id)} />
 ```
 
+`CommentThread` renders flat review comments with Markdown bodies and `TimeAgo` timestamps. The header switches between open and resolved states; `resolved` is bindable and `onResolvedChange` fires after the toggle. Pass `onQuote` to expose quote-reply actions, and `onSubmit` to show the inline composer. The composer binds `draft` and stays hidden while the thread is resolved. Set `highlightedCommentId` to highlight a deep-linked comment; each comment has a stable `#comment-<id>` anchor.
+
+```svelte
+<CommentThread
+	{comments}
+	onQuote={(comment) => quoteReply(comment)}
+	onSubmit={(draft) => addReply(draft)}
+	onResolvedChange={(resolved) => saveResolved(resolved)}
+/>
+```
+
 ## Tables and dates
 
 `Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:

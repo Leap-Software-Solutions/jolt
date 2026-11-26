@@ -16,6 +16,7 @@
 		Card,
 		CheckboxField,
 		CodeBlock,
+		CommentThread,
 		Combobox,
 		CommandPalette,
 		ConfirmDialog,
@@ -447,6 +448,18 @@
 				/>
 				<DiffViewer patch={diffPatch} view="split" />
 				<Stepper steps={releaseSteps} ariaLabel="Release progress" />
+				<CommentThread
+					comments={[
+						{
+							id: 'review-1',
+							author: { name: 'Ada', initials: 'A' },
+							body: 'Could we keep the **existing import order**?',
+							timestamp: new Date(Date.now() - 12 * 60 * 1000),
+						},
+					]}
+					onQuote={() => {}}
+					onSubmit={() => {}}
+				/>
 				<ApprovalBar
 					effect={{ label: 'External write', tone: 'warning' }}
 					title="Publish release notes"
