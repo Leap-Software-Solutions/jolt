@@ -255,6 +255,16 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 `Card` is a content shell rather than a combined interaction. It still uses one element, with optional `title` and `description` props plus `header`, `footer`, and body snippets. Layout shells such as `Sidebar` and `AppShell` follow the same rule: composition is allowed when the component is the layout. `Badge` is deliberately text-first: it takes a `label`, an optional icon, and an optional status dot rather than arbitrary children. Use the semantic `neutral`, `info`, `success`, `warning`, and `danger` variants for status; use `secondary`, `outline`, or `brand` for non-status labels.
 
+## Code and Markdown
+
+`CodeBlock` renders standalone highlighted code with copying. Set `showLineNumbers` for a numbered gutter, `highlightLines` for focused line ranges, and `wrap` for long lines.
+
+`Markdown` renders sanitised GitHub-flavoured Markdown, including tables, links, images, and fenced code blocks. Fenced code is highlighted with `highlight.js`; raw HTML and scripts are removed. `ChatMarkdown` is the chat-labelled wrapper around the same renderer.
+
+```svelte
+<Markdown content={releaseNotes} />
+```
+
 ## Tables and dates
 
 `Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:
@@ -316,13 +326,12 @@ For custom surfaces, compose the primitives directly:
 - `ChatViewport` handles scroll-to-bottom behaviour and a keyboard-focusable conversation log.
 - `ChatMessage` renders role-aware rows with avatars, statuses, and message actions.
 - `ChatComposer` provides the auto-growing input and send/stop controls. Use its `toolbar` snippet for model, effort, or attachment controls, and `onFiles` to accept files dropped onto the composer. `Chat` forwards both props to its composer.
-- `ChatMarkdown` sanitises assistant Markdown and highlights fenced code blocks.
-- `CodeBlock` renders standalone highlighted code with copying. Set `showLineNumbers` for a numbered gutter, `highlightLines` for focused line ranges, and `wrap` for long lines.
+- `ChatMarkdown` wraps the shared Markdown renderer for chat surfaces.
 - `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking. `ChatToolCall` also supports `status="awaiting-approval"`: it renders a split Allow control, with a chevron menu for always-allow and optional custom allow options such as allowing for the current session. A separate ellipsis menu holds other actions, with Deny between it and the split control. All menus use the same entries as `DropdownMenu`. After a denial, set `status="denied"` to keep the decision visible on the tool call.
 - `ChatSources` and `ChatSuggestions` cover citations and starter prompts.
 - `ChatAttachments` renders generic attachment chips for messages and composer toolbars. Set `content` on Markdown, text, or source attachments so they can preview; `href` becomes the download URL.
 
-Markdown is sanitised with `sanitize-html`; code highlighting uses `highlight.js`. Both are runtime dependencies of the package, so consumers do not need to add a renderer themselves. Chat status indicators keep their visible label, and the user bubble inherits its foreground colour from the bubble rather than the page. Code inside a user bubble uses the bubble colours instead of the page code palette.
+Chat status indicators keep their visible label, and the user bubble inherits its foreground colour from the bubble rather than the page. Code inside a user bubble uses the bubble colours instead of the page code palette.
 
 ## Small primitives
 

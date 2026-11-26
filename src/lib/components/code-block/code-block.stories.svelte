@@ -3,7 +3,7 @@
 	import CodeBlock from './code-block.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Code Block',
+		title: 'Data Display/Code Block',
 		component: CodeBlock,
 		tags: ['autodocs'],
 		parameters: {
@@ -78,9 +78,9 @@
 <Story
 	name="Wrapped"
 	args={{
-		language: 'bash',
+		language: 'typescript',
 		wrap: true,
-		code: 'pnpm add @leap-online/jolt && pnpm storybook',
+		code: 'const message = "This is a deliberately long line that should wrap inside the code block instead of overflowing horizontally.";',
 	}}
 	{template}
 />

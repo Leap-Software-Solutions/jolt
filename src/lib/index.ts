@@ -36,6 +36,7 @@ export * from './components/kbd/index.js';
 export * from './components/label/index.js';
 export * from './components/lightbox/index.js';
 export * from './components/loader/index.js';
+export * from './components/markdown/index.js';
 export * from './components/menubar/index.js';
 export * from './components/multi-select/index.js';
 export * from './components/navigation-menu/index.js';

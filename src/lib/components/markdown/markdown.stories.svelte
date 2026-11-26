@@ -1,10 +1,10 @@
 <script lang="ts" module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import ChatMarkdown from './chat-markdown.svelte';
+	import Markdown from './markdown.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Chat/Markdown',
-		component: ChatMarkdown,
+		title: 'Data Display/Markdown',
+		component: Markdown,
 		tags: ['autodocs'],
 		parameters: {
 			layout: 'centered',
@@ -14,7 +14,7 @@
 
 {#snippet template(args: { content: string })}
 	<div class="w-[38rem] max-w-full">
-		<ChatMarkdown {...args} />
+		<Markdown {...args} />
 	</div>
 {/snippet}
 

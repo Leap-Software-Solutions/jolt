@@ -568,7 +568,7 @@ Storybook navigation is purpose-based, not atomic:
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
-Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot
+Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar

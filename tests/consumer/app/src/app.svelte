@@ -30,6 +30,7 @@
 		InlineEdit,
 		Kbd,
 		Loader,
+		Markdown,
 		Menubar,
 		MultiSelect,
 		NavigationMenu,
@@ -41,10 +42,10 @@
 		SelectField,
 		Sheet,
 		SeverityDot,
+		Sidebar,
 		Spinner,
 		SplitButton,
 		Table,
-		Sidebar,
 		TagsInput,
 		TextField,
 		TextareaField,
@@ -361,6 +362,7 @@
 				</div>
 				<ChatToolCall name="search_codebase" summary="Found the component exports">
 					<CodeBlock language="json" code={'{\n  "results": 2\n}'} />
+					<Markdown content="**Ready** with `Markdown`." />
 				</ChatToolCall>
 				<ChatAttachments
 					attachments={[
