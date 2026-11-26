@@ -65,4 +65,11 @@ export * from './components/tooltip/index.js';
 export * from './components/tree-view/index.js';
 export * from './form/index.js';
 export type { WithElementRef } from './types/index.js';
-export { cls } from './utils/index.js';
+export {
+	cls,
+	type DateInput,
+	formatBytes,
+	formatDuration,
+	formatNumber,
+	formatRelativeTime,
+} from './utils/index.js';

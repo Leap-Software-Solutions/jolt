@@ -139,6 +139,21 @@ For free-text assignment, enable `creatable`. `createItem` receives the trimmed 
 />
 ```
 
+## Utilities
+
+`formatRelativeTime`, `formatDuration`, `formatBytes`, and `formatNumber` are exported from the package root for values rendered outside a component.
+
+```svelte
+<script lang="ts">
+	import { formatBytes, formatDuration, formatRelativeTime } from '@leap-online/jolt';
+</script>
+
+<p>Updated {formatRelativeTime(job.updatedAt)}</p>
+<p>{formatDuration(job.durationSeconds)} · {formatBytes(job.sizeBytes)}</p>
+```
+
+`formatRelativeTime` accepts a `Date`, ISO string, or timestamp and returns a stable English label such as `3 hours ago`, `yesterday`, or `in 2 days`. It renders `just now` under 45 seconds and `Invalid date` for unparseable values.
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
