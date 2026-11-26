@@ -13,6 +13,7 @@
 	import type { Snippet } from 'svelte';
 	import { get } from 'svelte/store';
 	import { cls } from '../../utils/index.js';
+	import { Checkbox } from '../checkbox/index.js';
 
 	const DEFAULT_ROW_HEIGHT = 45;
 	const DEFAULT_OVERSCAN = 8;
@@ -23,6 +24,8 @@
 		/** Initial row height estimate in pixels. Rendered rows are measured. */
 		rowHeight?: number;
 	};
+
+	export type DataTableSelectionMode = 'none' | 'single' | 'multiple';
 
 	export type DataTableColumn<T extends object> = {
 		id: string;
@@ -40,6 +43,10 @@
 		caption?: string;
 		empty?: Snippet;
 		cell?: Snippet<[T, DataTableColumn<T>]>;
+		selectionMode?: DataTableSelectionMode;
+		selectedIds?: string[];
+		getRowId?: (row: T) => string;
+		onSelectionChange?: (ids: string[]) => void;
 		virtualize?: DataTableVirtualization;
 		class?: string;
 		tableClass?: string;
@@ -56,6 +63,10 @@
 		caption,
 		empty,
 		cell,
+		selectionMode = 'none',
+		selectedIds = $bindable([]),
+		getRowId,
+		onSelectionChange,
 		virtualize,
 		class: className,
 		tableClass,
@@ -89,9 +100,14 @@
 		get data() {
 			return data;
 		},
+		getRowId: (row, index) => getRowId?.(row) ?? String(index),
 	});
 
 	const rows = $derived(table.getRowModel().rows);
+	const selectedSet = $derived(new Set(selectedIds));
+	const displayedColumnCount = $derived(columns.length + (selectionMode === 'none' ? 0 : 1));
+	const allSelected = $derived(rows.length > 0 && rows.every((row) => selectedSet.has(row.id)));
+	const someSelected = $derived(rows.some((row) => selectedSet.has(row.id)));
 	const rowHeight = $derived(virtualize?.rowHeight ?? DEFAULT_ROW_HEIGHT);
 
 	const rowVirtualizer = createVirtualizer<HTMLDivElement, HTMLTableRowElement>({
@@ -135,6 +151,29 @@
 		return String(value);
 	}
 
+	function emitSelection(next: string[]): void {
+		selectedIds = next;
+		onSelectionChange?.(next);
+	}
+
+	function toggleRow(id: string, checked: boolean): void {
+		if (selectionMode === 'single') {
+			emitSelection(checked ? [id] : []);
+			return;
+		}
+
+		if (checked) {
+			emitSelection(selectedIds.includes(id) ? selectedIds : [...selectedIds, id]);
+			return;
+		}
+
+		emitSelection(selectedIds.filter((selectedId) => selectedId !== id));
+	}
+
+	function toggleAll(checked: boolean): void {
+		emitSelection(checked ? rows.map((row) => row.id) : []);
+	}
+
 	function measureRow(node: HTMLTableRowElement) {
 		if (!virtualize) return;
 		get(rowVirtualizer).measureElement(node);
@@ -142,13 +181,25 @@
 </script>
 
 {#snippet dataRow(row: DataTableRow<T>, index?: number)}
+	{@const isSelected = selectedSet.has(row.id)}
 	<tr
-		class="border-b transition-colors hover:bg-muted/50"
+		class={cls('border-b transition-colors hover:bg-muted/50', isSelected && 'bg-muted/60')}
 		data-slot="data-table-row"
+		data-selected={isSelected ? 'true' : undefined}
 		data-index={index}
 		aria-rowindex={index !== undefined ? index + 2 : undefined}
 		use:measureRow
 	>
+		{#if selectionMode !== 'none'}
+			<td data-slot="data-table-select" class="w-10 p-3 align-middle">
+				<Checkbox
+					checked={isSelected}
+					label={`Select row ${row.id}`}
+					class="[&>span]:sr-only"
+					onCheckedChange={(checked) => toggleRow(row.id, checked)}
+				/>
+			</td>
+		{/if}
 		{#each columns as column (column.id)}
 			<td data-slot="data-table-cell" class={cls('p-3 align-middle', column.class)}>
 				{#if cell}
@@ -163,7 +214,7 @@
 
 {#snippet emptyRow()}
 	<tr class="border-b">
-		<td colspan={columns.length} class="p-6 text-center text-sm text-muted-foreground">
+		<td colspan={displayedColumnCount} class="p-6 text-center text-sm text-muted-foreground">
 			{#if empty}
 				{@render empty()}
 			{:else}
@@ -192,6 +243,21 @@
 			class={cls('[&_tr]:border-b', virtualize && 'sticky top-0 z-10 bg-card')}
 		>
 			<tr class="border-b transition-colors hover:bg-muted/50">
+				{#if selectionMode !== 'none'}
+					<th scope="col" data-slot="data-table-select" class="w-10 px-3 align-middle">
+						{#if selectionMode === 'multiple'}
+							<Checkbox
+								checked={allSelected}
+								indeterminate={someSelected && !allSelected}
+								label="Select all rows"
+								class="[&>span]:sr-only"
+								onCheckedChange={toggleAll}
+							/>
+						{:else}
+							<span class="sr-only">Select a row</span>
+						{/if}
+					</th>
+				{/if}
 				{#each columns as column (column.id)}
 					{@const tableColumn = table.getColumn(column.id)}
 					{@const sorted = tableColumn?.getIsSorted() ?? false}
@@ -238,7 +304,7 @@
 							class="border-0 hover:bg-transparent"
 							style:height={`${virtualPaddingTop}px`}
 						>
-							<td colspan={columns.length} class="p-0"></td>
+							<td colspan={displayedColumnCount} class="p-0"></td>
 						</tr>
 					{/if}
 					{#each virtualItems as virtualRow (virtualRow.key)}
@@ -254,7 +320,7 @@
 							class="border-0 hover:bg-transparent"
 							style:height={`${virtualPaddingBottom}px`}
 						>
-							<td colspan={columns.length} class="p-0"></td>
+							<td colspan={displayedColumnCount} class="p-0"></td>
 						</tr>
 					{/if}
 				{/if}

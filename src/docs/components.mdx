@@ -265,6 +265,8 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 Virtualized tables render a sticky header and only the visible rows plus a small overscan buffer. `height` is the scroll viewport height in pixels. `rowHeight` is an initial estimate; rendered rows are measured, so rows can grow when their content wraps. Keep the full data set in the browser, and use server-side pagination or windowing when it cannot be loaded at once.
 
+Set `selectionMode` to `single` or `multiple` to add a checkbox column. `selectedIds` is bindable and `onSelectionChange` receives the row ids. Pass `getRowId` so selection survives sorting and data refreshes; without it, row ids are the original data indexes.
+
 `Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
 
 ## Trees and hierarchy

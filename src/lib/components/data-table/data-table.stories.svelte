@@ -74,6 +74,8 @@
 
 <Story name="Custom cells" template={customCellTemplate} />
 
+<Story name="Selectable" args={{ selectionMode: 'multiple' }} {template} />
+
 <Story name="Virtualized" args={{ data: manyEngineers, virtualize: { height: 320 } }} {template} />
 
 <Story name="Empty" args={{ data: [] }} {template} />

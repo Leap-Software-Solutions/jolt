@@ -1,7 +1,8 @@
 import { mount, tick, unmount } from 'svelte';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import DataTableTest from './data-table.test.svelte';
+import DataTableSelectionTest from './data-table-selection.test.svelte';
 import DataTableVirtualizedTest from './data-table-virtualized.test.svelte';
 
 test('sorts rows when a sortable header is activated', async () => {
@@ -77,3 +78,64 @@ async function settle() {
 		requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
 	});
 }
+
+test('selects all visible rows and clears them', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const onSelectionChange = vi.fn();
+	const app = mount(DataTableSelectionTest, { target, props: { onSelectionChange } });
+	await tick();
+
+	const headerCheckbox = target.querySelector<HTMLElement>(
+		'thead [data-slot="data-table-select"] [data-slot="checkbox-control"]',
+	);
+	const rowCheckboxes = target.querySelectorAll<HTMLElement>(
+		'tbody [data-slot="data-table-select"] [data-slot="checkbox-control"]',
+	);
+
+	await userEvent.click(headerCheckbox!);
+	await tick();
+
+	expect(onSelectionChange).toHaveBeenLastCalledWith(['Grace Hopper', 'Ada Lovelace']);
+	expect(rowCheckboxes[0]?.closest('tr')?.dataset.selected).toBe('true');
+	expect(rowCheckboxes[1]?.closest('tr')?.dataset.selected).toBe('true');
+
+	await userEvent.click(headerCheckbox!);
+	await tick();
+
+	expect(onSelectionChange).toHaveBeenLastCalledWith([]);
+	expect(rowCheckboxes[0]?.closest('tr')?.dataset.selected).toBeUndefined();
+	expect(rowCheckboxes[1]?.closest('tr')?.dataset.selected).toBeUndefined();
+
+	unmount(app);
+	target.remove();
+});
+
+test('replaces the selected row in single selection mode', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+
+	const onSelectionChange = vi.fn();
+	const app = mount(DataTableSelectionTest, {
+		target,
+		props: { selectionMode: 'single', onSelectionChange },
+	});
+	await tick();
+
+	const rowCheckboxes = target.querySelectorAll<HTMLElement>(
+		'tbody [data-slot="data-table-select"] [data-slot="checkbox-control"]',
+	);
+
+	await userEvent.click(rowCheckboxes[0]!);
+	await tick();
+	await userEvent.click(rowCheckboxes[1]!);
+	await tick();
+
+	expect(onSelectionChange).toHaveBeenLastCalledWith(['Ada Lovelace']);
+	expect(rowCheckboxes[0]?.closest('tr')?.dataset.selected).toBeUndefined();
+	expect(rowCheckboxes[1]?.closest('tr')?.dataset.selected).toBe('true');
+
+	unmount(app);
+	target.remove();
+});

@@ -409,6 +409,8 @@
 					data={engineers}
 					columns={tableColumns}
 					caption="Engineers"
+					selectionMode="multiple"
+					getRowId={(engineer) => engineer.name}
 					virtualize={{ height: 180 }}
 				/>
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
