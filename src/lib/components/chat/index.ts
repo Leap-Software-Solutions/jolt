@@ -5,6 +5,10 @@ export {
 	type ChatFeedback,
 } from './chat-actions.svelte';
 export {
+	default as ChatApprovalRequest,
+	type Props as ChatApprovalRequestProps,
+} from './chat-approval-request.svelte';
+export {
 	default as ChatAttachments,
 	type Props as ChatAttachmentsProps,
 } from './chat-attachments.svelte';

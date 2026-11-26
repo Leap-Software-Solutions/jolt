@@ -385,6 +385,7 @@ For custom surfaces, compose the primitives directly:
 - `ChatComposer` provides the auto-growing input and send/stop controls. Use its `toolbar` snippet for model, effort, or attachment controls, and `onFiles` to accept files dropped onto the composer. `Chat` forwards both props to its composer.
 - `ChatMarkdown` wraps the shared Markdown renderer for chat surfaces.
 - `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking. `ChatToolCall` also supports `status="awaiting-approval"`: it renders a split Allow control, with a chevron menu for always-allow and optional custom allow options such as allowing for the current session. A separate ellipsis menu holds other actions, with Deny between it and the split control. All menus use the same entries as `DropdownMenu`. After a denial, set `status="denied"` to keep the decision visible on the tool call.
+- `ChatApprovalRequest` wraps `ApprovalBar` in an assistant message, so an agent can request approval for an effect that is not a single tool call. It forwards the effect, status, locked reason, and custom actions while keeping the agent name, avatar, and timestamp in the same header style as `ChatMessage`.
 - `ChatSources` and `ChatSuggestions` cover citations and starter prompts.
 - `ChatAttachments` renders generic attachment chips for messages and composer toolbars. Set `content` on Markdown, text, or source attachments so they can preview; `href` becomes the download URL.
 

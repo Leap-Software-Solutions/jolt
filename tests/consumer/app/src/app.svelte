@@ -10,6 +10,7 @@
 		Button,
 		Calendar,
 		Chat,
+		ChatApprovalRequest,
 		ChatAttachments,
 		ChatToolCall,
 		Card,
@@ -407,6 +408,16 @@
 							href: 'https://example.com/theme.ts',
 						},
 					]}
+				/>
+				<ChatApprovalRequest
+					name="Jolt"
+					initials="J"
+					timestamp="Just now"
+					effect={{ label: 'External write', tone: 'warning' }}
+					title="Publish release notes"
+					description="This sends the draft to the public changelog."
+					onApprove={() => {}}
+					onReject={() => {}}
 				/>
 				<ChatToolCall
 					name="delete_file"
