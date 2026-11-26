@@ -1,5 +1,6 @@
 <script lang="ts" module>
 	import type { Snippet } from 'svelte';
+	import type { DateInput } from '../../utils/format.js';
 	import type { ChatMessageStatus, ChatRole } from './types.js';
 
 	export type Props = {
@@ -7,7 +8,7 @@
 		name?: string;
 		avatarSrc?: string;
 		initials?: string;
-		timestamp?: string;
+		timestamp?: DateInput;
 		status?: ChatMessageStatus;
 		ariaLabel?: string;
 		actions?: Snippet;
@@ -20,6 +21,7 @@
 <script lang="ts">
 	import { cls } from '../../utils/index.js';
 	import { Avatar } from '../avatar/index.js';
+	import { TimeAgo } from '../time-ago/index.js';
 	import ChatLoader from './chat-loader.svelte';
 
 	let {
@@ -77,7 +79,7 @@
 					<span class="font-medium text-foreground">{name}</span>
 				{/if}
 				{#if timestamp}
-					<span>{timestamp}</span>
+					<TimeAgo date={timestamp} />
 				{/if}
 			</div>
 		{/if}

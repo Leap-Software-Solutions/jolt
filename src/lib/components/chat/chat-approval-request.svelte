@@ -1,11 +1,12 @@
 <script lang="ts" module>
+	import type { DateInput } from '../../utils/format.js';
 	import type { ApprovalBarProps } from '../approval-bar/index.js';
 
 	export type Props = Omit<ApprovalBarProps, 'class'> & {
 		name?: string;
 		avatarSrc?: string;
 		initials?: string;
-		timestamp?: string;
+		timestamp?: DateInput;
 		ariaLabel?: string;
 		class?: string;
 	};

@@ -13,7 +13,7 @@ test('renders an assistant approval request and reports the decision', async () 
 		props: {
 			name: 'Jolt',
 			initials: 'J',
-			timestamp: 'Just now',
+			timestamp: new Date('2026-01-01T12:00:00Z'),
 			effect: { label: 'External write', tone: 'warning' },
 			title: 'Publish release notes',
 			onApprove,
@@ -24,6 +24,7 @@ test('renders an assistant approval request and reports the decision', async () 
 	expect(target.querySelector('[data-slot="chat-approval-request"]')).not.toBeNull();
 	const message = target.querySelector('[data-slot="chat-message"]');
 	expect(message?.getAttribute('aria-label')).toBe('Jolt approval request');
+	expect(message?.querySelector('[data-slot="time-ago"]')).not.toBeNull();
 	expect(message?.textContent).toContain('Jolt');
 	expect(message?.textContent).toContain('External write');
 	expect(message?.textContent).toContain('Publish release notes');

@@ -1,3 +1,4 @@
+import type { DateInput } from '../../utils/format.js';
 import type { AttachmentItem } from '../attachment/types.js';
 
 export type ChatRole = 'user' | 'assistant' | 'system' | 'tool';
@@ -11,7 +12,7 @@ export type ChatMessageData = {
 	name?: string;
 	avatarSrc?: string;
 	initials?: string;
-	timestamp?: string;
+	timestamp?: DateInput;
 	status?: ChatMessageStatus;
 };
 

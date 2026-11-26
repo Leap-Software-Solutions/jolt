@@ -15,7 +15,7 @@
 		args: {
 			name: 'Jolt',
 			initials: 'J',
-			timestamp: 'Just now',
+			timestamp: new Date(Date.now() - 5 * 60 * 1000),
 			effect: { label: 'External write', tone: 'warning' },
 			title: 'Publish release notes',
 			description: 'I need permission to send this draft to the public changelog.',

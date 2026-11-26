@@ -382,6 +382,7 @@ For custom surfaces, compose the primitives directly:
 
 - `ChatViewport` handles scroll-to-bottom behaviour and a keyboard-focusable conversation log.
 - `ChatMessage` renders role-aware rows with avatars, statuses, and message actions.
+  Timestamps accept a `DateInput` and render through `TimeAgo`, so the relative label stays current while the absolute value remains available to assistive technology.
 - `ChatComposer` provides the auto-growing input and send/stop controls. Use its `toolbar` snippet for model, effort, or attachment controls, and `onFiles` to accept files dropped onto the composer. `Chat` forwards both props to its composer.
 - `ChatMarkdown` wraps the shared Markdown renderer for chat surfaces.
 - `ChatToolCall` and `ChatReasoning` expose collapsible tool activity and thinking. `ChatToolCall` also supports `status="awaiting-approval"`: it renders a split Allow control, with a chevron menu for always-allow and optional custom allow options such as allowing for the current session. A separate ellipsis menu holds other actions, with Deny between it and the split control. All menus use the same entries as `DropdownMenu`. After a denial, set `status="denied"` to keep the decision visible on the tool call.

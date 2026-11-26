@@ -35,6 +35,10 @@
 
 <Story name="System" args={{ role: 'system' }}>Conversation started.</Story>
 
+<Story name="With timestamp" args={{ timestamp: new Date(Date.now() - 3 * 60 * 1000) }}>
+	The change is ready to review.
+</Story>
+
 <Story name="Streaming" args={{ status: 'streaming' }}>I am checking the component exports</Story>
 
 <Story name="With actions" asChild>
