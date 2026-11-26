@@ -1,5 +1,17 @@
 # @leap-online/jolt
 
+## 0.6.0
+
+### Minor Changes
+
+- 354fbe6294ebcbb19bdb06cd0a3498f7629a586a: Add compact count badges with configurable overflow.
+- 7a54c500f015afe466ee96db0d8d1f0377469878: Add semantic badge tones and a decorative status dot.
+- 8f1b92bf4021744c408e8984ff9dbabe7c6c7e95: Add a description list for label/value metadata with copy controls, layouts, and loading rows.
+- df3c2c3da56e4ab31c246176ffc9e9da43204791: Add a compact feed item with leading and trailing content, unread state, and accessible row activation.
+- a746d10f4f07570bd6a027cd2432e0ac29e0ae95: Add formatting utilities for relative time, durations, byte sizes, and numbers.
+- 8c793bcefe3082da6068f07f9087baa3deed6ddc: Add a compact severity indicator with distinct glyphs, semantic tones, and an optional visible label.
+- f5113d78d508b6eab5821de7094cfcfddf5888a9: Add a passive time-ago component with absolute timestamp fallbacks.
+
 ## 0.5.1
 
 ### Patch Changes
