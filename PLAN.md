@@ -1,6 +1,6 @@
 # Jolt — Leap design system plan
 
-Status: active — `0.6.0` published
+Status: active — `0.7.0` published
 Package: `@leap-online/jolt`
 License: MIT
 Repo: `~/projects/leap/jolt`
@@ -129,7 +129,7 @@ Shared types (`WithElementRef`, item unions used by more than one component) liv
 ```json
 {
 	"name": "@leap-online/jolt",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"license": "MIT",
 	"type": "module",
 	"engines": { "node": ">=24" },
@@ -544,7 +544,7 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 6. Chat and LLM | Spinner, Kbd, AvatarGroup, FileUpload, CodeBlock, Chat, ChatViewport, ChatMessage, ChatComposer, ChatMarkdown, ChatToolCall, ChatReasoning, ChatSources, ChatSuggestions, ChatAttachments | Complete; Markdown sanitisation and code highlighting included |
 | 7. Published increments | TagsInput, EmailInput, CopyButton, SplitButton, TreeView, Lightbox, InlineEdit, ReactionBar | Complete; published through `0.5.1` |
 | 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Complete; published in `0.6.0` |
-| 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, Stepper, ApprovalBar, ChatApprovalRequest, CommentThread | In progress for `0.7.0`; DataTable, CodeBlock, DiffViewer, Stepper, ApprovalBar, ChatApprovalRequest, and CommentThread complete; ready for release |
+| 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, Stepper, ApprovalBar, ChatApprovalRequest, CommentThread | Complete; published in `0.7.0` |
 | 10. Later | Charts, blocks/templates, InputOTP, Timeline, MetricTile, FilterBar, UserChip, MentionInput, GridLayout | Evaluate when a concrete consumer surface needs them; no blanket deferral |
 
 Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, SeverityDot, Stepper, ApprovalBar, CommentThread.
@@ -745,7 +745,7 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 ### M5 — Consumer-driven additions
 
 - `0.6.0` complete: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
-- `0.7.0`: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; Stepper; ApprovalBar; ChatApprovalRequest; CommentThread.
+- `0.7.0` complete: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; Stepper; ApprovalBar; ChatApprovalRequest; CommentThread.
 - Later: charts, layout blocks, Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
 
 ## 13. Risks and mitigations
