@@ -48,6 +48,7 @@ export * from './components/reaction-bar/index.js';
 export * from './components/scroll-area/index.js';
 export * from './components/select/index.js';
 export * from './components/separator/index.js';
+export * from './components/severity-dot/index.js';
 export * from './components/sheet/index.js';
 export * from './components/sidebar/index.js';
 export * from './components/skeleton/index.js';

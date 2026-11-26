@@ -193,6 +193,13 @@ Use `copyValue` when the visible value is rendered through the `value` snippet b
 
 Use `href` for navigation or `onActivate` for in-page actions. The trailing slot is the place for badges, timestamps, or a separate action.
 
+`SeverityDot` is a compact severity indicator for dense rows and table cells. It pairs a semantic tone with a distinct glyph so severity is not communicated by colour alone. The icon is labelled for assistive technology; set `showLabel` when the column has room for the visible label.
+
+```svelte
+<SeverityDot severity="critical" />
+<SeverityDot severity="high" showLabel />
+```
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
