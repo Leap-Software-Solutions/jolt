@@ -257,7 +257,15 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 
 ## Tables and dates
 
-`Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
+`Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:
+
+```svelte
+<DataTable data={events} columns={eventColumns} virtualize={{ height: 320, rowHeight: 45 }} />
+```
+
+Virtualized tables render a sticky header and only the visible rows plus a small overscan buffer. `height` is the scroll viewport height in pixels. `rowHeight` is an initial estimate; rendered rows are measured, so rows can grow when their content wraps. Keep the full data set in the browser, and use server-side pagination or windowing when it cannot be loaded at once.
+
+`Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
 
 ## Trees and hierarchy
 

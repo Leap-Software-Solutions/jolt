@@ -17,6 +17,12 @@
 		{ name: 'Katherine Johnson', role: 'Data', commits: 61 },
 	];
 
+	const manyEngineers: Engineer[] = Array.from({ length: 1_000 }, (_, index) => ({
+		name: `Engineer ${index + 1}`,
+		role: index % 2 === 0 ? 'Engineering' : 'Platform',
+		commits: 128 - (index % 96),
+	}));
+
 	const columns: DataTableColumn<Engineer>[] = [
 		{ id: 'name', header: 'Name', accessor: (row) => row.name, sortable: true },
 		{ id: 'role', header: 'Role', accessor: (row) => row.role, sortable: true },
@@ -67,5 +73,7 @@
 <Story name="Default" {template} />
 
 <Story name="Custom cells" template={customCellTemplate} />
+
+<Story name="Virtualized" args={{ data: manyEngineers, virtualize: { height: 320 } }} {template} />
 
 <Story name="Empty" args={{ data: [] }} {template} />

@@ -405,7 +405,12 @@
 		<Card title="Advanced" description="Overlays, scroll areas, tables, and commands.">
 			<div class="grid gap-3">
 				<AttachmentList attachments={attachmentItems} ariaLabel="Reference files" />
-				<DataTable data={engineers} columns={tableColumns} caption="Engineers" />
+				<DataTable
+					data={engineers}
+					columns={tableColumns}
+					caption="Engineers"
+					virtualize={{ height: 180 }}
+				/>
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
