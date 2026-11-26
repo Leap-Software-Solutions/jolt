@@ -36,7 +36,11 @@ Combined components keep the keyboard model of their primitive:
 - `TagsInput` adds the current value on Enter or a configured separator, and removes the last tag with Backspace when the input is empty.
 - `InlineEdit` enters edit mode with Enter or Space on the display, saves single-line values with Enter, saves multiline values with Cmd/Ctrl+Enter, and cancels with Escape. Blur commits unless focus moved into the inline actions.
 - `ReactionBar` uses Tab to move between reactions and Space or Enter to toggle one.
+- `FeedItem` exposes one row-level activation target for keyboard users; trailing controls remain separate tab stops.
+- `DescriptionList` exposes copy controls as labelled buttons without adding the row itself to the tab order.
 - `Popover`, `DropdownMenu`, `Select`, and `Combobox` close with Escape.
+- `TimeAgo` is passive; the absolute timestamp is available through `title`, `datetime`, and the accessible name rather than a focus target.
+- `SeverityDot` labels its glyph and never communicates severity by colour alone.
 
 Do not add custom key handlers on top of a combined component unless the product interaction genuinely differs.
 
