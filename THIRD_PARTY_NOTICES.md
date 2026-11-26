@@ -19,6 +19,7 @@ Jolt depends on the following packages. Their full license texts are included in
 - `@internationalized/date` — Apache License 2.0
 - `@tanstack/svelte-table` — MIT License
 - `@tanstack/svelte-virtual` — MIT License
+- `parse-diff` — MIT License
 - `svelte-sonner` — MIT License
 - `valibot` — MIT License
 - `marked` — MIT License

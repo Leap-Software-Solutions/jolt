@@ -190,6 +190,9 @@ importers:
       marked:
         specifier: 18.2.0
         version: 18.2.0
+      parse-diff:
+        specifier: ^0.14.0
+        version: 0.14.0
       sanitize-html:
         specifier: 2.18.2
         version: 2.18.2
@@ -2421,6 +2424,9 @@ packages:
 
   package-manager-detector@1.9.0:
     resolution: {integrity: sha512-zAMfbta9nPA8AKkA4WdmNAT8R8s6Dk0/xwPsqNnRidMFcLo1YkLuPDTgs2f64XdzS8vbLNnoJ+uUIkgbz7oRHA==}
+
+  parse-diff@0.14.0:
+    resolution: {integrity: sha512-ewM8zZPBcr31hfWC7zFWg/vb4kZok3WxfaeklQAWwDoRwfhfNCLOJIL4AaMxVbofK5UXLn7z86j19MsbPSNyzw==}
 
   parse-srcset@1.0.2:
     resolution: {integrity: sha512-/2qh0lav6CmI15FzA3i/2Bzk2zCgQhGMkvhOhKNcBVQ1ldgpbfiNTVslmooUmWJcADi1f1kIeynbDRVzNlfR6Q==}
@@ -4991,6 +4997,8 @@ snapshots:
       p-limit: 3.1.0
 
   package-manager-detector@1.9.0: {}
+
+  parse-diff@0.14.0: {}
 
   parse-srcset@1.0.2: {}
 
