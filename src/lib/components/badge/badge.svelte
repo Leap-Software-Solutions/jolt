@@ -26,30 +26,52 @@
 	export type BadgeVariant = VariantProps<typeof badgeVariants>['variant'];
 	export type BadgeIcon = Component<{ class?: string }>;
 
-	export type Props = {
-		label: string;
+	export type BadgeBase = {
 		icon?: BadgeIcon;
 		iconClass?: string;
 		variant?: BadgeVariant;
 		dot?: boolean;
 		class?: string;
 	};
+
+	export type Props = BadgeBase &
+		(
+			| { label: string; count?: never; maxCount?: never }
+			| { count: number; maxCount?: number; label?: never }
+		);
 </script>
 
 <script lang="ts">
 	import { cls } from '../../utils/index.js';
 
+	function formatCount(value: number, limit: number): string {
+		return value > limit ? `${limit}+` : String(value);
+	}
+
 	let {
 		class: className,
 		label,
+		count,
 		icon,
 		iconClass,
 		variant = 'default',
 		dot = false,
+		maxCount = 99,
 	}: Props = $props();
+
+	const isCount = $derived(typeof count === 'number');
+	const countLabel = $derived(typeof count === 'number' ? formatCount(count, maxCount) : label);
 </script>
 
-<span data-slot="badge" data-variant={variant} class={cls(badgeVariants({ variant }), className)}>
+<span
+	data-slot="badge"
+	data-variant={variant}
+	class={cls(
+		badgeVariants({ variant }),
+		isCount && 'min-w-5 justify-center px-1.5 tabular-nums',
+		className,
+	)}
+>
 	{#if dot}
 		<span data-slot="badge-dot" aria-hidden="true" class="size-1.5 rounded-full bg-current"></span>
 	{/if}
@@ -57,5 +79,5 @@
 		{@const Icon = icon}
 		<Icon class={cls('size-3', iconClass)} />
 	{/if}
-	{label}
+	{isCount ? countLabel : label}
 </span>

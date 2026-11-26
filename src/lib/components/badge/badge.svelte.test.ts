@@ -37,3 +37,29 @@ test('renders a decorative dot that inherits the semantic text tone', async () =
 	unmount(app);
 	target.remove();
 });
+
+test('renders a compact count badge', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+	const app = mount(Badge, { target, props: { count: 12 } });
+	await tick();
+
+	const badge = target.querySelector<HTMLElement>('[data-slot="badge"]');
+	expect(badge?.textContent?.trim()).toBe('12');
+	expect(badge?.classList.contains('tabular-nums')).toBe(true);
+
+	unmount(app);
+	target.remove();
+});
+
+test('caps counts at the configured maximum', async () => {
+	const target = document.createElement('div');
+	document.body.appendChild(target);
+	const app = mount(Badge, { target, props: { count: 128, maxCount: 99 } });
+	await tick();
+
+	expect(target.querySelector('[data-slot="badge"]')?.textContent?.trim()).toBe('99+');
+
+	unmount(app);
+	target.remove();
+});

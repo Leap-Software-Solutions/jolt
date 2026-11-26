@@ -56,3 +56,7 @@
 <Story name="Danger" args={{ variant: 'danger', label: 'Failed' }} />
 
 <Story name="With dot" args={{ variant: 'success', label: 'Connected', dot: true }} />
+
+<Story name="Count" args={{ label: undefined, count: 12 }} />
+
+<Story name="Count overflow" args={{ label: undefined, count: 128 }} />
