@@ -407,6 +407,12 @@ Chat status indicators keep their visible label, and the user bubble inherits it
 
 `Spinner` provides an accessible loading indicator for async actions and chat states. `Loader` renders three animated dots in small, default, and large sizes; `ChatLoader` composes the small loader with a visible label. `Kbd` renders keyboard shortcut labels. `Avatar` accepts an optional `status` (`online`, `away`, `busy`, or `offline`) and renders an accessible presence dot; `AvatarGroup` passes the same fields through its items. `AvatarGroup` overlaps avatars, caps the visible count, and exposes an overflow count.
 
+`UserChip` combines `Avatar` with a name, optional metadata, presence, and an optional remove action. Use it for author rows and selected users; the remove button is labelled with the user name by default.
+
+```svelte
+<UserChip name="Ada Lovelace" initials="AL" meta="Staff engineer" status="online" />
+```
+
 `CopyButton` copies a supplied string with the async clipboard API. It handles success, failure, and unavailable-clipboard states, keeps a labelled or icon-only appearance, and announces the result to screen readers. Use `copyLabel`, `copiedLabel`, `errorLabel`, and `unavailableLabel` for custom copy. `CodeBlock` uses it internally, and `ChatActions` shares the same clipboard helper.
 
 `ReactionBar` renders a supplied set of emoji reactions as accessible toggle chips. Each reaction carries a stable `key`, an emoji, a required label, a count, and an optional active state. Toggling updates the count optimistically and emits the new array through `onReactionsChange`; `reactions` is bindable. The component does not include an emoji picker or add-reaction flow. Zero counts are hidden, and active chips use the brand tint.

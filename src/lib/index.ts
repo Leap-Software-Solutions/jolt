@@ -72,6 +72,7 @@ export * from './components/toggle/index.js';
 export * from './components/toggle-group/index.js';
 export * from './components/tooltip/index.js';
 export * from './components/tree-view/index.js';
+export * from './components/user-chip/index.js';
 export * from './form/index.js';
 export type { WithElementRef } from './types/index.js';
 export {

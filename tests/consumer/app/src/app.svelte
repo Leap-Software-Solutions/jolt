@@ -59,6 +59,7 @@
 		Toast,
 		Toggle,
 		TreeView,
+		UserChip,
 		type ApprovalActionContext,
 		type Reaction,
 		toast,
@@ -480,6 +481,7 @@
 					{/snippet}
 				</ApprovalBar>
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
+				<UserChip name="Ada Lovelace" initials="AL" meta="Staff engineer" status="online" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
 					{#snippet trigger(props)}
