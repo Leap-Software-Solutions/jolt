@@ -321,6 +321,19 @@ Set `loading` while data is in flight. The table keeps its header and renders `l
 
 `Calendar` renders the date grid inline with single, multiple, and range selection, a floating month and year picker, a Today control, current-day indicator, and consistent rows across multiple months. `DatePicker` and `DateRangePicker` compose it for form surfaces; `TimePicker` keeps the segmented field and adds hour, minute, and optional second steppers in its popover.
 
+## Metrics
+
+`MetricTile` presents one metric with a label, value, optional delta, and an optional `sparkline` snippet. The delta takes a value plus an optional direction and tone, so a rise is not assumed to be positive. Set `loading` for skeleton placeholders or `error` for a readable failure state. Charts remain consumer-owned; the sparkline slot accepts any visualization.
+
+```svelte
+<MetricTile
+	label="Revenue"
+	value="$48.2k"
+	delta={{ value: '12.4%', direction: 'up', tone: 'positive' }}
+	{sparkline}
+/>
+```
+
 ## Trees and hierarchy
 
 `TreeView` takes recursive `TreeNode[]` and supports controlled expansion, single or multiple selection, optional tri-state checkboxes, and native drag-and-drop. Pass `draggable` and `onMove`, then apply the move with the exported `moveTreeNode` helper. Dragging starts anywhere on a row, and node text selection is disabled. The `node` snippet receives the node plus its level, expansion, selection, and check state. `cascade={false}` makes checkbox changes independent.

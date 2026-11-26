@@ -36,6 +36,7 @@
 		Loader,
 		Markdown,
 		Menubar,
+		MetricTile,
 		MultiSelect,
 		NavigationMenu,
 		PageHeader,
@@ -482,6 +483,11 @@
 				</ApprovalBar>
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<UserChip name="Ada Lovelace" initials="AL" meta="Staff engineer" status="online" />
+				<MetricTile
+					label="Revenue"
+					value="$48.2k"
+					delta={{ value: '12.4%', direction: 'up', tone: 'positive' }}
+				/>
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
 					{#snippet trigger(props)}
