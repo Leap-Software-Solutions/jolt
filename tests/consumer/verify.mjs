@@ -72,6 +72,8 @@ try {
 		'bg-card',
 		'bg-muted',
 		'bg-success',
+		'text-info',
+		'text-warning',
 		'rounded-md',
 	]) {
 		if (!css.includes(`.${expected}`)) {

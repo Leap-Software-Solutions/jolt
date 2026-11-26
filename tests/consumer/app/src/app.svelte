@@ -20,9 +20,11 @@
 		ContextMenu,
 		CopyButton,
 		DataTable,
+		DescriptionList,
 		DatePicker,
 		EmailInput,
 		EmptyState,
+		FeedItem,
 		FileUpload,
 		HoverCard,
 		InlineEdit,
@@ -38,6 +40,7 @@
 		ScrollArea,
 		SelectField,
 		Sheet,
+		SeverityDot,
 		Spinner,
 		SplitButton,
 		Table,
@@ -45,6 +48,7 @@
 		TagsInput,
 		TextField,
 		TextareaField,
+		TimeAgo,
 		TimePicker,
 		Toast,
 		Toggle,
@@ -85,6 +89,14 @@
 
 	const tableColumns = [
 		{ id: 'name', header: 'Name', accessor: (row: Engineer) => row.name, sortable: true },
+	];
+
+	const checkedAt = new Date(Date.now() - 3 * 60 * 60 * 1000);
+
+	const connectionDetails = [
+		{ label: 'Connection', value: 'Primary workspace' },
+		{ label: 'Endpoint', value: 'https://api.example.com/v1', copyable: true },
+		{ label: 'Region', value: 'eu-west-1' },
 	];
 
 	const attachmentItems = [
@@ -231,6 +243,10 @@
 		<div class="flex flex-wrap items-center gap-2">
 			<Button>Hello from Jolt</Button>
 			<Badge variant="brand" label="New" />
+			<Badge variant="success" label="Healthy" dot />
+			<Badge count={12} />
+			<SeverityDot severity="high" showLabel />
+			<TimeAgo date={checkedAt} />
 			<Button variant="outline" onclick={() => toast.success('Saved')}>Toast</Button>
 			<Spinner size="sm" />
 			<Loader size="sm" />
@@ -255,6 +271,26 @@
 			/>
 			<CopyButton value="https://leap.online/retro/42" label="Copy invite link" variant="outline" />
 			<Toggle bind:pressed={toggled}>Bold</Toggle>
+		</div>
+
+		<div class="rounded-lg border bg-card p-4">
+			<DescriptionList items={connectionDetails} />
+		</div>
+
+		<div class="rounded-lg border bg-card">
+			<FeedItem
+				title="Deployment completed"
+				meta="Production · 3 minutes ago"
+				unread
+				onActivate={() => {}}
+			>
+				{#snippet leading()}
+					<Avatar alt="Ada Lovelace" initials="AL" size="sm" />
+				{/snippet}
+				{#snippet trailing()}
+					<Badge variant="success" label="Ready" dot />
+				{/snippet}
+			</FeedItem>
 		</div>
 
 		<Card title="Filters" description="Select and combobox wired to typed values.">
