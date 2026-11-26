@@ -32,3 +32,5 @@ export type DiffFile = {
 	similarity?: number;
 	hunks: DiffHunk[];
 };
+
+export type DiffViewMode = 'unified' | 'split';

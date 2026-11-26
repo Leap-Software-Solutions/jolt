@@ -281,7 +281,7 @@ The site's neutral scale is reused, with a generated gold scale anchored on the 
 	--accent-foreground: oklch(18.70% 0.0361 290.10);
 	--destructive: oklch(50.03% 0.1821 29.51);       /* #b42318 */
 	--destructive-foreground: oklch(100% 0 0);
-	--success: oklch(52% 0.14 150);
+	--success: oklch(48% 0.14 150);
 	--success-foreground: oklch(100% 0 0);
 	--info: oklch(48.8% 0.217 264.376);
 	--info-foreground: oklch(100% 0 0);
@@ -568,7 +568,7 @@ Storybook navigation is purpose-based, not atomic:
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
-Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown
+Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown, DiffViewer
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar

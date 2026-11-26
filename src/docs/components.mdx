@@ -265,6 +265,14 @@ Single-line mode saves on Enter. Multiline mode inserts a newline on Enter and s
 <Markdown content={releaseNotes} />
 ```
 
+`DiffViewer` renders a raw Git patch in unified or split mode. File headers show the change status and line totals; files and hunks can be collapsed. Renames, copies, binary files, mode-only changes, CRLF, and missing final newlines are handled. Syntax highlighting is inferred from each file path; pass `language` to override it. Set `showWhitespace` to reveal spaces and tabs as subtle muted markers.
+
+```svelte
+<DiffViewer {patch} view="split" />
+```
+
+`parsePatch` is exported for custom renderers and returns the normalised `DiffFile[]` model.
+
 ## Tables and dates
 
 `Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:

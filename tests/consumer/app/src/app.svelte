@@ -20,6 +20,7 @@
 		ContextMenu,
 		CopyButton,
 		DataTable,
+		DiffViewer,
 		DescriptionList,
 		DatePicker,
 		EmailInput,
@@ -87,6 +88,15 @@
 			items: [{ value: 'save', label: 'Save changes' }],
 		},
 	];
+
+	const diffPatch = [
+		'diff --git a/src/app.ts b/src/app.ts',
+		'--- a/src/app.ts',
+		'+++ b/src/app.ts',
+		'@@ -1 +1 @@',
+		'-export const accent = "#000";',
+		'+export const accent = "#bba53d";',
+	].join('\n');
 
 	const tableColumns = [
 		{ id: 'name', header: 'Name', accessor: (row: Engineer) => row.name, sortable: true },
@@ -415,6 +425,7 @@
 					getRowId={(engineer) => engineer.name}
 					virtualize={{ height: 180 }}
 				/>
+				<DiffViewer patch={diffPatch} view="split" />
 				<Table data={engineers} columns={tableColumns} caption="Engineers" />
 				<TreeView nodes={treeNodes} expandedIds={['src']} ariaLabel="Project files" />
 				<ContextMenu items={contextItems}>
