@@ -175,6 +175,21 @@ The label refreshes on a minute interval. Invalid timestamps render as `Invalid 
 
 Use `copyValue` when the visible value is rendered through the `value` snippet but the copied text should stay plain.
 
+`FeedItem` is a compact row for activity and result lists. It supports leading and trailing snippets, a title and meta line, an unread marker, and a whole-row activation target that remains keyboard-operable. Trailing controls stay outside the activation target.
+
+```svelte
+<FeedItem title="Deployment completed" meta="Production · 3 minutes ago" onActivate={openRun}>
+	{#snippet leading()}
+		<Avatar alt="Ada Lovelace" initials="AL" size="sm" />
+	{/snippet}
+	{#snippet trailing()}
+		<Badge label="Ready" variant="secondary" />
+	{/snippet}
+</FeedItem>
+```
+
+Use `href` for navigation or `onActivate` for in-page actions. The trailing slot is the place for badges, timestamps, or a separate action.
+
 ## Fields
 
 The field wrappers combine a visible label, optional hint, error text, and the control's ARIA wiring:
