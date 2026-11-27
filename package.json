@@ -1,6 +1,6 @@
 {
 	"name": "@leap-online/jolt",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"description": "Leap's Svelte 5 component library.",
 	"author": "Leap Software Solutions",
 	"license": "MIT",

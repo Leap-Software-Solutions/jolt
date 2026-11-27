@@ -1,5 +1,14 @@
 # @leap-online/jolt
 
+## 0.8.0
+
+### Minor Changes
+
+- e2b4f37ec26969d7c70ec74476dc24439c177d39: Add `InputOTP` for fixed-length numeric one-time codes with visible slots, paste and autofill support, completion callbacks, and field wiring for invalid, described-by, and disabled states.
+- ff0b8338953853cfd5d8689561ba655aded85ab6: Add `MetricTile` for compact metrics with an optional directional delta, a consumer-owned sparkline slot, and loading and error states.
+- 091d33b8c8784dbccfc2d62e79ce79d21baa05e0: Add `Timeline` for grouped activity history with actor avatars, semantic marker tones, timestamps, custom markers, and link or callback activation.
+- e515fc720ede8f309562319e1bc4f97a512f5115: Add `UserChip`, combining an avatar with a user name, optional metadata, presence status, and a labelled remove action.
+
 ## 0.7.0
 
 ### Minor Changes
