@@ -305,6 +305,18 @@ Use `orientation="vertical"` in sidebars and narrow detail panels. Steps can nav
 />
 ```
 
+## Activity
+
+`Timeline` renders grouped activity history as a semantic list. Events carry a title, optional description, timestamp, actor avatar, and marker tone, plus an optional `href` or `onActivate` for navigation. Timestamps render through `TimeAgo`; pass a `marker` snippet to replace the default actor avatar or tone marker with an icon.
+
+```svelte
+<Timeline {groups} ariaLabel="Recent activity" />
+```
+
+Use groups for day labels or phases. Group labels are optional; each group remains a separate list so the rail does not connect unrelated periods. The event callback receives the original event, including its id, so the consumer owns routing and data lookup.
+
+Rows are passive unless an event has `href` or `onActivate`. Prefer whole-row links when every event has a detail destination, or a callback when every event opens the same panel. If only occasional events need action, keep the timeline passive and place the action next to the relevant event instead.
+
 ## Tables and dates
 
 `Table` is the lightweight static counterpart to `DataTable`: typed columns, rows, an optional cell snippet, and an empty state without TanStack. `DataTable` uses TanStack Table for sorting. For large client-side row sets, opt into row virtualization with a fixed viewport height:

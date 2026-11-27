@@ -545,9 +545,9 @@ Generic components use Svelte 5 `<script lang="ts" generics="T">` and export `Pr
 | 7. Published increments | TagsInput, EmailInput, CopyButton, SplitButton, TreeView, Lightbox, InlineEdit, ReactionBar | Complete; published through `0.5.1` |
 | 8. Consumer data foundations | Formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot | Complete; published in `0.6.0` |
 | 9. Review and runtime | DataTable virtualization/selection/states, CodeBlock extensions, diff parser and DiffViewer, Stepper, ApprovalBar, ChatApprovalRequest, CommentThread | Complete; published in `0.7.0` |
-| 10. Later | Charts, blocks/templates, InputOTP, Timeline, MetricTile, FilterBar, UserChip, MentionInput, GridLayout | UserChip and MetricTile complete and awaiting release; evaluate the rest when a concrete consumer surface needs them |
+| 10. Later | Charts, blocks/templates, InputOTP, MetricTile, Timeline, FilterBar, UserChip, MentionInput, GridLayout | UserChip, MetricTile, and Timeline complete and awaiting release; evaluate the rest when a concrete consumer surface needs them |
 
-Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, SeverityDot, Stepper, ApprovalBar, CommentThread.
+Combined by default: Button, Toggle, Input, Textarea, Checkbox, Switch, Select, Combobox, MultiSelect, Tooltip, Dialog, Sheet, Popover, DropdownMenu, ContextMenu, Menubar, HoverCard, Tabs, Accordion, Pagination, Breadcrumb, Alert, Avatar, Calendar, DatePicker, TimePicker, Toast, Fields, ConfirmDialog, EmptyState, PageHeader, TimeAgo, DescriptionList, FeedItem, Timeline, SeverityDot, Stepper, ApprovalBar, CommentThread.
 
 Structural exceptions: Card (content container with header/footer snippets), Sidebar/AppShell (layout), DiffViewer (large content shell), MetricTile (sparkline and action snippets), Chart containers.
 
@@ -568,7 +568,7 @@ Storybook navigation is purpose-based, not atomic:
 Foundations/   Introduction, Installation, Theming, Typography, Component guidelines, Accessibility
 Actions/       Button, Toggle, ToggleGroup
 Forms/         Input, TextField, Select, Combobox, MultiSelect, Checkbox, Switch, Slider, Calendar, DatePicker, DateRangePicker, TimePicker
-Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, SeverityDot, CodeBlock, Markdown, DiffViewer, Stepper
+Data Display/  Card, DataTable, Table, Badge, Avatar, TimeAgo, DescriptionList, FeedItem, Timeline, SeverityDot, CodeBlock, Markdown, DiffViewer, Stepper
 Feedback/      Alert, Progress, Skeleton, Toast
 Navigation/    NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination
 Layout/        AppShell, Accordion, Collapsible, ScrollArea, Separator, Sidebar
@@ -746,7 +746,8 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 
 - `0.6.0` complete: formatting utilities, TimeAgo, DescriptionList, FeedItem, Badge status tones and counts, SeverityDot.
 - `0.7.0` complete: DataTable virtualization, selection, and states; CodeBlock extensions; diff parsing and DiffViewer; Stepper; ApprovalBar; ChatApprovalRequest; CommentThread.
-- Later: charts, layout blocks, Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
+- Pending release: UserChip, MetricTile, and Timeline changesets.
+- Later: charts, layout blocks, FilterBar, InputOTP, MentionInput, and GridLayout, evaluated against concrete consumer surfaces.
 
 ## 13. Risks and mitigations
 
@@ -782,7 +783,7 @@ Done when `pnpm build`, `pnpm check`, `pnpm lint`, `pnpm test`, and `pnpm packag
 - Copy-in shadcn registry distribution.
 - Chromatic and visual regression.
 - Charts, blocks, templates, and full page patterns are consumer-driven; evaluate them when a concrete surface needs them.
-- Timeline, MetricTile, FilterBar, UserChip, MentionInput, and GridLayout are candidates, not commitments.
+- FilterBar, InputOTP, MentionInput, and GridLayout are candidates, not commitments.
 - i18n inside components; labels remain props/snippets.
 - RTL testing; logical properties are used from the start.
 - Storybook logo/brand image; add when an asset exists.

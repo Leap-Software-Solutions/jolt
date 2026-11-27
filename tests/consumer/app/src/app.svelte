@@ -57,12 +57,14 @@
 		TextareaField,
 		TimeAgo,
 		TimePicker,
+		Timeline,
 		Toast,
 		Toggle,
 		TreeView,
 		UserChip,
 		type ApprovalActionContext,
 		type Reaction,
+		type TimelineGroup,
 		toast,
 	} from '@leap-online/jolt';
 
@@ -121,6 +123,22 @@
 		{ label: 'Connection', value: 'Primary workspace' },
 		{ label: 'Endpoint', value: 'https://api.example.com/v1', copyable: true },
 		{ label: 'Region', value: 'eu-west-1' },
+	];
+
+	const timelineGroups: TimelineGroup[] = [
+		{
+			id: 'today',
+			label: 'Today',
+			events: [
+				{
+					id: 'deploy',
+					title: 'Deployment completed',
+					timestamp: checkedAt,
+					actor: { name: 'Ada Lovelace', initials: 'AL' },
+					tone: 'success',
+				},
+			],
+		},
 	];
 
 	const attachmentItems = [
@@ -315,6 +333,10 @@
 					<Badge variant="success" label="Ready" dot />
 				{/snippet}
 			</FeedItem>
+		</div>
+
+		<div class="rounded-lg border bg-card p-4">
+			<Timeline groups={timelineGroups} ariaLabel="Recent activity" />
 		</div>
 
 		<Card title="Filters" description="Select and combobox wired to typed values.">

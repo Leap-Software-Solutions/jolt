@@ -68,6 +68,7 @@ export * from './components/tags-input/index.js';
 export * from './components/textarea/index.js';
 export * from './components/time-ago/index.js';
 export * from './components/time-picker/index.js';
+export * from './components/timeline/index.js';
 export * from './components/toast/index.js';
 export * from './components/toggle/index.js';
 export * from './components/toggle-group/index.js';
