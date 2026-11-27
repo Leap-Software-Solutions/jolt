@@ -236,6 +236,18 @@ The field wrappers combine a visible label, optional hint, error text, and the c
 
 `EmailInput` is a thin `TagsInput` preset for invite flows. It splits pasted addresses on commas, semicolons, whitespace, and newlines, lowercases them for storage, ignores duplicates, and rejects incomplete addresses. Invalid text stays in the input so the user can correct it; use `onInvalid` to surface the reason. Both components expose `id`, `describedBy`, `invalid`, and `disabled` for field composition.
 
+`InputOTP` renders a fixed-length numeric one-time code in individually visible slots. It uses a single hidden input for typing, paste, and browser one-time-code autofill; non-digits are dropped and the value is capped at `length`. `onComplete` fires when typing or pasting fills the code, while `onValueChange` fires for every accepted change. It exposes `id`, `describedBy`, `invalid`, and `disabled` for field composition.
+
+```svelte
+<InputOTP
+	bind:value={code}
+	ariaLabel="Verification code"
+	onComplete={(value) => verifyCode(value)}
+/>
+```
+
+The default length is six digits. Set `length` for other code formats. The slots are decorative; the hidden input owns focus, the accessible name, and the one-time-code autofill hint.
+
 `InlineEdit` edits a single string in place. The display is a button, and `editing` is bindable so a card menu or other external control can open the editor. Clicking the display opens it too. `placeholder` and `ariaLabel` are required; an empty value is allowed and falls back to the placeholder. `onValueChange` fires only when a changed value is committed.
 
 ```svelte

@@ -32,6 +32,7 @@
 		FileUpload,
 		HoverCard,
 		InlineEdit,
+		InputOTP,
 		Kbd,
 		Loader,
 		Markdown,
@@ -229,6 +230,7 @@
 		{ key: 'question', emoji: '❓', label: 'Question', count: 1, active: true },
 	]);
 	let name = $state('');
+	let code = $state('');
 	let brief = $state('');
 	let accepted = $state(false);
 	let selectedEngineers = $state<Engineer[]>([]);
@@ -368,6 +370,7 @@
 				/>
 				<TagsInput bind:value={tags} ariaLabel="Retro tags" />
 				<EmailInput bind:value={emails} ariaLabel="Invite emails" />
+				<InputOTP bind:value={code} ariaLabel="Verification code" />
 				<InlineEdit
 					bind:value={cardText}
 					bind:editing={editingCard}

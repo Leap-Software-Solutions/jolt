@@ -35,6 +35,7 @@ export * from './components/file-upload/index.js';
 export * from './components/hover-card/index.js';
 export * from './components/inline-edit/index.js';
 export * from './components/input/index.js';
+export * from './components/input-otp/index.js';
 export * from './components/kbd/index.js';
 export * from './components/label/index.js';
 export * from './components/lightbox/index.js';
